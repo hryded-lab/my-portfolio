@@ -1,0 +1,478 @@
+@import url('https://fonts.googleapis.com/css2?family=Silkscreen:wght@400;700&family=VT323&family=Inter:ital,opsz,wght@0,14..32,300..700;1,14..32,300..700&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Windows Luna Theme Colors */
+:root {
+  --font-ui: 'Silkscreen', 'Courier New', monospace;
+  --font-system: 'VT323', 'Courier New', monospace;
+  --font-content: 'Inter', system-ui, -apple-system, sans-serif;
+  --font-glass: 'DM Sans', system-ui, sans-serif;
+  --font-glass-display: 'Cormorant Garamond', serif;
+  --xp-desktop-bg: #3a6ea5;
+  --xp-taskbar-start: #245edb;
+  --xp-taskbar-end: #3a6ea5;
+  --xp-title-active-start: #0831d9;
+  --xp-title-active-mid: #0264d6;
+  --xp-title-active-end: #1e72e4;
+  --xp-title-inactive-start: #7a93d2;
+  --xp-title-inactive-end: #bfc9e0;
+  --xp-window-body: #ece9d8;
+  --xp-window-border: #0054e3;
+  --xp-window-border-dark: #003c9e;
+  --xp-text: #000000;
+  --xp-text-white: #ffffff;
+  --xp-btn-face: #ece9d8;
+  --xp-btn-shadow: #a0a0a0;
+  --xp-btn-highlight: #ffffff;
+  --xp-scrollbar-thumb: #9babb9;
+  --xp-scrollbar-track: #ece9d8;
+  --xp-menu-hover: #316ac5;
+  --xp-taskbar-height: 40px;
+  --xp-title-height: 28px;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html, body {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  user-select: none;
+  -webkit-user-select: none;
+  font-family: 'Silkscreen', 'Courier New', monospace;
+  font-size: 11px;
+}
+
+body {
+  background: var(--xp-desktop-bg);
+}
+
+/* Scrollbar styling — XP style (desktop/global) */
+::-webkit-scrollbar { width: 16px; height: 16px; }
+::-webkit-scrollbar-track { background: var(--xp-scrollbar-track); border: 1px inset #ffffff; }
+::-webkit-scrollbar-thumb {
+  background: linear-gradient(to bottom, #d4d0c8, #c8c4bc);
+  border: 1px solid #a0a0a0;
+  border-radius: 0;
+}
+::-webkit-scrollbar-corner { background: var(--xp-scrollbar-track); }
+
+/* Glass scrollbar — inside application windows */
+.glass-window-content::-webkit-scrollbar { width: 6px; height: 6px; }
+.glass-window-content::-webkit-scrollbar-track { background: transparent; }
+.glass-window-content::-webkit-scrollbar-thumb {
+  background: rgba(125, 249, 255, 0.2);
+  border-radius: 3px;
+}
+.glass-window-content::-webkit-scrollbar-thumb:hover {
+  background: rgba(125, 249, 255, 0.35);
+}
+
+/* XP Button */
+.xp-btn {
+  background: linear-gradient(to bottom, #f0ede3, #dedad2);
+  border: 1px solid #8e8e8e;
+  border-radius: 3px;
+  padding: 3px 10px;
+  font-family: 'Silkscreen', 'Courier New', monospace;
+  font-size: 11px;
+  cursor: pointer;
+  color: #000;
+  box-shadow: inset 0 1px 0 #fff, inset 0 -1px 0 #b0b0b0;
+  min-width: 75px;
+  text-align: center;
+}
+.xp-btn:hover {
+  background: linear-gradient(to bottom, #dde9f8, #b8d4f0);
+  border-color: #316ac5;
+}
+.xp-btn:active {
+  background: linear-gradient(to bottom, #b8d4f0, #dde9f8);
+  box-shadow: inset 0 1px 2px rgba(0,0,0,0.2);
+}
+
+/* XP Input */
+.xp-input {
+  border: 2px inset #7a96df;
+  background: #fff;
+  font-family: 'Silkscreen', 'Courier New', monospace;
+  font-size: 11px;
+  padding: 2px 4px;
+  outline: none;
+  width: 100%;
+}
+.xp-input:focus {
+  border-color: #316ac5;
+}
+
+/* XP Textarea */
+.xp-textarea {
+  border: 2px inset #7a96df;
+  background: #fff;
+  font-family: 'Silkscreen', 'Courier New', monospace;
+  font-size: 11px;
+  padding: 4px;
+  outline: none;
+  width: 100%;
+  resize: vertical;
+}
+
+/* XP Group box */
+.xp-groupbox {
+  border: 1px solid #9c9c9c;
+  border-radius: 0;
+  padding: 8px;
+  margin: 4px 0;
+  position: relative;
+}
+.xp-groupbox-title {
+  position: absolute;
+  top: -8px;
+  left: 8px;
+  background: var(--xp-window-body);
+  padding: 0 4px;
+  font-size: 11px;
+  font-weight: bold;
+}
+
+/* Desktop icon */
+.desktop-icon {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+  padding: 4px;
+  cursor: default;
+  width: 72px;
+  border-radius: 2px;
+  transition: transform 0.12s cubic-bezier(0.34, 1.56, 0.64, 1),
+              background 0.1s ease;
+}
+.desktop-icon:hover {
+  background: rgba(49, 106, 197, 0.3);
+  transform: scale(1.08) translateY(-2px);
+}
+.desktop-icon:active {
+  transform: scale(0.95) translateY(1px);
+  transition: transform 0.06s ease;
+}
+.desktop-icon.selected { background: rgba(49, 106, 197, 0.5); }
+.desktop-icon .icon-img { image-rendering: pixelated; }
+.desktop-icon span {
+  color: #fff;
+  font-size: 11px;
+  text-align: center;
+  text-shadow: 1px 1px 2px rgba(0,0,0,0.8), -1px -1px 0 rgba(0,0,0,0.5);
+  word-break: break-word;
+  line-height: 1.2;
+}
+.desktop-icon.selected span {
+  background: rgba(49, 106, 197, 0.8);
+}
+
+/* ── Window animations ─────────────────────────────────────────────── */
+
+/* Open — rises from slightly below with depth blur, gentle spring */
+@keyframes windowOpen {
+  0%   { transform: scale(0.88) translateY(16px); opacity: 0;   filter: blur(6px);  }
+  50%  { transform: scale(1.02) translateY(-3px); opacity: 1;   filter: blur(0px);  }
+  72%  { transform: scale(0.99) translateY(1px);  opacity: 1;   filter: blur(0px);  }
+  100% { transform: scale(1)    translateY(0px);  opacity: 1;   filter: blur(0px);  }
+}
+
+/* Close — shrinks down with blur, crisp and decisive */
+@keyframes windowClose {
+  0%   { transform: scale(1)    translateY(0px);  opacity: 1;   filter: blur(0px);  }
+  35%  { transform: scale(0.96) translateY(4px);  opacity: 0.8; filter: blur(1px);  }
+  100% { transform: scale(0.88) translateY(10px); opacity: 0;   filter: blur(8px);  }
+}
+
+/* Minimize — travels toward taskbar, squishes down */
+@keyframes windowMinimize {
+  0%   { transform: scale(1)    translateY(0px);   opacity: 1; filter: blur(0px); }
+  25%  { transform: scale(0.97) translateY(6px);   opacity: 1; filter: blur(0px); }
+  100% { transform: scale(0.18) translateY(260px); opacity: 0; filter: blur(4px); }
+}
+
+/* Maximize / restore — smooth expand */
+@keyframes windowMaximize {
+  0%   { transform: scale(0.94); opacity: 0.6; filter: blur(3px); }
+  60%  { transform: scale(1.01); opacity: 1;   filter: blur(0px); }
+  100% { transform: scale(1);    opacity: 1;   filter: blur(0px); }
+}
+
+/* Start menu slides up */
+@keyframes startMenuSlide {
+  0%   { transform: translateY(16px) scaleY(0.88); opacity: 0; transform-origin: bottom; }
+  65%  { transform: translateY(-3px) scaleY(1.01); opacity: 1; transform-origin: bottom; }
+  100% { transform: translateY(0)    scaleY(1);    opacity: 1; transform-origin: bottom; }
+}
+
+/* Context menu scales in from top-left */
+@keyframes contextMenuIn {
+  0%   { transform: scale(0.88); opacity: 0; }
+  70%  { transform: scale(1.02); opacity: 1; }
+  100% { transform: scale(1);    opacity: 1; }
+}
+
+/* Taskbar button slides in */
+@keyframes taskbarBtnIn {
+  0%   { transform: scaleX(0.4) translateX(-8px); opacity: 0; }
+  70%  { transform: scaleX(1.04);                opacity: 1; }
+  100% { transform: scaleX(1);                   opacity: 1; }
+}
+
+/* Boot welcome fade in */
+@keyframes bootFade {
+  from { opacity: 0; transform: scale(0.97); }
+  to   { opacity: 1; transform: scale(1); }
+}
+
+/* Welcome screen fade out */
+@keyframes bootFadeOut {
+  from { opacity: 1; }
+  to   { opacity: 0; }
+}
+
+/* XP boot marquee — sliding segments */
+@keyframes xpMarquee {
+  0%   { left: -30%; }
+  100% { left: 105%; }
+}
+
+/* Raindrop fall */
+@keyframes raindrop {
+  0%   { transform: translateY(-24px); opacity: 0; }
+  8%   { opacity: 1; }
+  88%  { opacity: 0.55; }
+  100% { transform: translateY(105vh); opacity: 0; }
+}
+
+/* Lock screen transitions */
+@keyframes lockScreenSlideIn {
+  from { transform: translateY(40px); opacity: 0; }
+  to   { transform: translateY(0);    opacity: 1; }
+}
+@keyframes lockScreenSlideUp {
+  0%   { transform: translateY(0);      }
+  100% { transform: translateY(-100vh); }
+}
+@keyframes desktopReveal {
+  from { transform: scale(0.97); filter: brightness(0.5); }
+  to   { transform: scale(1);    filter: brightness(1); }
+}
+@keyframes btnPulse {
+  0%, 100% { box-shadow: 0 4px 16px rgba(0,0,0,0.3), inset 0 1px 0 rgba(255,255,255,0.2); }
+  50%       { box-shadow: 0 4px 24px rgba(80,160,255,0.45), inset 0 1px 0 rgba(255,255,255,0.2); }
+}
+
+@keyframes confetti-fall {
+  0%   { transform: translateY(0) translateX(0) rotate(var(--rot-s)); opacity: 1; }
+  70%  { opacity: 1; }
+  100% { transform: translateY(520px) translateX(var(--drift)) rotate(var(--rot-e)); opacity: 0; }
+}
+
+/* XP Progress bar */
+.xp-progress-track {
+  background: #000;
+  border: 1px inset #7a96df;
+  height: 18px;
+  padding: 2px;
+}
+.xp-progress-fill {
+  background: linear-gradient(to bottom, #3c81c7, #2b6ab8);
+  height: 100%;
+  transition: width 0.1s;
+}
+
+/* ── CSS-only hover states (replaces useState in leaf components) ─────────── */
+
+/* ── Glass window content — overrides inline fontFamily on all child elements ── */
+.glass-window-content,
+.glass-window-content * {
+  font-family: 'DM Sans', system-ui, sans-serif !important;
+}
+.glass-window-content h1,
+.glass-window-content h2,
+.glass-window-content h3 {
+  font-family: 'Cormorant Garamond', serif !important;
+}
+
+/* Window menu bar items */
+.xp-menu-bar-item {
+  padding: 2px 8px;
+  font-size: 11px;
+  font-family: 'DM Sans', system-ui, sans-serif;
+  cursor: default;
+  border-radius: 3px;
+  letter-spacing: 0.2px;
+}
+.xp-menu-bar-item:hover {
+  background: rgba(125, 249, 255, 0.12) !important;
+  color: #7DF9FF !important;
+}
+
+/* Desktop context menu items */
+.xp-context-item {
+  padding: 4px 20px;
+  cursor: default;
+  color: #000;
+}
+.xp-context-item:hover {
+  background: #316ac5;
+  color: #fff;
+}
+
+/* Start menu left-column buttons */
+.xp-start-menu-btn {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 4px 10px;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  text-align: left;
+}
+.xp-start-menu-btn:hover { background: #316ac5; }
+.xp-start-menu-label { color: #000; }
+.xp-start-menu-btn:hover .xp-start-menu-label { color: #fff; }
+
+/* Start menu right-column links */
+.xp-right-menu-link {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 5px 10px;
+  background: transparent;
+  text-decoration: none;
+}
+.xp-right-menu-link:hover { background: #316ac5; }
+.xp-right-menu-label { color: #000; }
+.xp-right-menu-link:hover .xp-right-menu-label { color: #fff; }
+
+/* ── Mobile responsiveness (additive only — desktop styles unchanged) ──────── */
+@media (max-width: 768px) {
+  html, body { overflow-x: hidden; }
+
+  /* Desktop icon grid */
+  .desktop-icon-grid {
+    grid-template-columns: repeat(2, 90px) !important;
+    grid-auto-rows: 95px !important;
+    left: 4px !important;
+    top: 8px !important;
+    gap: 4px !important;
+  }
+
+  /* Search bar — full width on mobile */
+  .desktop-search {
+    left: 12px !important;
+    right: 12px !important;
+    width: auto !important;
+    top: auto !important;
+    bottom: 52px !important;
+  }
+
+  /* Windows fill the screen above the taskbar */
+  .xp-window {
+    top: 0 !important;
+    left: 0 !important;
+    width: 100vw !important;
+    height: calc(100dvh - 44px) !important;
+    transform: none !important;
+  }
+
+  /* Taskbar */
+  .xp-taskbar {
+    height: 44px !important;
+  }
+
+  /* Taskbar window buttons — slimmer on mobile */
+  .xp-taskbar-btn {
+    min-width: 80px !important;
+    max-width: 110px !important;
+    height: 34px !important;
+  }
+
+  /* Start button */
+  .xp-start-btn {
+    height: 40px !important;
+  }
+
+  /* Start menu — full width */
+  .xp-start-menu {
+    width: calc(100vw - 4px) !important;
+    bottom: 44px !important;
+    max-height: 85dvh !important;
+    overflow-y: auto !important;
+  }
+
+  /* ── Lock screen ── */
+  .lock-screen-panels {
+    flex-direction: column !important;
+    padding: 20px 16px 56px !important;
+    align-items: center !important;
+    justify-content: flex-start !important;
+    overflow-y: auto !important;
+    gap: 12px !important;
+  }
+  .lock-screen-left {
+    width: 100% !important;
+    max-width: 360px !important;
+  }
+  .lock-screen-right {
+    display: none !important;
+  }
+  .lock-screen-clock {
+    font-size: 52px !important;
+    letter-spacing: -2px !important;
+  }
+
+  /* ── Projects window — stack sidebar above detail ── */
+  .projects-layout {
+    flex-direction: column !important;
+    overflow-y: auto !important;
+  }
+  .projects-sidebar {
+    width: 100% !important;
+    border-right: none !important;
+    border-bottom: 1px solid rgba(125,249,255,0.12) !important;
+    max-height: 200px !important;
+    flex-shrink: 0 !important;
+  }
+
+  /* ── Contact window — single-column cards + form ── */
+  .contact-cards-grid {
+    grid-template-columns: 1fr 1fr !important;
+  }
+  .contact-form-grid {
+    grid-template-columns: 1fr !important;
+  }
+
+  /* ── About window — wrap header so badge goes below ── */
+  .about-header {
+    flex-wrap: wrap !important;
+  }
+  .about-header > *:last-child {
+    width: 100% !important;
+    justify-content: flex-start !important;
+  }
+}
+
+/* Bliss-like desktop gradient at very bottom */
+.desktop-ground {
+  position: absolute;
+  bottom: var(--xp-taskbar-height);
+  left: 0; right: 0;
+  height: 30%;
+  background: linear-gradient(to top, #5a9e32 0%, #4a8a24 30%, transparent 100%);
+  pointer-events: none;
+}

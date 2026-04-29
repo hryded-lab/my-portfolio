@@ -1,0 +1,55 @@
+# Dependencies
+node_modules/
+/.pnp
+.pnp.js
+.yarn/install-state.gz
+
+# Build output
+/.next/
+/out/
+/build
+
+# Environment variables — never commit these
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# Vercel
+.vercel
+
+# TypeScript
+*.tsbuildinfo
+next-env.d.ts
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Editor / IDE
+.vscode/settings.json
+.idea/
+*.swp
+*.swo
+
+# AI tooling — local config, not for the repo
+.claude/
+.cursor/
+.copilot/
+.agents/
+.windsurf/
+
+# Resume — hosted externally, not in repo
+/Resume_Hryday_1395.pdf
+/public/resume.pdf
+
+# Local scratch / source assets — not served at runtime
+/daniele63/
+/favicon_io/
+/ios/
+/f_aero.jpg
+/f_aero.png
+/new_icons.jpg
+/og-image.jpg
+/skills-lock.json
