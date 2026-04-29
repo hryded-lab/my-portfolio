@@ -5,7 +5,7 @@ Personal portfolio website built as a Windows desktop environment. Runs entirely
 ## Features
 
 - Windows-themed OS interface — draggable windows, taskbar, start menu, desktop icons
-- AI assistant powered by [Groq](https://groq.com) (llama-3.3-70b) — answers questions about my background and finance interests
+- AI assistant powered by [Groq](https://groq.com) (llama-3.3-70b) — answers questions about my background
 - Light / dark mode across all applications
 - Functional Minesweeper with 10 difficulty levels
 - MS Paint via [jspaint.app](https://jspaint.app)
