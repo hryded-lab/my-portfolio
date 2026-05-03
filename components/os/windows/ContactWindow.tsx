@@ -2,12 +2,15 @@
 
 import { useState } from 'react'
 import { siteConfig } from '@/content/siteConfig'
-import { useTheme } from '@/lib/themeContext'
+import { BrutalCard, BrutalTag, BrutalSection, BrutalHeader, BrutalBody, brutalFonts as bf, brutal as b } from '@/components/brutal'
+import { sendContactEmail } from '@/lib/emailjs'
+
+const COLOR = '#ff8080'
 
 export default function ContactWindow() {
-  const { t } = useTheme()
   const [form, setForm] = useState({ name: '', email: '', message: '' })
   const [status, setStatus] = useState<'idle' | 'loading' | 'success' | 'error'>('idle')
+  const [errorMsg, setErrorMsg] = useState('')
   const [errors, setErrors] = useState<Partial<typeof form>>({})
 
   const validate = () => {
@@ -24,84 +27,249 @@ export default function ContactWindow() {
     const errs = validate()
     if (Object.keys(errs).length) { setErrors(errs); return }
     setStatus('loading')
+    setErrorMsg('')
     try {
-      const res = await fetch('/api/contact', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ name: form.name, email: form.email, message: form.message }),
-      })
-      if (!res.ok) throw new Error('Failed')
+      await sendContactEmail(form)
       setStatus('success')
       setForm({ name: '', email: '', message: '' })
-    } catch { setStatus('error') }
-    setTimeout(() => setStatus('idle'), 5000)
+    } catch (err) {
+      setStatus('error')
+      setErrorMsg(err instanceof Error ? err.message : 'Unknown error')
+    }
+    setTimeout(() => setStatus('idle'), 6000)
   }
 
-  const inputStyle = (hasError?: string) => ({
-    width: '100%', padding: '8px 12px', borderRadius: 6, fontFamily: 'inherit', fontSize: 13,
-    background: t.bgInput, color: t.text,
-    border: `1px solid ${hasError ? t.error : t.border}`,
-    outline: 'none', boxSizing: 'border-box' as const,
-    transition: 'border-color 0.15s',
-  })
-
   return (
-    <div style={{ padding: 20, fontFamily: "'Inter', system-ui, -apple-system, sans-serif", fontSize: 13, height: '100%', overflowY: 'auto', background: t.bg, color: t.text, transition: 'background 0.2s' }}>
+    <BrutalBody>
+      <BrutalHeader title="Contact" subtitle="Reach out · 24h" color={COLOR} />
 
-      {/* Contact cards */}
-      <div className="contact-cards-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 10, marginBottom: 22 }}>
-        {[
-          { label: 'Email', value: siteConfig.email, href: `mailto:${siteConfig.email}`, icon: <svg width="14" height="11" viewBox="0 0 14 11" fill="none"><rect x="0.5" y="0.5" width="13" height="10" rx="1.5" stroke="currentColor" strokeWidth="1.1"/><path d="M0.5 2.5l6.5 4 6.5-4" stroke="currentColor" strokeWidth="1.1"/></svg> },
-          { label: 'LinkedIn', value: 'hryday-lath', href: siteConfig.linkedin, icon: <svg width="13" height="13" viewBox="0 0 13 13" fill="none"><rect x="0.5" y="0.5" width="12" height="12" rx="2" stroke="currentColor" strokeWidth="1.1"/><rect x="2.5" y="5" width="1.5" height="5.5" fill="currentColor"/><circle cx="3.25" cy="3.25" r="1" fill="currentColor"/><path d="M6 5v5.5M6 7c0-1.5 4.5-2 4.5 1v2.5" stroke="currentColor" strokeWidth="1.1" strokeLinecap="round"/></svg> },
-        ].map(item => (
-          <a key={item.label} href={item.href} target={item.href.startsWith('http') ? '_blank' : undefined} rel="noopener noreferrer" style={{ display: 'flex', flexDirection: 'column', gap: 6, padding: '12px 14px', background: t.bgCard, border: `1px solid ${t.border}`, borderRadius: 8, textDecoration: 'none', color: 'inherit', transition: 'border-color 0.15s, background 0.15s' }}
-            onMouseEnter={e => { e.currentTarget.style.borderColor = t.accentBorder; e.currentTarget.style.background = t.bgCardHover }}
-            onMouseLeave={e => { e.currentTarget.style.borderColor = t.border; e.currentTarget.style.background = t.bgCard }}
-          >
-            <div style={{ color: t.accent }}>{item.icon}</div>
-            <div style={{ fontSize: 11, fontWeight: 700, color: t.textMuted, textTransform: 'uppercase', letterSpacing: 0.5 }}>{item.label}</div>
-            <div style={{ fontSize: 12, color: t.accent, fontWeight: 500 }}>{item.value}</div>
-          </a>
-        ))}
-      </div>
+      <p
+        style={{
+          fontSize: 14, color: b.textDim, lineHeight: 1.7,
+          margin: '0 0 22px',
+          padding: '0 14px',
+          borderLeft: `3px solid ${COLOR}`,
+        }}
+      >
+        Open to PM, finance, and startup internships. Remote, Mumbai, or abroad. The fastest reply lands by email or LinkedIn.
+      </p>
 
-      {/* Form */}
-      <div style={{ background: t.bgCard, border: `1px solid ${t.border}`, borderRadius: 10, padding: 18 }}>
-        <div style={{ fontSize: 14, fontWeight: 600, color: t.text, marginBottom: 16 }}>Send a message</div>
-        <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: 14 }}>
-          <div className="contact-form-grid" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12 }}>
-            <Field label="Your Name" error={errors.name} t={t}>
-              <input style={inputStyle(errors.name)} value={form.name} onChange={e => { setForm({...form, name: e.target.value}); setErrors({...errors, name: undefined}) }} onFocus={e => (e.target.style.borderColor = t.accent)} onBlur={e => (e.target.style.borderColor = errors.name ? t.error : t.border)}/>
+      <BrutalSection title="Channels" color={COLOR}>
+        <div className="contact-cards-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: 12 }}>
+          <ChannelLink label="Email" value={siteConfig.email} href={`mailto:${siteConfig.email}`} primary />
+          <ChannelLink label="LinkedIn" value="hryday-lath" href={siteConfig.linkedin} accent="#4ab8ff" />
+        </div>
+      </BrutalSection>
+
+      <BrutalSection title="Send a message" color="#fff">
+        <BrutalCard>
+          <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: 14 }}>
+            <div className="contact-form-grid" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12 }}>
+              <Field label="Name" error={errors.name}>
+                <BrutalInput
+                  value={form.name}
+                  onChange={v => { setForm({ ...form, name: v }); setErrors({ ...errors, name: undefined }) }}
+                  invalid={!!errors.name}
+                />
+              </Field>
+              <Field label="Email" error={errors.email}>
+                <BrutalInput
+                  type="email"
+                  value={form.email}
+                  onChange={v => { setForm({ ...form, email: v }); setErrors({ ...errors, email: undefined }) }}
+                  invalid={!!errors.email}
+                />
+              </Field>
+            </div>
+            <Field label="Message" error={errors.message}>
+              <BrutalTextarea
+                rows={5}
+                value={form.message}
+                onChange={v => { setForm({ ...form, message: v }); setErrors({ ...errors, message: undefined }) }}
+                invalid={!!errors.message}
+              />
             </Field>
-            <Field label="Your Email" error={errors.email} t={t}>
-              <input type="email" style={inputStyle(errors.email)} value={form.email} onChange={e => { setForm({...form, email: e.target.value}); setErrors({...errors, email: undefined}) }} onFocus={e => (e.target.style.borderColor = t.accent)} onBlur={e => (e.target.style.borderColor = errors.email ? t.error : t.border)}/>
-            </Field>
-          </div>
-          <Field label="Message" error={errors.message} t={t}>
-            <textarea rows={5} style={{ ...inputStyle(errors.message), resize: 'vertical' }} value={form.message} onChange={e => { setForm({...form, message: e.target.value}); setErrors({...errors, message: undefined}) }} onFocus={e => (e.target.style.borderColor = t.accent)} onBlur={e => (e.target.style.borderColor = errors.message ? t.error : t.border)}/>
-          </Field>
 
-          {status === 'success' && <div style={{ padding: '8px 12px', borderRadius: 6, background: t.successBg, border: `1px solid ${t.success}40`, color: t.success, fontSize: 12 }}>Message sent — I&apos;ll get back to you soon.</div>}
-          {status === 'error' && <div style={{ padding: '8px 12px', borderRadius: 6, background: t.errorBg, border: `1px solid ${t.error}40`, color: t.error, fontSize: 12 }}>Something went wrong. Please email directly.</div>}
+            {status === 'success' && (
+              <div style={{ padding: '10px 14px', background: b.surface, border: `1.5px solid #4ed670`, borderRadius: b.radiusSm, boxShadow: b.shadow('#4ed670'), color: '#4ed670', fontFamily: bf.mono, fontSize: 12, letterSpacing: 1.2, textTransform: 'uppercase' }}>
+                ✓ Message sent — I&apos;ll get back to you soon.
+              </div>
+            )}
+            {status === 'error' && (
+              <div style={{ padding: '10px 14px', background: b.surface, border: `1.5px solid #ff5e4e`, borderRadius: b.radiusSm, boxShadow: b.shadow('#ff5e4e'), color: '#ff5e4e', fontFamily: bf.mono, fontSize: 12, letterSpacing: 1.2, textTransform: 'uppercase', wordBreak: 'break-word' }}>
+                ✕ Send failed{errorMsg ? ` — ${errorMsg}` : ''}. Email {siteConfig.email} directly.
+              </div>
+            )}
 
-          <div style={{ display: 'flex', justifyContent: 'flex-end', gap: 8 }}>
-            <button type="button" onClick={() => setForm({ name: '', email: '', message: '' })} style={{ padding: '7px 18px', borderRadius: 6, background: 'transparent', border: `1px solid ${t.border}`, color: t.textSecondary, fontSize: 12, cursor: 'pointer', fontFamily: 'inherit' }}>Clear</button>
-            <button type="submit" disabled={status === 'loading'} style={{ padding: '7px 20px', borderRadius: 6, background: t.accent, border: 'none', color: '#fff', fontSize: 12, fontWeight: 600, cursor: status === 'loading' ? 'default' : 'pointer', opacity: status === 'loading' ? 0.7 : 1, fontFamily: 'inherit' }}>
-              {status === 'loading' ? 'Sending…' : 'Send Message'}
-            </button>
-          </div>
-        </form>
+            <div style={{ display: 'flex', justifyContent: 'flex-end', gap: 8 }}>
+              <button
+                type="button"
+                onClick={() => setForm({ name: '', email: '', message: '' })}
+                style={{
+                  padding: '10px 18px',
+                  background: b.surface, color: b.text,
+                  border: `1.5px solid ${b.borderStrong}`,
+                  borderRadius: b.radiusSm,
+                  cursor: 'pointer',
+                  fontFamily: bf.mono,
+                  fontSize: 11, fontWeight: 700,
+                  letterSpacing: 1.4, textTransform: 'uppercase',
+                  backdropFilter: 'blur(6px)',
+                  WebkitBackdropFilter: 'blur(6px)',
+                }}
+              >
+                Clear
+              </button>
+              <button
+                type="submit"
+                disabled={status === 'loading'}
+                style={{
+                  padding: '10px 22px',
+                  background: COLOR, color: b.bgDeep,
+                  border: `1.5px solid ${COLOR}`,
+                  borderRadius: b.radiusSm,
+                  boxShadow: b.shadow(),
+                  cursor: status === 'loading' ? 'default' : 'pointer',
+                  opacity: status === 'loading' ? 0.7 : 1,
+                  fontFamily: bf.mono,
+                  fontSize: 11, fontWeight: 700,
+                  letterSpacing: 1.4, textTransform: 'uppercase',
+                }}
+              >
+                {status === 'loading' ? '… Sending' : 'Send →'}
+              </button>
+            </div>
+          </form>
+        </BrutalCard>
+      </BrutalSection>
+
+      <div
+        style={{
+          marginTop: 26,
+          display: 'flex', alignItems: 'center', gap: 10, justifyContent: 'center',
+        }}
+      >
+        <span style={{ width: 7, height: 7, background: '#4ed670', borderRadius: 999, boxShadow: '0 0 8px rgba(78,214,112,0.7)' }} />
+        <BrutalTag color="#4ed670">Available · Replying within 24h</BrutalTag>
       </div>
+    </BrutalBody>
+  )
+}
+
+function ChannelLink({
+  label, value, href, primary, accent,
+}: {
+  label: string; value: string; href: string; primary?: boolean; accent?: string
+}) {
+  const c = primary ? COLOR : (accent ?? b.text)
+  return (
+    <a
+      href={href}
+      target="_blank"
+      rel="noopener noreferrer"
+      style={{
+        display: 'flex', alignItems: 'center', justifyContent: 'space-between',
+        padding: '14px 16px',
+        background: primary ? COLOR : b.surface,
+        border: `1.5px solid ${primary ? COLOR : b.border}`,
+        borderRadius: b.radiusSm,
+        boxShadow: primary ? b.shadow() : b.shadow(c),
+        color: primary ? b.bgDeep : b.text,
+        textDecoration: 'none',
+        backdropFilter: 'blur(6px)',
+        WebkitBackdropFilter: 'blur(6px)',
+      }}
+    >
+      <div style={{ minWidth: 0 }}>
+        <div
+          style={{
+            fontSize: 9.5, fontWeight: 700,
+            fontFamily: bf.mono,
+            letterSpacing: 1.6, textTransform: 'uppercase',
+            color: primary ? b.bgDeep : c,
+            marginBottom: 4,
+          }}
+        >
+          {label}
+        </div>
+        <div style={{ fontSize: 14, fontWeight: 800, fontFamily: bf.display, letterSpacing: -0.3 }}>
+          {value}
+        </div>
+      </div>
+      <span style={{ fontFamily: bf.mono, fontSize: 18, fontWeight: 700, color: primary ? b.bgDeep : c }}>
+        →
+      </span>
+    </a>
+  )
+}
+
+function Field({ label, error, children }: { label: string; error?: string; children: React.ReactNode }) {
+  return (
+    <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
+      <label
+        style={{
+          fontSize: 10, fontFamily: bf.mono, fontWeight: 700,
+          letterSpacing: 1.6, textTransform: 'uppercase',
+          color: b.textDim,
+        }}
+      >
+        ▸ {label}
+      </label>
+      {children}
+      {error && (
+        <div style={{ fontSize: 10.5, fontFamily: bf.mono, color: '#ff5e4e', letterSpacing: 0.6, textTransform: 'uppercase' }}>
+          ✕ {error}
+        </div>
+      )}
     </div>
   )
 }
 
-function Field({ label, children, error, t }: { label: string; children: React.ReactNode; error?: string; t: import('@/lib/themeContext').AppTheme }) {
+function BrutalInput({
+  value, onChange, type = 'text', invalid,
+}: { value: string; onChange: (v: string) => void; type?: string; invalid?: boolean }) {
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', gap: 5 }}>
-      <label style={{ fontSize: 11, fontWeight: 600, color: t.textSecondary, textTransform: 'uppercase', letterSpacing: 0.5 }}>{label}</label>
-      {children}
-      {error && <div style={{ fontSize: 11, color: t.error }}>{error}</div>}
-    </div>
+    <input
+      type={type}
+      value={value}
+      onChange={e => onChange(e.target.value)}
+      style={{
+        width: '100%',
+        padding: '10px 12px',
+        background: b.surfaceRaised,
+        color: b.text,
+        border: `1.5px solid ${invalid ? '#ff5e4e' : b.borderStrong}`,
+        borderRadius: b.radiusSm,
+        outline: 'none',
+        fontFamily: bf.mono,
+        fontSize: 13,
+        boxSizing: 'border-box',
+      }}
+    />
+  )
+}
+
+function BrutalTextarea({
+  value, onChange, rows = 4, invalid,
+}: { value: string; onChange: (v: string) => void; rows?: number; invalid?: boolean }) {
+  return (
+    <textarea
+      rows={rows}
+      value={value}
+      onChange={e => onChange(e.target.value)}
+      style={{
+        width: '100%',
+        padding: '10px 12px',
+        background: b.surfaceRaised,
+        color: b.text,
+        border: `1.5px solid ${invalid ? '#ff5e4e' : b.borderStrong}`,
+        borderRadius: b.radiusSm,
+        outline: 'none',
+        fontFamily: bf.mono,
+        fontSize: 13,
+        boxSizing: 'border-box',
+        resize: 'vertical',
+      }}
+    />
   )
 }

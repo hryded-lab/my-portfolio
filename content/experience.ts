@@ -8,7 +8,6 @@ export type Experience = {
   endDate: string
   current: boolean
   description: string[]
-  logo: string
   accentColor: string
 }
 
@@ -27,7 +26,6 @@ export const experiences: Experience[] = [
       'Won 1st place at a competitive NoDevBuild competition — ₹5 Lakhs in-kind for MVP development and product acceleration.',
       'Initiated partnership discussions with Invention Engine and led MVP + grant database development end-to-end.',
     ],
-    logo: '/logos/kapital.png',
     accentColor: '#10B981',
   },
   {
@@ -43,7 +41,6 @@ export const experiences: Experience[] = [
       'Spearheaded end-to-end SISFS grant acquisition through strategic application development and targeted cold outreach to prospective incubators.',
       'Designed structured onboarding and integration workflows to ensure seamless client transitions and operational consistency.',
     ],
-    logo: '/logos/dihadi.png',
     accentColor: '#6366F1',
   },
   {
@@ -60,7 +57,6 @@ export const experiences: Experience[] = [
       'Managed coordination and hospitality for Founders and VCs at the inaugural E-Summit \'26 across 4 days of programming.',
       'Created promotional and marketing collateral using Figma; negotiated with Pilani vendors for the first-ever Dropshipping Event.',
     ],
-    logo: '/logos/pieds.png',
     accentColor: '#3B82F6',
   },
   {
@@ -73,11 +69,10 @@ export const experiences: Experience[] = [
     endDate: 'May 2029',
     current: true,
     description: [
-      "Pursuing B.E. in Manufacturing Engineering at one of India's premier engineering institutions (NIRF #16), CGPA 7.90.",
+      "Pursuing B.E. in Manufacturing Engineering at one of India's premier engineering institutions (NIRF #11), CGPA 7.90.",
       'Coursework spanning quantitative methods, operations research, and systems analysis.',
       'Class XII: 80.20% (CBSE, RIS Mumbai) · Class X: 90.80% (IGCSE, MBIS Mumbai).',
     ],
-    logo: '/logos/bits.png',
     accentColor: '#F59E0B',
   },
 ]

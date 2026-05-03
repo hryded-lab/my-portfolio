@@ -7,6 +7,15 @@ export const metadata: Metadata = {
   title: `${siteConfig.name} — XP Portfolio`,
   description: siteConfig.metaDescription,
   authors: [{ name: siteConfig.name }],
+  manifest: '/manifest.webmanifest',
+  // app/icon.png + app/favicon.ico provide the canonical icons via Next's
+  // file conventions; only apple-touch-icon needs an explicit entry here.
+  icons: { apple: '/favicon_io/apple-touch-icon.png' },
+  appleWebApp: {
+    capable: true,
+    title: 'Hryday',
+    statusBarStyle: 'black-translucent',
+  },
   openGraph: {
     title: `${siteConfig.name} — XP Portfolio`,
     description: siteConfig.metaDescription,
@@ -26,7 +35,9 @@ export const metadata: Metadata = {
 export const viewport: Viewport = {
   width: 'device-width',
   initialScale: 1,
+  maximumScale: 1,
   viewportFit: 'cover',
+  themeColor: '#0a0d14',
 }
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {

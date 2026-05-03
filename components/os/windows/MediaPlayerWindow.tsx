@@ -375,8 +375,10 @@ export default function MediaPlayerWindow() {
         {!showLyrics && <AlbumArt track={track} playing={playing} />}
         {showLyrics  && <LyricsView track={track} current={current} />}
 
-        {/* YouTube player — always in DOM; audio runs even when hidden */}
-        <div style={{ position: 'absolute', inset: 0, visibility: 'hidden', pointerEvents: 'none' }}>
+        {/* YouTube player — kept in layout (opacity 0) so Chrome's autoplay
+            policy + user-activation propagate correctly. visibility:hidden
+            blocked playVideo() in some browsers. */}
+        <div style={{ position: 'absolute', inset: 0, opacity: 0, pointerEvents: 'none' }} aria-hidden>
           <div ref={divRef} style={{ width: '100%', height: '100%' }} />
         </div>
 
