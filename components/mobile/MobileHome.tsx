@@ -4,6 +4,7 @@ import { useEffect, useRef, useState } from 'react'
 import { motion, useMotionValue, animate } from 'framer-motion'
 import MobileStatusBar from './MobileStatusBar'
 import MobileAppIcon from './MobileAppIcon'
+import MobileNowWidget from './MobileNowWidget'
 import { APPS, type AppId } from './mobileApps'
 import { mobileTheme as t } from './mobileTheme'
 
@@ -121,12 +122,15 @@ export default function MobileHome({ onOpenApp, onSearchTap }: Props) {
         </span>
       </motion.button>
 
+      {/* "Now" status widget — rotates through siteConfig.currently */}
+      <MobileNowWidget />
+
       {/* Two-page swipeable app grid */}
       <div
         ref={containerRef}
         style={{
           position: 'absolute',
-          top:    'calc(env(safe-area-inset-top, 0px) + 130px)',
+          top:    'calc(env(safe-area-inset-top, 0px) + 250px)',
           bottom: `calc(env(safe-area-inset-bottom, 0px) + ${t.navHeight + 38}px)`,
           left: 0, right: 0,
           overflow: 'hidden',
