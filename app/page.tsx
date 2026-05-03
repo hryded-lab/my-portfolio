@@ -11,7 +11,7 @@ import Window from '@/components/os/Window'
 import BootScreen from '@/components/os/BootScreen'
 import BiosScreen from '@/components/os/BiosScreen'
 import LockScreen from '@/components/os/LockScreen'
-import MobilePortfolio from '@/components/mobile/MobilePortfolio'
+import MobileShell from '@/components/mobile/MobileShell'
 
 const AboutWindow      = dynamic(() => import('@/components/os/windows/AboutWindow'),      { ssr: false })
 const ProjectsWindow   = dynamic(() => import('@/components/os/windows/ProjectsWindow'),   { ssr: false })
@@ -75,7 +75,7 @@ export default function Home() {
   const mountDesktop = phase === 'lock' || phase === 'unlocking' || phase === 'desktop'
   const showLock     = phase === 'lock' || phase === 'unlocking'
 
-  if (isMobile) return <MobilePortfolio />
+  if (isMobile) return <MobileShell />
 
   return (
     <>

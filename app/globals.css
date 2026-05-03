@@ -1,8 +1,36 @@
-@import url('https://fonts.googleapis.com/css2?family=Silkscreen:wght@400;700&family=VT323&family=Inter:ital,opsz,wght@0,14..32,300..700;1,14..32,300..700&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Silkscreen:wght@400;700&family=VT323&family=Inter:ital,opsz,wght@0,14..32,300..900;1,14..32,300..900&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600;9..40,700;9..40,800;9..40,900&family=Space+Mono:ital,wght@0,400;0,700;1,400;1,700&family=Archivo+Black&display=swap');
 
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+/* Tailwind v4 — single-import replaces v3's @tailwind base/components/utilities.
+   The old directives silently dropped subsequent custom CSS (incl. the
+   :root[data-theme] brutal-token block), causing invisible boxes/text. */
+@import "tailwindcss";
+
+/* ── Brutal token CSS vars — themed by [data-theme] on <html> ───────────── */
+:root,
+:root[data-theme='dark'] {
+  --brutal-bg:             #0a0d14;
+  --brutal-bg-deep:        #06080f;
+  --brutal-surface:        rgba(255, 255, 255, 0.04);
+  --brutal-surface-solid:  #11151e;
+  --brutal-surface-raised: rgba(255, 255, 255, 0.06);
+  --brutal-text:           #f4f7ff;
+  --brutal-text-dim:       rgba(244, 247, 255, 0.74);
+  --brutal-text-mute:      rgba(244, 247, 255, 0.50);
+  --brutal-border:         rgba(255, 255, 255, 0.10);
+  --brutal-border-strong:  rgba(255, 255, 255, 0.18);
+}
+:root[data-theme='light'] {
+  --brutal-bg:             #f4f6fa;
+  --brutal-bg-deep:        #ffffff;
+  --brutal-surface:        rgba(0, 0, 0, 0.035);
+  --brutal-surface-solid:  #f0f3f8;
+  --brutal-surface-raised: rgba(0, 0, 0, 0.055);
+  --brutal-text:           #0a0d14;
+  --brutal-text-dim:       rgba(10, 13, 20, 0.72);
+  --brutal-text-mute:      rgba(10, 13, 20, 0.48);
+  --brutal-border:         rgba(0, 0, 0, 0.10);
+  --brutal-border-strong:  rgba(0, 0, 0, 0.18);
+}
 
 /* Windows Luna Theme Colors */
 :root {

@@ -146,6 +146,14 @@ export async function POST(req: Request) {
     ...messages,
   ]
 
+  // Refuse early with a clear log if the API key isn't configured —
+  // otherwise the SDK throws a generic 401 and the cause is hard to spot
+  // in Vercel logs.
+  if (!process.env.GROQ_API_KEY) {
+    console.error('[chat] GROQ_API_KEY is not set on this deployment')
+    return new Response('Assistant not configured', { status: 503 })
+  }
+
   // Stream response from Groq
   try {
     const stream = await groq.chat.completions.create({
