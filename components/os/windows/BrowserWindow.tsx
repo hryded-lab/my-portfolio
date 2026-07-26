@@ -5,7 +5,6 @@ import { useState } from 'react'
 type Tool = { name: string; url: string; category: string; desc: string }
 
 const TOOLS: Tool[] = [
-  { name: 'Claude',       url: 'https://claude.ai',                                                                    category: 'AI',          desc: "Anthropic's AI assistant — what powers this portfolio's chat." },
   { name: 'Gemini',       url: 'https://gemini.google.com',                                                            category: 'AI',          desc: "Google's multimodal AI assistant." },
   { name: 'ChatGPT',      url: 'https://chat.openai.com',                                                              category: 'AI',          desc: "OpenAI's conversational AI model." },
   { name: 'Figma',        url: 'https://figma.com',                                                                    category: 'Design',      desc: 'Collaborative interface and product design.' },
