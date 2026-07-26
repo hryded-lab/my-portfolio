@@ -73,6 +73,8 @@ export default function Desktop() {
       {/* Desktop icons — 2-column grid on the left */}
       <div
         className="desktop-icon-grid"
+        role="grid"
+        aria-label="Desktop shortcuts"
         style={{
           position: 'absolute',
           top: 10,
@@ -170,7 +172,7 @@ export default function Desktop() {
         textAlign: 'center',
         backdropFilter: 'blur(6px)',
         WebkitBackdropFilter: 'blur(6px)',
-        textShadow: '-1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000',
+        textShadow: '0 1px 3px rgba(0,0,0,0.85)',
       }}>
         AI Assistant
       </div>
@@ -188,17 +190,18 @@ export default function Desktop() {
       {/* Credits */}
       <div
         style={{
-          position: 'absolute', bottom: 6, right: 8,
-          color: 'rgba(255,255,255,0.72)', fontSize: 9, fontFamily: 'Tahoma, Arial',
-          textShadow: '0 1px 3px rgba(0,0,0,0.9)', pointerEvents: 'none',
-          zIndex: 1, textAlign: 'right', lineHeight: 1.6,
+          position: 'absolute', bottom: 6, left: 10,
+          maxWidth: 'min(52ch, 45vw)',
+          color: 'rgba(255,255,255,0.6)', fontSize: 9, fontFamily: 'Tahoma, Arial',
+          textShadow: '0 1px 3px rgba(0,0,0,0.95)', pointerEvents: 'none',
+          zIndex: 1, textAlign: 'left', lineHeight: 1.6,
         }}
       >
-        Wallpaper © <a href="https://grafismasakini.com/article/frutiger-aero-and-the-nostalgia-for-early-2000s-digital-aesthetics/en" target="_blank" rel="noopener noreferrer" style={{ color: 'rgba(255,255,255,0.72)', textDecoration: 'none' }}>grafismasakini.com</a>
+        Wallpaper © <a href="https://grafismasakini.com/article/frutiger-aero-and-the-nostalgia-for-early-2000s-digital-aesthetics/en" target="_blank" rel="noopener noreferrer" style={{ color: 'rgba(255,255,255,0.6)', textDecoration: 'none', pointerEvents: 'auto' }}>grafismasakini.com</a>
         &nbsp;·&nbsp;
-        Icons © <a href="https://www.pinterest.com/pin/897342294504788059/" target="_blank" rel="noopener noreferrer" style={{ color: 'rgba(255,255,255,0.72)', textDecoration: 'none' }}>Pinterest / XP icon set</a>
+        Icons © <a href="https://www.pinterest.com/pin/897342294504788059/" target="_blank" rel="noopener noreferrer" style={{ color: 'rgba(255,255,255,0.6)', textDecoration: 'none', pointerEvents: 'auto' }}>Pinterest / XP icon set</a>
         &nbsp;·&nbsp;
-        Paint powered by <a href="https://jspaint.app" target="_blank" rel="noopener noreferrer" style={{ color: 'rgba(255,255,255,0.72)', textDecoration: 'none' }}>jspaint.app</a>
+        Paint powered by <a href="https://jspaint.app" target="_blank" rel="noopener noreferrer" style={{ color: 'rgba(255,255,255,0.6)', textDecoration: 'none', pointerEvents: 'auto' }}>jspaint.app</a>
         &nbsp;·&nbsp;
         Minesweeper inspired by © 1990 Microsoft Corporation
       </div>
@@ -222,14 +225,41 @@ function DesktopIconItem({ label, Icon, onDoubleClick }: {
 }) {
   const [selected, setSelected] = useState(false)
 
+  // Arrow keys walk the 2-column grid; Enter/Space stands in for the double-click a
+  // keyboard can't perform.
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLDivElement>) => {
+    if (e.key === 'Enter' || e.key === ' ') {
+      e.preventDefault()
+      setSelected(false)
+      onDoubleClick()
+      return
+    }
+
+    const STEP: Record<string, number> = {
+      ArrowRight: 1, ArrowDown: 2, ArrowLeft: -1, ArrowUp: -2,
+    }
+    const step = STEP[e.key]
+    if (step === undefined) return
+
+    const grid = e.currentTarget.parentElement
+    if (!grid) return
+    const items = Array.from(grid.querySelectorAll<HTMLElement>('.desktop-icon'))
+    const next = items.indexOf(e.currentTarget) + step
+    if (next < 0 || next >= items.length) return
+    e.preventDefault()
+    items[next].focus()
+  }
+
   return (
     <div
       className={`desktop-icon${selected ? ' selected' : ''}`}
+      role="gridcell"
+      aria-label={`${label} — press Enter to open`}
       onClick={(e) => { e.stopPropagation(); setSelected(true) }}
       onDoubleClick={(e) => { e.stopPropagation(); setSelected(false); onDoubleClick() }}
+      onKeyDown={handleKeyDown}
       onBlur={() => setSelected(false)}
       tabIndex={0}
-      style={{ outline: 'none' }}
     >
       {/* Icon with selection highlight */}
       <div style={{
@@ -254,7 +284,10 @@ function DesktopIconItem({ label, Icon, onDoubleClick }: {
         borderRadius: 2,
         display: 'block',
         maxWidth: 106,
-        wordBreak: 'break-word',
+        // overflowWrap, not wordBreak — the latter splits inside words, which turned
+        // "My Projects" into "My Projec / ts".
+        overflowWrap: 'break-word',
+        hyphens: 'none',
       }}>
         {label}
       </span>

@@ -7,6 +7,10 @@ import { LockScreenCaustics } from '@/components/lock-screen-caustics'
 
 const TOP_SKILLS = ['Fusion 360', 'LTspice', 'Financial Statement Analysis', 'Figma', 'RAG / LLMs']
 
+function statValue(label: string, fallback: string): string {
+  return siteConfig.stats.find(s => s.label === label)?.value ?? fallback
+}
+
 type Props = { onUnlock: () => void; isUnlocking?: boolean; onUnlockComplete?: () => void; onShutdown?: () => void }
 
 // Windows 7 Aero glass panel base styles
@@ -279,11 +283,13 @@ export default function LockScreen({ onUnlock, isUnlocking, onUnlockComplete, on
             Academic
           </div>
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 8, marginBottom: 22 }}>
+            {/* CGPA and year come from siteConfig.stats — the year advances itself each
+                June, so hardcoding it here would silently go stale. */}
             {[
-              { label: 'CGPA',       value: '7.90/10'     },
-              { label: 'PIEDS',      value: 'Associate'   },
-              { label: 'Year',       value: '1st'         },
-              { label: 'University', value: 'BITS Pilani' },
+              { label: 'CGPA',       value: `${statValue('CGPA', '7.90')}/10`  },
+              { label: 'PIEDS',      value: 'Associate'                        },
+              { label: 'Year',       value: statValue('Year of Study', '1st')  },
+              { label: 'University', value: 'BITS Pilani'                      },
             ].map(s => (
               <div key={s.label} style={{
                 background: 'rgba(255,255,255,0.065)',

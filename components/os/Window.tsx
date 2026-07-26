@@ -190,12 +190,16 @@ export default function Window({ id, children }: Props) {
     else maximizeWindow(id)
   }, [win.isMaximized, id, maximizeWindow, restoreWindow])
 
-  const handleClose = useCallback((e: React.MouseEvent) => {
-    e.stopPropagation()
+  const runClose = useCallback(() => {
     playWindowClose()
     setAnimState('closing')
     setTimeout(() => { closeWindow(id); setAnimState('idle') }, 240)
   }, [closeWindow, id])
+
+  const handleClose = useCallback((e: React.MouseEvent) => {
+    e.stopPropagation()
+    runClose()
+  }, [runClose])
 
   const handleMinimize = useCallback((e: React.MouseEvent) => {
     e.stopPropagation()
@@ -203,6 +207,38 @@ export default function Window({ id, children }: Props) {
     setAnimState('minimizing')
     setTimeout(() => { minimizeWindow(id); setAnimState('idle') }, 300)
   }, [minimizeWindow, id])
+
+  // ── Keyboard ──────────────────────────────────────────────────────────────────
+  // Escape closes whichever window is focused. Bound only on the active window so
+  // a single press never closes more than one.
+  useEffect(() => {
+    if (!isActive || !win.isOpen || win.isMinimized) return
+    const onKeyDown = (e: KeyboardEvent) => {
+      if (e.key !== 'Escape') return
+      // Let inputs handle their own Escape (clearing a field, dismissing a menu).
+      const el = e.target as HTMLElement | null
+      if (el && (el.tagName === 'INPUT' || el.tagName === 'TEXTAREA' || el.isContentEditable)) return
+      e.preventDefault()
+      runClose()
+    }
+    window.addEventListener('keydown', onKeyDown)
+    return () => window.removeEventListener('keydown', onKeyDown)
+  }, [isActive, win.isOpen, win.isMinimized, runClose])
+
+  // Move focus into a window when it opens, and hand it back to whatever opened it
+  // on close, so keyboard users are never stranded.
+  const returnFocusRef = useRef<HTMLElement | null>(null)
+  useEffect(() => {
+    if (win.isOpen && !win.isMinimized) {
+      if (!returnFocusRef.current) {
+        returnFocusRef.current = document.activeElement as HTMLElement | null
+      }
+      outerRef.current?.focus({ preventScroll: true })
+    } else if (!win.isOpen && returnFocusRef.current) {
+      returnFocusRef.current.focus?.({ preventScroll: true })
+      returnFocusRef.current = null
+    }
+  }, [win.isOpen, win.isMinimized])
 
   // Keep mounted during close/minimize animation
   const isHiding = animState === 'closing' || animState === 'minimizing'
@@ -217,8 +253,12 @@ export default function Window({ id, children }: Props) {
     <div
       ref={outerRef}
       className="xp-window"
-      style={{ ...style, display: isHiddenMinimized ? 'none' : undefined }}
+      role="dialog"
+      aria-label={cfg.title}
+      tabIndex={-1}
+      style={{ ...style, display: isHiddenMinimized ? 'none' : undefined, outline: 'none' }}
       onMouseDown={() => focusWindow(id)}
+      onFocus={() => { if (!isActive) focusWindow(id) }}
       onMouseMove={handleShineMove}
       onMouseLeave={handleShineLeave}
     >
@@ -284,17 +324,19 @@ export default function Window({ id, children }: Props) {
             <TitleBarButton
               color="#7DF9FF" hoverColor="#a8ffff"
               onClick={handleMinimize}
-              label="—" isActive={isActive}
+              label="—" ariaLabel={`Minimise ${cfg.title}`} isActive={isActive}
             />
             <TitleBarButton
               color="#A8FF78" hoverColor="#c8ffaa"
               onClick={(e) => { e.stopPropagation(); playClick(); if (win.isMaximized) restoreWindow(id); else maximizeWindow(id) }}
               label={win.isMaximized ? '❐' : '□'} labelSize={9} isActive={isActive}
+              ariaLabel={`${win.isMaximized ? 'Restore' : 'Maximise'} ${cfg.title}`}
             />
             <TitleBarButton
               color="#ff5566" hoverColor="#ff8888"
               onClick={handleClose}
               label="✕" isClose isActive={isActive}
+              ariaLabel={`Close ${cfg.title}`}
             />
           </div>
         </div>
@@ -309,7 +351,11 @@ export default function Window({ id, children }: Props) {
           alignItems: 'center',
           padding: '0 4px',
           transition: 'background 0.2s, border-color 0.2s',
-        }}>
+        }}
+        aria-hidden="true"
+        >
+          {/* Decorative XP chrome — these menus have no behaviour, so they're hidden
+              from assistive tech rather than announced as dead controls. */}
           {['File', 'Edit', 'View', 'Help'].map(label => <MenuBarItem key={label} label={label} t={t} />)}
         </div>
 
@@ -374,14 +420,16 @@ export default function Window({ id, children }: Props) {
   )
 }
 
-function TitleBarButton({ color, hoverColor, onClick, label, labelSize = 10, isActive = true }: {
+function TitleBarButton({ color, hoverColor, onClick, label, labelSize = 10, isActive = true, ariaLabel }: {
   color: string; hoverColor: string; onClick: (e: React.MouseEvent) => void
-  label: string; labelSize?: number; isClose?: boolean; isActive?: boolean
+  label: string; labelSize?: number; isClose?: boolean; isActive?: boolean; ariaLabel?: string
 }) {
   const [hovered, setHovered] = useState(false)
   const dimColor = isActive ? color : '#9090a0'
   return (
     <button
+      type="button"
+      aria-label={ariaLabel}
       onClick={onClick}
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
