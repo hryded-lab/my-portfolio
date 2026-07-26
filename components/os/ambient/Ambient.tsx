@@ -43,19 +43,17 @@ function DropletLayer({ reduced }: { reduced: boolean }) {
     const dt = Math.max(now - last.t, 1)
     lastRef.current = { x: e.clientX, y: e.clientY, t: now }
 
-    // Faster movement throws smaller beads, stretched along the direction of
-    // travel, the way water actually sheds off a moving surface.
     const speed = Math.min(dist / dt, 3)
     const id = idRef.current++
-    setDrops(d => [...d.slice(-16), {
+    setDrops(d => [...d.slice(-18), {
       id,
       x: e.clientX,
       y: e.clientY,
-      size: 11 - speed * 2 + Math.random() * 5,
+      size: 6 + Math.random() * 5,
       angle: (Math.atan2(dy, dx) * 180) / Math.PI,
-      stretch: 1 + speed * 0.22,
+      stretch: 1 + speed * 0.06,
     }])
-    setTimeout(() => setDrops(d => d.filter(x => x.id !== id)), 1600)
+    setTimeout(() => setDrops(d => d.filter(x => x.id !== id)), 1500)
   }, [])
 
   useEffect(() => {
@@ -87,32 +85,45 @@ function DropletLayer({ reduced }: { reduced: boolean }) {
           style={{
             display: 'block',
             width: '100%', height: '100%',
-            // Real water is a lens: it bends and brightens whatever is behind it.
-            // Without this a droplet is just a blue circle, which is what the last
-            // version was.
-            backdropFilter: `blur(0.6px) brightness(1.18) contrast(1.12) saturate(1.25)`,
-            WebkitBackdropFilter: `blur(0.6px) brightness(1.18) contrast(1.12) saturate(1.25)`,
+            // A soap bubble is mostly empty: a lens with a thin iridescent skin.
+            // The magnification is what sells it, so the centre stays clear and
+            // only the rim carries colour.
+            backdropFilter: 'blur(0.4px) brightness(1.1) saturate(1.3)',
+            WebkitBackdropFilter: 'blur(0.4px) brightness(1.1) saturate(1.3)',
             borderRadius: '50%',
             pointerEvents: 'none',
-            // Thin meniscus rim, brighter at the bottom where light collects.
             background:
-              'radial-gradient(circle at 50% 118%,' +
-              ' rgba(255,255,255,0.85) 0%,' +
-              ' rgba(255,255,255,0.18) 22%,' +
-              ' transparent 46%),' +
-              'radial-gradient(circle at 36% 26%,' +
-              ' rgba(255,255,255,0.92) 0%,' +
-              ' rgba(255,255,255,0.28) 12%,' +
-              ' transparent 34%),' +
+              // specular pinprick
+              'radial-gradient(circle at 31% 27%,' +
+              ' rgba(255,255,255,0.95) 0%,' +
+              ' rgba(255,255,255,0.4) 5%,' +
+              ' transparent 15%),' +
+              // soft bounce light lower right
+              'radial-gradient(circle at 70% 76%,' +
+              ' rgba(255,255,255,0.42) 0%,' +
+              ' transparent 22%),' +
+              // iridescent skin, thin and only near the edge
               'radial-gradient(circle at 50% 50%,' +
-              ' transparent 52%,' +
-              ' rgba(150,205,240,0.20) 82%,' +
-              ' rgba(70,140,195,0.32) 100%)',
-            boxShadow:
-              'inset 0 -1.5px 3px rgba(255,255,255,0.6),' +
-              ' inset 0 1px 2px rgba(30,95,145,0.22),' +
-              ' 0 2px 4px rgba(20,70,115,0.20)',
-            animation: 'ambientDroplet 1.6s cubic-bezier(0.16, 0.9, 0.3, 1) forwards',
+              ' transparent 62%,' +
+              ' rgba(180,255,244,0.30) 74%,' +
+              ' rgba(196,222,255,0.42) 84%,' +
+              ' rgba(255,206,246,0.34) 92%,' +
+              ' rgba(255,255,255,0.55) 97%,' +
+              ' transparent 100%)',
+            boxShadow: '0 1px 3px rgba(20,70,115,0.16)',
+            animation: 'ambientBubble 1.5s cubic-bezier(0.22, 0.8, 0.3, 1) forwards',
+            willChange: 'transform, opacity',
+          }}
+        />
+        {/* Burst ring, fires as the skin gives way rather than fading out */}
+        <span
+          style={{
+            position: 'absolute', inset: 0,
+            borderRadius: '50%',
+            border: '1px solid rgba(220,250,255,0.9)',
+            opacity: 0,
+            pointerEvents: 'none',
+            animation: 'ambientBubblePop 0.34s ease-out 1.02s forwards',
             willChange: 'transform, opacity',
           }}
         />

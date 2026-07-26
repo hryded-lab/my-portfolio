@@ -270,7 +270,7 @@ export default function Window({ id, children }: Props) {
           display: 'flex',
           flexDirection: 'column',
           border: `1px solid ${isActive ? 'var(--aw-edge-on)' : 'var(--aw-edge-off)'}`,
-          borderRadius: '10px 10px 0 0',
+          borderRadius: 'var(--aw-radius)',
           overflow: 'hidden',
           background: 'var(--aw-frame)',
           backdropFilter: 'blur(24px)',
@@ -321,18 +321,15 @@ export default function Window({ id, children }: Props) {
           </div>
           <div style={{ display: 'flex', gap: 4, flexShrink: 0, marginLeft: 8 }}>
             <TitleBarButton
-              color="#7DF9FF" hoverColor="#a8ffff"
               onClick={handleMinimize}
-              label="—" ariaLabel={`Minimise ${cfg.title}`} isActive={isActive}
+              label="–" ariaLabel={`Minimise ${cfg.title}`} isActive={isActive}
             />
             <TitleBarButton
-              color="#A8FF78" hoverColor="#c8ffaa"
               onClick={(e) => { e.stopPropagation(); playClick(); if (win.isMaximized) restoreWindow(id); else maximizeWindow(id) }}
-              label={win.isMaximized ? '❐' : '□'} labelSize={9} isActive={isActive}
+              label={win.isMaximized ? '❐' : '□'} labelSize={11} isActive={isActive}
               ariaLabel={`${win.isMaximized ? 'Restore' : 'Maximise'} ${cfg.title}`}
             />
             <TitleBarButton
-              color="#ff5566" hoverColor="#ff8888"
               onClick={handleClose}
               label="✕" isClose isActive={isActive}
               ariaLabel={`Close ${cfg.title}`}
@@ -419,12 +416,20 @@ export default function Window({ id, children }: Props) {
   )
 }
 
-function TitleBarButton({ color, hoverColor, onClick, label, labelSize = 10, isActive = true, ariaLabel }: {
-  color: string; hoverColor: string; onClick: (e: React.MouseEvent) => void
+function TitleBarButton({ onClick, label, labelSize = 11, isActive = true, isClose, ariaLabel }: {
+  onClick: (e: React.MouseEvent) => void
   label: string; labelSize?: number; isClose?: boolean; isActive?: boolean; ariaLabel?: string
 }) {
   const [hovered, setHovered] = useState(false)
-  const dimColor = isActive ? color : '#9090a0'
+
+  // Capsules, wider than tall, with close carrying the red fill.
+  const base = isClose
+    ? 'linear-gradient(180deg, #e86b63 0%, #d24b42 52%, #c23a31 100%)'
+    : 'var(--aw-btn)'
+  const hot = isClose
+    ? 'linear-gradient(180deg, #f0837b 0%, #dd5b52 52%, #cf4a41 100%)'
+    : 'var(--aw-btn-hot)'
+
   return (
     <button
       type="button"
@@ -433,21 +438,21 @@ function TitleBarButton({ color, hoverColor, onClick, label, labelSize = 10, isA
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
       style={{
-        width: 20, height: 20,
-        border: `1px solid ${dimColor}55`,
+        width: 34, height: 20,
+        border: `1px solid ${isClose ? '#a83329' : 'var(--aw-btn-edge)'}`,
         borderRadius: 4,
-        background: hovered
-          ? `${hoverColor}22`
-          : `${dimColor}15`,
-        color: hovered ? hoverColor : dimColor,
-        fontSize: labelSize, fontWeight: 600,
+        background: hovered ? hot : base,
+        color: isClose ? '#fff' : 'var(--aw-btn-txt)',
+        fontSize: labelSize,
+        fontWeight: 500,
+        lineHeight: 1,
         cursor: 'pointer',
         display: 'flex', alignItems: 'center', justifyContent: 'center',
         fontFamily: GLASS_FONT,
-        textShadow: 'none',
-        boxShadow: hovered ? `0 0 8px ${color}55` : 'none',
-        transition: 'all 0.15s',
-        opacity: isActive ? 1 : 0.4,
+        boxShadow: 'inset 0 1px 0 rgba(255,255,255,0.55), 0 1px 1px rgba(40,60,80,0.16)',
+        opacity: isActive ? 1 : 0.55,
+        transition: 'background 0.12s',
+        textShadow: isClose ? '0 1px 1px rgba(120,30,24,0.5)' : 'none',
       }}
     >
       {label}

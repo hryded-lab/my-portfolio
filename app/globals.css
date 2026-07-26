@@ -130,14 +130,40 @@ body {
   font-variant-numeric: tabular-nums;
 }
 
+
+
+/* ── Pointer ─────────────────────────────────────────────────────────────── */
+/* Wii-style gloved hand on its blue disc, drawn inline rather than shipped as
+   .cur files. Pressing curls the fingers and adds impact ticks. The hotspot
+   sits on the fingertip, not the disc centre. */
+html, body {
+  cursor: url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2244%22%20height%3D%2246%22%20viewBox%3D%220%200%2044%2046%22%3E%3Cdefs%3E%3CradialGradient%20id%3D%22d%22%20cx%3D%2238%25%22%20cy%3D%2234%25%22%3E%3Cstop%20offset%3D%220%25%22%20stop-color%3D%22%23bfe8ff%22%20stop-opacity%3D%22.95%22%2F%3E%3Cstop%20offset%3D%2260%25%22%20stop-color%3D%22%233d9ae0%22%20stop-opacity%3D%22.82%22%2F%3E%3Cstop%20offset%3D%22100%25%22%20stop-color%3D%22%231f6ea8%22%20stop-opacity%3D%22.70%22%2F%3E%3C%2FradialGradient%3E%3C%2Fdefs%3E%3Ccircle%20cx%3D%2222%22%20cy%3D%2224%22%20r%3D%2220%22%20fill%3D%22url%28%23d%29%22%2F%3E%3Ccircle%20cx%3D%2222%22%20cy%3D%2224%22%20r%3D%2220%22%20fill%3D%22none%22%20stroke%3D%22%23ffffff%22%20stroke-width%3D%221.6%22%20opacity%3D%22.85%22%2F%3E%3Cg%20transform%3D%22translate%284%2C3%29%22%3E%3Cpath%20d%3D%22M12.9%206.4c0-1.6%201.3-2.9%202.9-2.9s2.9%201.3%202.9%202.9v10.4h1.3v-3.9c0-1.5%201.2-2.7%202.7-2.7s2.7%201.2%202.7%202.7v4h1.3v-2.4c0-1.4%201.1-2.5%202.5-2.5s2.5%201.1%202.5%202.5v10.7c0%206-4.1%2010.6-10.1%2010.6h-3.5c-3.1%200-5.4-1.4-7-3.8l-5-7.4c-.8-1.2-.5-2.8.7-3.6%201.2-.8%202.8-.5%203.6.7l3%204.2z%22%20fill%3D%22%23ffffff%22%20stroke%3D%22%230e1318%22%20stroke-width%3D%222%22%20stroke-linejoin%3D%22round%22%2F%3E%3Cpath%20d%3D%22M15.6%2027.4v5.4M19.6%2027.2v5.4M23.6%2026.8v5.2%22%20stroke%3D%22%230e1318%22%20stroke-width%3D%221.7%22%20stroke-linecap%3D%22round%22%2F%3E%3C%2Fg%3E%3C%2Fsvg%3E") 20 6, auto;
+}
+html:active, body:active,
+.desktop-icon:active, .xp-window:active {
+  cursor: url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2244%22%20height%3D%2246%22%20viewBox%3D%220%200%2044%2046%22%3E%3Cdefs%3E%3CradialGradient%20id%3D%22d%22%20cx%3D%2238%25%22%20cy%3D%2234%25%22%3E%3Cstop%20offset%3D%220%25%22%20stop-color%3D%22%23bfe8ff%22%20stop-opacity%3D%22.95%22%2F%3E%3Cstop%20offset%3D%2260%25%22%20stop-color%3D%22%233d9ae0%22%20stop-opacity%3D%22.82%22%2F%3E%3Cstop%20offset%3D%22100%25%22%20stop-color%3D%22%231f6ea8%22%20stop-opacity%3D%22.70%22%2F%3E%3C%2FradialGradient%3E%3C%2Fdefs%3E%3Ccircle%20cx%3D%2222%22%20cy%3D%2224%22%20r%3D%2220%22%20fill%3D%22url%28%23d%29%22%2F%3E%3Ccircle%20cx%3D%2222%22%20cy%3D%2224%22%20r%3D%2220%22%20fill%3D%22none%22%20stroke%3D%22%23ffffff%22%20stroke-width%3D%221.6%22%20opacity%3D%22.85%22%2F%3E%3Cg%20transform%3D%22translate%284%2C3%29%22%3E%3Cpath%20d%3D%22M12.9%2015.2c0-1.6%201.3-2.9%202.9-2.9s2.9%201.3%202.9%202.9v1.6h1.3v-1.1c0-1.5%201.2-2.7%202.7-2.7s2.7%201.2%202.7%202.7v1.6h1.3v-.7c0-1.4%201.1-2.5%202.5-2.5s2.5%201.1%202.5%202.5v6.4c0%206-4.1%2010.6-10.1%2010.6h-3.5c-3.1%200-5.4-1.4-7-3.8l-5-7.4c-.8-1.2-.5-2.8.7-3.6%201.2-.8%202.8-.5%203.6.7l3%204.2z%22%20fill%3D%22%23ffffff%22%20stroke%3D%22%230e1318%22%20stroke-width%3D%222%22%20stroke-linejoin%3D%22round%22%2F%3E%3Cpath%20d%3D%22M15.6%2027.4v5.4M19.6%2027.2v5.4M23.6%2026.8v5.2%22%20stroke%3D%22%230e1318%22%20stroke-width%3D%221.7%22%20stroke-linecap%3D%22round%22%2F%3E%3C%2Fg%3E%3Cpath%20d%3D%22M4.4%206.2l2.4%202.4M9%203l1%203M15.6%201.6l0%203%22%20stroke%3D%22%230e1318%22%20stroke-width%3D%221.9%22%20stroke-linecap%3D%22round%22%20opacity%3D%220.9%22%2F%3E%3C%2Fsvg%3E") 20 14, auto;
+}
+/* Text entry keeps a conventional caret. */
+input, textarea, [contenteditable='true'] { cursor: text; }
+a, button, [role='button'], .desktop-icon { cursor: url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2244%22%20height%3D%2246%22%20viewBox%3D%220%200%2044%2046%22%3E%3Cdefs%3E%3CradialGradient%20id%3D%22d%22%20cx%3D%2238%25%22%20cy%3D%2234%25%22%3E%3Cstop%20offset%3D%220%25%22%20stop-color%3D%22%23bfe8ff%22%20stop-opacity%3D%22.95%22%2F%3E%3Cstop%20offset%3D%2260%25%22%20stop-color%3D%22%233d9ae0%22%20stop-opacity%3D%22.82%22%2F%3E%3Cstop%20offset%3D%22100%25%22%20stop-color%3D%22%231f6ea8%22%20stop-opacity%3D%22.70%22%2F%3E%3C%2FradialGradient%3E%3C%2Fdefs%3E%3Ccircle%20cx%3D%2222%22%20cy%3D%2224%22%20r%3D%2220%22%20fill%3D%22url%28%23d%29%22%2F%3E%3Ccircle%20cx%3D%2222%22%20cy%3D%2224%22%20r%3D%2220%22%20fill%3D%22none%22%20stroke%3D%22%23ffffff%22%20stroke-width%3D%221.6%22%20opacity%3D%22.85%22%2F%3E%3Cg%20transform%3D%22translate%284%2C3%29%22%3E%3Cpath%20d%3D%22M12.9%206.4c0-1.6%201.3-2.9%202.9-2.9s2.9%201.3%202.9%202.9v10.4h1.3v-3.9c0-1.5%201.2-2.7%202.7-2.7s2.7%201.2%202.7%202.7v4h1.3v-2.4c0-1.4%201.1-2.5%202.5-2.5s2.5%201.1%202.5%202.5v10.7c0%206-4.1%2010.6-10.1%2010.6h-3.5c-3.1%200-5.4-1.4-7-3.8l-5-7.4c-.8-1.2-.5-2.8.7-3.6%201.2-.8%202.8-.5%203.6.7l3%204.2z%22%20fill%3D%22%23ffffff%22%20stroke%3D%22%230e1318%22%20stroke-width%3D%222%22%20stroke-linejoin%3D%22round%22%2F%3E%3Cpath%20d%3D%22M15.6%2027.4v5.4M19.6%2027.2v5.4M23.6%2026.8v5.2%22%20stroke%3D%22%230e1318%22%20stroke-width%3D%221.7%22%20stroke-linecap%3D%22round%22%2F%3E%3C%2Fg%3E%3C%2Fsvg%3E") 20 6, pointer; }
+
 /* ── Ambient desktop life ────────────────────────────────────────────────── */
-/* Beads swell as they separate, hang, then sag and thin out under gravity. */
-@keyframes ambientDroplet {
-  0%   { transform: scale(0.3, 0.42) translateY(-1px); opacity: 0; }
-  14%  { transform: scale(1.08, 0.94) translateY(0); opacity: 1; }
-  30%  { transform: scale(0.97, 1.04) translateY(1px); opacity: 0.95; }
-  55%  { transform: scale(1, 1) translateY(4px); opacity: 0.7; }
-  100% { transform: scale(0.55, 0.7) translateY(13px); opacity: 0; }
+/* Bubbles rise and wobble, then the skin gives way at ~1s: a quick stretch, a
+   thin burst ring, gone. Deliberately not a fade. */
+@keyframes ambientBubble {
+  0%   { transform: scale(0.2); opacity: 0; }
+  10%  { transform: scale(1); opacity: 1; }
+  40%  { transform: scale(0.97) translate(1px, -4px); opacity: 1; }
+  62%  { transform: scale(1.02) translate(-1px, -8px); opacity: 1; }
+  68%  { transform: scale(1.14) translate(-1px, -9px); opacity: 1; }
+  72%  { transform: scale(0.86) translate(-1px, -9px); opacity: 0.85; }
+  76%  { transform: scale(1.5) translate(-1px, -10px); opacity: 0; }
+  100% { transform: scale(1.5) translate(-1px, -10px); opacity: 0; }
+}
+
+@keyframes ambientBubblePop {
+  0%   { transform: scale(0.9); opacity: 0.9; }
+  100% { transform: scale(2.1); opacity: 0; }
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -145,88 +171,103 @@ body {
 }
 
 /* ── Aero application tokens ─────────────────────────────────────────────── */
-/* Dark is the default because ThemeProvider starts on darkTheme. The dark set is
-   Aero at night rather than a grey inversion: the same blue wash and bevels, on
-   deep slate glass. */
+/* Vista-2023 concept crossed with Frutiger Aero: silver glass frames, white
+   content panes, a pill search field, and blue frosted panels for emphasis.
+   Rounder and glossier than stock Vista, still unmistakably Aero.
+   Dark is the default because ThemeProvider starts on darkTheme. */
 :root,
 :root[data-theme='dark'] {
-  --aa-body:      linear-gradient(180deg, #12222f 0%, #0b1621 100%);
-  --aa-pane:      linear-gradient(180deg, #17293a 0%, #101e2b 100%);
-  --aa-bar:       linear-gradient(180deg, #1c3145 0%, #16283a 48%, #132435 52%, #1a2f43 100%);
-  --aa-row-alt:   rgba(255, 255, 255, 0.035);
-  --aa-border:    #2a4358;
-  --aa-border-soft: rgba(255, 255, 255, 0.09);
-  --aa-text:      #dceaf6;
-  --aa-text-dim:  rgba(220, 234, 246, 0.72);
-  --aa-text-mute: rgba(220, 234, 246, 0.45);
-  --aa-heading:   #7fc4f5;
-  --aa-sel-bg:    linear-gradient(180deg, #24506f 0%, #1d4462 48%, #193c58 52%, #23506e 100%);
-  --aa-sel-bdr:   #3f7ba8;
-  --aa-hover-bg:  linear-gradient(180deg, rgba(120,190,240,0.14) 0%, rgba(120,190,240,0.07) 100%);
-  --aa-hover-bdr: rgba(120, 190, 240, 0.26);
-  --aa-field:     rgba(0, 0, 0, 0.24);
-  --aa-inset:     inset 0 1px 2px rgba(0, 0, 0, 0.45);
+  --aa-body:      linear-gradient(180deg, #232830 0%, #1b1f26 100%);
+  --aa-pane:      #1e232a;
+  --aa-bar:       linear-gradient(180deg, #3a4149 0%, #2e343b 52%, #272c33 100%);
+  --aa-row-alt:   rgba(255, 255, 255, 0.03);
+  --aa-border:    #3b434c;
+  --aa-border-soft: rgba(255, 255, 255, 0.08);
+  --aa-text:      #e8edf2;
+  --aa-text-dim:  rgba(232, 237, 242, 0.72);
+  --aa-text-mute: rgba(232, 237, 242, 0.42);
+  --aa-heading:   rgba(232, 237, 242, 0.42);
+  --aa-nav:       #eef3f8;
+  --aa-sel-bg:    linear-gradient(180deg, #3f6d99 0%, #33587d 100%);
+  --aa-sel-bdr:   #5a8cba;
+  --aa-hover-bg:  rgba(255, 255, 255, 0.07);
+  --aa-hover-bdr: rgba(255, 255, 255, 0.13);
+  --aa-field:     #171b21;
+  --aa-inset:     inset 0 1px 2px rgba(0, 0, 0, 0.55);
   --aa-ridge:     rgba(255, 255, 255, 0.07);
-  --aa-cell-on:   linear-gradient(180deg, #8fd0f7 0%, #4fa2da 48%, #3c8dc6 52%, #74c0ee 100%);
-  --aa-cell-off:  linear-gradient(180deg, rgba(255,255,255,0.08) 0%, rgba(255,255,255,0.03) 100%);
-  --aa-cell-bdr-on:  #5ca6dc;
-  --aa-cell-bdr-off: rgba(255, 255, 255, 0.16);
+  --aa-blue-panel: linear-gradient(160deg, #4a6b90 0%, #395875 55%, #2f4a64 100%);
+  --aa-cell-on:   linear-gradient(180deg, #9fd4f5 0%, #5fa5d8 50%, #4a90c6 100%);
+  --aa-cell-off:  rgba(255, 255, 255, 0.07);
+  --aa-cell-bdr-on:  #5fa5d8;
+  --aa-cell-bdr-off: rgba(255, 255, 255, 0.14);
 }
 
 :root[data-theme='light'] {
-  --aa-body:      linear-gradient(180deg, #ffffff 0%, #eef4fb 100%);
-  --aa-pane:      linear-gradient(180deg, #f4f9ff 0%, #e2edf8 100%);
-  --aa-bar:       linear-gradient(180deg, #fbfdff 0%, #e8f1fa 48%, #dfeaf6 52%, #eef5fc 100%);
-  --aa-row-alt:   rgba(238, 245, 252, 0.72);
-  --aa-border:    #c2d6e8;
-  --aa-border-soft: #dceaf6;
-  --aa-text:      #17324a;
-  --aa-text-dim:  #48657f;
-  --aa-text-mute: #7592ab;
-  --aa-heading:   #1a4a8a;
-  --aa-sel-bg:    linear-gradient(180deg, #dcefff 0%, #bfe0fb 48%, #a9d5f8 52%, #cbe8ff 100%);
-  --aa-sel-bdr:   #7cb8e8;
-  --aa-hover-bg:  linear-gradient(180deg, #f4fbff 0%, #e6f4ff 100%);
-  --aa-hover-bdr: #bcdcf5;
+  --aa-body:      #ffffff;
+  --aa-pane:      #ffffff;
+  --aa-bar:       linear-gradient(180deg, #fdfefe 0%, #eef0f2 52%, #e4e7ea 100%);
+  --aa-row-alt:   rgba(240, 244, 248, 0.7);
+  --aa-border:    #c4c9ce;
+  --aa-border-soft: #e6e9ec;
+  --aa-text:      #1c2126;
+  --aa-text-dim:  #4a5259;
+  --aa-text-mute: #9aa0a6;
+  --aa-heading:   #9aa0a6;
+  --aa-nav:       #22262a;
+  --aa-sel-bg:    linear-gradient(180deg, #dcecfb 0%, #c3ddf5 100%);
+  --aa-sel-bdr:   #9cc4e8;
+  --aa-hover-bg:  #f0f5fa;
+  --aa-hover-bdr: #d8e6f3;
   --aa-field:     #ffffff;
-  --aa-inset:     inset 0 1px 2px rgba(90, 130, 165, 0.18);
+  --aa-inset:     inset 0 1px 2px rgba(120, 132, 145, 0.22);
   --aa-ridge:     #ffffff;
-  --aa-cell-on:   linear-gradient(180deg, #b9e0ff 0%, #7cc0ee 48%, #5aa9e0 52%, #97d2f7 100%);
-  --aa-cell-off:  linear-gradient(180deg, #f6fafd 0%, #e9f1f8 100%);
-  --aa-cell-bdr-on:  #5c9fd6;
-  --aa-cell-bdr-off: #cbdcea;
+  --aa-blue-panel: linear-gradient(160deg, #8fadcb 0%, #6f92b6 55%, #5c7fa4 100%);
+  --aa-cell-on:   linear-gradient(180deg, #bfe2fa 0%, #7cb8e4 50%, #61a3d4 100%);
+  --aa-cell-off:  #eef1f4;
+  --aa-cell-bdr-on:  #6ca8d8;
+  --aa-cell-bdr-off: #d3d8dd;
 }
 
 /* ── Window chrome ───────────────────────────────────────────────────────── */
-/* The frame was hardcoded dark, so switching to light left every window with a
-   near-black title bar around a light body. */
+/* Silver glass frame from the Vista-2023 concept: a light brushed gradient, a
+   generous radius, and a soft ambient shadow rather than a glow. */
 :root,
 :root[data-theme='dark'] {
-  --aw-frame:        rgba(4, 8, 20, 0.92);
-  --aw-title-on:     linear-gradient(to bottom, rgba(125,249,255,0.09) 0%, rgba(125,249,255,0.03) 100%);
-  --aw-title-off:    rgba(255, 255, 255, 0.02);
-  --aw-edge-on:      rgba(125, 249, 255, 0.45);
-  --aw-edge-off:     rgba(125, 249, 255, 0.12);
-  --aw-rule-on:      rgba(125, 249, 255, 0.18);
-  --aw-rule-off:     rgba(125, 249, 255, 0.06);
-  --aw-title-txt-on: #e8f4ff;
-  --aw-title-txt-off:#6a8aaa;
-  --aw-shadow-on:    0 0 40px rgba(125,249,255,0.06), 0 16px 48px rgba(0,0,0,0.7), inset 0 1px 0 rgba(125,249,255,0.1);
-  --aw-shadow-off:   0 8px 24px rgba(0, 0, 0, 0.5);
+  --aw-frame:        linear-gradient(180deg, #2f353c 0%, #23282e 100%);
+  --aw-title-on:     linear-gradient(180deg, #454d56 0%, #363c44 52%, #2f353c 100%);
+  --aw-title-off:    linear-gradient(180deg, #363c43 0%, #2d3238 100%);
+  --aw-edge-on:      #4a535c;
+  --aw-edge-off:     #3a4149;
+  --aw-rule-on:      rgba(255, 255, 255, 0.10);
+  --aw-rule-off:     rgba(255, 255, 255, 0.05);
+  --aw-title-txt-on: #eef3f8;
+  --aw-title-txt-off:#8d959d;
+  --aw-shadow-on:    0 18px 46px rgba(0, 0, 0, 0.62), 0 2px 6px rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(255,255,255,0.09);
+  --aw-shadow-off:   0 8px 24px rgba(0, 0, 0, 0.45);
+  --aw-radius:       11px;
+  --aw-btn:          linear-gradient(180deg, #4d555e 0%, #3c434b 52%, #353b42 100%);
+  --aw-btn-hot:      linear-gradient(180deg, #5a636d 0%, #474f58 52%, #3f464e 100%);
+  --aw-btn-edge:     #565f69;
+  --aw-btn-txt:      #dfe5eb;
 }
 
 :root[data-theme='light'] {
-  --aw-frame:        rgba(244, 250, 255, 0.90);
-  --aw-title-on:     linear-gradient(to bottom, rgba(255,255,255,0.95) 0%, rgba(219,236,250,0.85) 100%);
-  --aw-title-off:    linear-gradient(to bottom, rgba(250,253,255,0.90) 0%, rgba(233,242,250,0.80) 100%);
-  --aw-edge-on:      rgba(120, 170, 210, 0.75);
-  --aw-edge-off:     rgba(150, 185, 215, 0.40);
-  --aw-rule-on:      rgba(120, 170, 210, 0.42);
-  --aw-rule-off:     rgba(150, 185, 215, 0.22);
-  --aw-title-txt-on: #14344f;
-  --aw-title-txt-off:#7592ab;
-  --aw-shadow-on:    0 2px 6px rgba(30,90,140,0.16), 0 16px 44px rgba(20,70,110,0.24), inset 0 1px 0 rgba(255,255,255,0.9);
-  --aw-shadow-off:   0 6px 20px rgba(20, 70, 110, 0.18);
+  --aw-frame:        linear-gradient(180deg, #fbfcfd 0%, #eceef0 100%);
+  --aw-title-on:     linear-gradient(180deg, #fdfdfe 0%, #eceef1 52%, #e2e5e9 100%);
+  --aw-title-off:    linear-gradient(180deg, #f7f8f9 0%, #ebedef 100%);
+  --aw-edge-on:      #b3b9be;
+  --aw-edge-off:     #c9cdd2;
+  --aw-rule-on:      #d2d7dc;
+  --aw-rule-off:     #e0e4e8;
+  --aw-title-txt-on: #24292e;
+  --aw-title-txt-off:#8d959d;
+  --aw-shadow-on:    0 20px 48px rgba(60, 78, 96, 0.30), 0 2px 8px rgba(60, 78, 96, 0.16), inset 0 1px 0 rgba(255,255,255,0.95);
+  --aw-shadow-off:   0 10px 28px rgba(60, 78, 96, 0.20);
+  --aw-radius:       11px;
+  --aw-btn:          linear-gradient(180deg, #fdfdfe 0%, #eceef1 52%, #dfe3e7 100%);
+  --aw-btn-hot:      linear-gradient(180deg, #ffffff 0%, #f4f6f8 52%, #e8ebef 100%);
+  --aw-btn-edge:     #b7bdc3;
+  --aw-btn-txt:      #33393f;
 }
 
 /* ── Aero application chrome ─────────────────────────────────────────────── */
