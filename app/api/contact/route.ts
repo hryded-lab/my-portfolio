@@ -53,25 +53,40 @@ export async function POST(req: NextRequest) {
     }
 
     const webhookUrl = process.env.DISCORD_WEBHOOK_URL
-    if (webhookUrl) {
-      await fetch(webhookUrl, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          embeds: [{
-            title: '📬 New Portfolio Contact',
-            color: 0x316ac5,
-            fields: [
-              { name: 'Name',    value: name.trim(),    inline: true },
-              { name: 'Email',   value: email.trim(),   inline: true },
-              { name: 'Message', value: message.trim() },
-            ],
-            timestamp: new Date().toISOString(),
-          }],
-        }),
-      })
-    } else {
-      console.log('[contact]', { name: name.trim(), email: email.trim(), message: message.trim() })
+
+    // Without a webhook the message goes nowhere. Reporting success would leave the
+    // sender believing they'd reached Hryday, so say so instead.
+    if (!webhookUrl) {
+      console.error('[contact] DISCORD_WEBHOOK_URL is not set — message not delivered')
+      return NextResponse.json(
+        { error: 'Contact form is not configured right now. Please email me directly.' },
+        { status: 503 },
+      )
+    }
+
+    const res = await fetch(webhookUrl, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        embeds: [{
+          title: '📬 New Portfolio Contact',
+          color: 0x316ac5,
+          fields: [
+            { name: 'Name',    value: name.trim(),    inline: true },
+            { name: 'Email',   value: email.trim(),   inline: true },
+            { name: 'Message', value: message.trim() },
+          ],
+          timestamp: new Date().toISOString(),
+        }],
+      }),
+    })
+
+    if (!res.ok) {
+      console.error('[contact] webhook rejected the message:', res.status, await res.text())
+      return NextResponse.json(
+        { error: 'Could not deliver your message. Please email me directly.' },
+        { status: 502 },
+      )
     }
 
     return NextResponse.json({ success: true })
