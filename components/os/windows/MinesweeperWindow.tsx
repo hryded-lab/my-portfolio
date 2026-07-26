@@ -146,13 +146,19 @@ function LEDDisplay({ value }: { value: number }) {
     ? '-' + String(Math.abs(clamped)).padStart(2, '0')
     : String(clamped).padStart(3, '0')
   return (
-    <div style={{
-      background: '#1a0000', border: '2px inset #808080',
-      color: '#ff2200', fontFamily: '"Courier New", Courier, monospace',
-      fontSize: 20, fontWeight: 'bold', letterSpacing: 3,
-      padding: '1px 5px 0', minWidth: 46, textAlign: 'center',
-      lineHeight: '24px', height: 28,
-    }}>
+    <div
+      className="led-display"
+      style={{
+        background: '#1a0000', border: '2px inset #808080',
+        color: '#ff2200', fontFamily: '"Courier New", Courier, monospace',
+        fontSize: 20, fontWeight: 'bold', letterSpacing: 3,
+        padding: '1px 5px 0',
+        // Fixed, not minWidth: the box must not resize as the digits change.
+        width: 58, boxSizing: 'border-box', textAlign: 'center',
+        fontVariantNumeric: 'tabular-nums',
+        lineHeight: '24px', height: 28,
+      }}
+    >
       {str}
     </div>
   )

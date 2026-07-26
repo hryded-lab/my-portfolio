@@ -31,7 +31,7 @@ export const WINDOWS: Record<WindowId, WindowConfig> = {
     id: 'skills',
     title: 'Skills & Technologies',
     icon: '💻',
-    defaultSize: { width: 600, height: 420 },
+    defaultSize: { width: 740, height: 540 },
     defaultPosition: { x: 120, y: 100 },
   },
   experience: {

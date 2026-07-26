@@ -1,0 +1,274 @@
+'use client'
+
+import type { CSSProperties, ReactNode } from 'react'
+
+// Windows Vista / 7 Aero application chrome.
+//
+// The previous pass styled window interiors as modern web glass: 12px radii,
+// neon cyan glow, dark teal panels. That is a 2024 aesthetic sitting inside 2001
+// window chrome, which is why it read as generic no matter how much gloss went on
+// it. This targets the actual software that shipped alongside the imagery on the
+// desktop: light panels, 3px radii, thin cool borders, blue heading text, and
+// Explorer's task-pane-plus-list layout.
+//
+// Type is Segoe UI at 12.5px, the real Aero UI size. Inter is the fallback since
+// it is already loaded and is the closest humanist match off Windows.
+
+export const FONT = "'Segoe UI', 'Inter', system-ui, -apple-system, sans-serif"
+
+export const ui = {
+  // Surfaces
+  body:      'linear-gradient(180deg, #ffffff 0%, #eef4fb 100%)',
+  pane:      'linear-gradient(180deg, #f4f9ff 0%, #e2edf8 100%)',
+  bar:       'linear-gradient(180deg, #fbfdff 0%, #e8f1fa 48%, #dfeaf6 52%, #eef5fc 100%)',
+  rowAlt:    'rgba(238, 245, 252, 0.72)',
+
+  // Lines
+  border:    '#c2d6e8',
+  borderSoft:'#dceaf6',
+  groove:    '#ffffff',
+
+  // Text
+  text:      '#17324a',
+  textDim:   '#48657f',
+  textMute:  '#7592ab',
+  heading:   '#1a4a8a',
+
+  // Selection, the Aero blue wash
+  selBg:     'linear-gradient(180deg, #dcefff 0%, #bfe0fb 48%, #a9d5f8 52%, #cbe8ff 100%)',
+  selBorder: '#7cb8e8',
+  hoverBg:   'linear-gradient(180deg, #f2faff 0%, #e2f2ff 100%)',
+  hoverBdr:  '#bcdcf5',
+
+  accent:    '#2b7cc4',
+  radius:    3,
+} as const
+
+// Top strip. Vista put a soft vertical gradient here with a hairline underneath.
+export function CommandBar({ children }: { children: ReactNode }) {
+  return (
+    <div
+      style={{
+        display: 'flex', alignItems: 'center', gap: 8,
+        padding: '0 10px',
+        height: 34,
+        flexShrink: 0,
+        background: ui.bar,
+        borderBottom: `1px solid ${ui.border}`,
+        boxShadow: `inset 0 1px 0 #ffffff`,
+        fontFamily: FONT,
+        fontSize: 12.5,
+        color: ui.text,
+      }}
+    >
+      {children}
+    </div>
+  )
+}
+
+export function SearchBox({
+  value, onChange, placeholder = 'Search',
+}: { value: string; onChange: (v: string) => void; placeholder?: string }) {
+  return (
+    <div
+      style={{
+        display: 'flex', alignItems: 'center', gap: 6,
+        background: '#fff',
+        border: `1px solid ${ui.border}`,
+        borderRadius: ui.radius,
+        padding: '0 8px',
+        height: 22,
+        minWidth: 150,
+        boxShadow: 'inset 0 1px 2px rgba(90,130,165,0.18)',
+      }}
+    >
+      <svg width="11" height="11" viewBox="0 0 24 24" fill="none" style={{ flexShrink: 0, opacity: 0.55 }}>
+        <circle cx="10.5" cy="10.5" r="6.5" stroke={ui.textDim} strokeWidth="2.4" />
+        <line x1="15.5" y1="15.5" x2="21" y2="21" stroke={ui.textDim} strokeWidth="2.4" strokeLinecap="round" />
+      </svg>
+      <input
+        value={value}
+        onChange={e => onChange(e.target.value)}
+        placeholder={placeholder}
+        style={{
+          border: 'none', outline: 'none', background: 'transparent',
+          fontFamily: FONT, fontSize: 12, color: ui.text,
+          width: '100%', minWidth: 0, padding: 0,
+        }}
+      />
+    </div>
+  )
+}
+
+// Explorer's left navigation pane.
+export function TaskPane({ children, width = 168 }: { children: ReactNode; width?: number }) {
+  return (
+    <div
+      style={{
+        width, flexShrink: 0,
+        background: ui.pane,
+        borderRight: `1px solid ${ui.border}`,
+        boxShadow: 'inset -1px 0 0 rgba(255,255,255,0.7)',
+        overflowY: 'auto',
+        padding: '10px 0',
+        fontFamily: FONT,
+      }}
+    >
+      {children}
+    </div>
+  )
+}
+
+export function PaneHeading({ children }: { children: ReactNode }) {
+  return (
+    <div
+      style={{
+        fontFamily: FONT,
+        fontSize: 11.5,
+        fontWeight: 600,
+        color: ui.heading,
+        padding: '0 12px 6px',
+      }}
+    >
+      {children}
+    </div>
+  )
+}
+
+export function PaneItem({
+  label, count, selected, onClick,
+}: { label: string; count?: number; selected?: boolean; onClick: () => void }) {
+  return (
+    <button
+      type="button"
+      onClick={onClick}
+      className="aero-pane-item"
+      data-selected={selected ? 'true' : undefined}
+      style={{
+        display: 'flex', alignItems: 'center', justifyContent: 'space-between',
+        width: 'calc(100% - 12px)',
+        margin: '1px 6px',
+        padding: '4px 8px',
+        textAlign: 'left',
+        cursor: 'pointer',
+        borderRadius: ui.radius,
+        fontFamily: FONT,
+        fontSize: 12.5,
+        color: ui.text,
+        border: `1px solid ${selected ? ui.selBorder : 'transparent'}`,
+        background: selected ? ui.selBg : 'transparent',
+      }}
+    >
+      <span>{label}</span>
+      {count !== undefined && (
+        <span style={{ color: ui.textMute, fontSize: 11.5 }}>{count}</span>
+      )}
+    </button>
+  )
+}
+
+// Blue group header, the way Explorer separates grouped results.
+export function GroupHeading({ label, count }: { label: string; count?: number }) {
+  return (
+    <div style={{ display: 'flex', alignItems: 'center', gap: 8, margin: '16px 0 6px' }}>
+      <span
+        style={{
+          fontFamily: FONT, fontSize: 12.5, fontWeight: 600,
+          color: ui.heading, flexShrink: 0,
+        }}
+      >
+        {label}
+      </span>
+      {count !== undefined && (
+        <span style={{ fontFamily: FONT, fontSize: 11.5, color: ui.textMute }}>({count})</span>
+      )}
+      <div style={{ flex: 1, height: 1, background: ui.borderSoft }} />
+    </div>
+  )
+}
+
+export function ListRow({
+  children, alt, style,
+}: { children: ReactNode; alt?: boolean; style?: CSSProperties }) {
+  return (
+    <div
+      className="aero-list-row"
+      style={{
+        display: 'flex', alignItems: 'center', gap: 10,
+        padding: '7px 10px',
+        borderRadius: ui.radius,
+        border: '1px solid transparent',
+        background: alt ? ui.rowAlt : 'transparent',
+        fontFamily: FONT,
+        fontSize: 12.5,
+        color: ui.text,
+        ...style,
+      }}
+    >
+      {children}
+    </div>
+  )
+}
+
+// Vista drew levels as discrete notched cells, not a continuous rounded bar.
+export function LevelBar({ value, max = 5 }: { value: number; max?: number }) {
+  return (
+    <div style={{ display: 'flex', gap: 2, flexShrink: 0 }} aria-hidden>
+      {Array.from({ length: max }, (_, i) => {
+        const on = i < value
+        return (
+          <span
+            key={i}
+            style={{
+              width: 13, height: 9,
+              borderRadius: 1,
+              border: `1px solid ${on ? '#5c9fd6' : '#cbdcea'}`,
+              background: on
+                ? 'linear-gradient(180deg, #b9e0ff 0%, #7cc0ee 48%, #5aa9e0 52%, #97d2f7 100%)'
+                : 'linear-gradient(180deg, #f6fafd 0%, #e9f1f8 100%)',
+              boxShadow: on ? 'inset 0 1px 0 rgba(255,255,255,0.85)' : 'none',
+            }}
+          />
+        )
+      })}
+    </div>
+  )
+}
+
+export function StatusBar({ children }: { children: ReactNode }) {
+  return (
+    <div
+      style={{
+        height: 22, flexShrink: 0,
+        display: 'flex', alignItems: 'center', gap: 10,
+        padding: '0 10px',
+        background: 'linear-gradient(180deg, #f2f8fd 0%, #e6eff8 100%)',
+        borderTop: `1px solid ${ui.border}`,
+        boxShadow: 'inset 0 1px 0 #ffffff',
+        fontFamily: FONT,
+        fontSize: 11.5,
+        color: ui.textDim,
+      }}
+    >
+      {children}
+    </div>
+  )
+}
+
+export function AppFrame({ children }: { children: ReactNode }) {
+  return (
+    <div
+      className="aero-app"
+      style={{
+        height: '100%',
+        display: 'flex', flexDirection: 'column',
+        background: ui.body,
+        fontFamily: FONT,
+        fontSize: 12.5,
+        color: ui.text,
+      }}
+    >
+      {children}
+    </div>
+  )
+}

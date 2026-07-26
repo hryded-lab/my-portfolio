@@ -122,6 +122,36 @@ body {
   background: var(--xp-desktop-bg);
 }
 
+/* The same !important font override was hitting the Minesweeper LED counters,
+   swapping their monospace for a proportional face so the boxes jittered as the
+   digits changed. */
+.glass-window-content .led-display {
+  font-family: "Courier New", Courier, monospace !important;
+  font-variant-numeric: tabular-nums;
+}
+
+/* ── Aero application chrome ─────────────────────────────────────────────── */
+/* .glass-window-content forces DM Sans on every descendant with !important, so
+   Aero app frames need a higher-specificity rule to keep their own UI font. */
+.glass-window-content .aero-app,
+.glass-window-content .aero-app * {
+  font-family: 'Segoe UI', 'Inter', system-ui, -apple-system, sans-serif !important;
+}
+
+.aero-app .aero-pane-item:hover:not([data-selected]) {
+  background: linear-gradient(180deg, #f2faff 0%, #e2f2ff 100%);
+  border-color: #bcdcf5;
+}
+.aero-app .aero-pane-item:focus-visible,
+.aero-app .aero-list-row:focus-visible {
+  outline: 1px dotted #17324a;
+  outline-offset: -2px;
+}
+.aero-app .aero-list-row:hover {
+  background: linear-gradient(180deg, #f4fbff 0%, #e6f4ff 100%);
+  border-color: #bcdcf5;
+}
+
 /* ── Skip link ───────────────────────────────────────────────────────────── */
 /* Off-screen until focused. Gives keyboard and screen-reader users a way past the
    desktop metaphor straight to the readable profile. */

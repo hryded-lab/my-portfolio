@@ -1,73 +1,112 @@
 'use client'
 
-import { useState } from 'react'
+import { useMemo, useState } from 'react'
 import { skills, type Skill } from '@/content/skills'
-import { AeroHeader, AeroBody, AeroCard, AeroTag, AeroTabs, AeroMeter, aero as a, aeroFonts as af } from '@/components/aero'
+import {
+  AppFrame, CommandBar, SearchBox, TaskPane, PaneHeading, PaneItem,
+  GroupHeading, ListRow, LevelBar, ui, FONT,
+} from '@/components/aeroApp'
 
-const COLOR = '#12a7d4'
-const categories = ['All', 'Engineering', 'Programming', 'Design', 'Finance', 'AI']
+const CATEGORIES = ['Engineering', 'Programming', 'Design', 'Finance', 'AI'] as const
 const LEVEL_NAMES = ['', 'Beginner', 'Familiar', 'Proficient', 'Advanced', 'Expert']
 
 export default function SkillsWindow() {
-  const [filter, setFilter] = useState('All')
-  const filtered = filter === 'All' ? skills : skills.filter(s => s.category === filter)
+  const [category, setCategory] = useState<string>('All')
+  const [query, setQuery] = useState('')
+
+  const filtered = useMemo(() => {
+    const q = query.trim().toLowerCase()
+    return skills.filter(s =>
+      (category === 'All' || s.category === category) &&
+      (!q || s.name.toLowerCase().includes(q)),
+    )
+  }, [category, query])
+
+  // Grouped so the list reads like Explorer's "group by" rather than a card grid.
+  const groups = useMemo(() => {
+    const order = category === 'All' ? CATEGORIES : [category]
+    return order
+      .map(cat => ({ cat, items: filtered.filter(s => s.category === cat) }))
+      .filter(g => g.items.length > 0)
+  }, [filtered, category])
+
+  const countIn = (cat: string) =>
+    cat === 'All' ? skills.length : skills.filter(s => s.category === cat).length
 
   return (
-    <AeroBody>
-      <AeroHeader title="Skills" subtitle={`${skills.length} in the stack`} color={COLOR} />
+    <AppFrame>
+      <CommandBar>
+        <span style={{ color: ui.textDim }}>
+          {category === 'All' ? 'All skills' : category}
+        </span>
+        <span style={{ color: ui.textMute }}>
+          {filtered.length} of {skills.length}
+        </span>
+        <div style={{ flex: 1 }} />
+        <SearchBox value={query} onChange={setQuery} placeholder="Search skills" />
+      </CommandBar>
 
-      <AeroTabs tabs={categories} active={filter} onChange={setFilter} color={COLOR} />
+      <div style={{ flex: 1, display: 'flex', minHeight: 0 }}>
+        <TaskPane>
+          <PaneHeading>Categories</PaneHeading>
+          <PaneItem
+            label="All"
+            count={countIn('All')}
+            selected={category === 'All'}
+            onClick={() => setCategory('All')}
+          />
+          {CATEGORIES.map(c => (
+            <PaneItem
+              key={c}
+              label={c}
+              count={countIn(c)}
+              selected={category === c}
+              onClick={() => setCategory(c)}
+            />
+          ))}
+        </TaskPane>
 
-      <div
-        style={{
-          display: 'grid',
-          gridTemplateColumns: 'repeat(auto-fill, minmax(240px, 1fr))',
-          gap: 14,
-        }}
-      >
-        {filtered.map(s => <SkillCard key={s.name} skill={s} />)}
+        <div style={{ flex: 1, overflowY: 'auto', padding: '4px 14px 16px' }}>
+          {groups.length === 0 ? (
+            <div style={{ padding: '28px 4px', color: ui.textMute, fontSize: 12.5 }}>
+              No skills match {query ? `"${query}"` : 'this filter'}.
+            </div>
+          ) : (
+            groups.map(g => (
+              <section key={g.cat}>
+                <GroupHeading label={g.cat} count={g.items.length} />
+                {g.items.map((s, i) => <SkillRow key={s.name} skill={s} alt={i % 2 === 1} />)}
+              </section>
+            ))
+          )}
+        </div>
       </div>
-    </AeroBody>
+    </AppFrame>
   )
 }
 
-function SkillCard({ skill }: { skill: Skill }) {
-  const level = LEVEL_NAMES[skill.proficiency] ?? ''
+function SkillRow({ skill, alt }: { skill: Skill; alt: boolean }) {
   return (
-    <AeroCard accent={skill.color} style={{ padding: '15px 16px' }}>
-      <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 14 }}>
-        {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img
-          src={`https://cdn.simpleicons.org/${skill.icon}/${skill.color.replace('#', '')}`}
-          alt=""
-          style={{
-            width: 24, height: 24, objectFit: 'contain', flexShrink: 0,
-            filter: `drop-shadow(0 1px 3px ${skill.color}55)`,
-          }}
-          onError={e => { (e.target as HTMLImageElement).style.display = 'none' }}
-        />
-        <span
-          style={{
-            flex: 1,
-            fontFamily: af.display,
-            fontSize: 15.5,
-            fontWeight: 600,
-            letterSpacing: -0.2,
-            color: a.text,
-            lineHeight: 1.2,
-          }}
-        >
-          {skill.name}
-        </span>
-      </div>
-
-      <AeroMeter value={skill.proficiency} color={skill.color} label={level} />
-
-      <div style={{ marginTop: 12 }}>
-        <AeroTag color={skill.color} style={{ fontSize: 10.5, padding: '3px 9px' }}>
-          {skill.category}
-        </AeroTag>
-      </div>
-    </AeroCard>
+    <ListRow alt={alt}>
+      {/* eslint-disable-next-line @next/next/no-img-element */}
+      <img
+        src={`https://cdn.simpleicons.org/${skill.icon}/${skill.color.replace('#', '')}`}
+        alt=""
+        style={{ width: 16, height: 16, objectFit: 'contain', flexShrink: 0 }}
+        onError={e => { (e.target as HTMLImageElement).style.visibility = 'hidden' }}
+      />
+      <span style={{ flex: 1, minWidth: 0, fontFamily: FONT, fontSize: 12.5 }}>
+        {skill.name}
+      </span>
+      <span
+        style={{
+          width: 74, flexShrink: 0, textAlign: 'right',
+          fontSize: 11.5, color: ui.textDim,
+        }}
+      >
+        {LEVEL_NAMES[skill.proficiency]}
+      </span>
+      <LevelBar value={skill.proficiency} />
+    </ListRow>
   )
 }
