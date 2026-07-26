@@ -1,7 +1,7 @@
 'use client'
 
 import { experiences } from '@/content/experience'
-import { AppFrame, CommandBar, GroupHeading, Panel, ui, FONT } from '@/components/aeroApp'
+import { AppFrame, CommandBar, GroupHeading, Panel, BluePanel, BlueHeading, BlueSub, ui, FONT } from '@/components/aeroApp'
 
 export default function ExperienceWindow() {
   return (
@@ -11,7 +11,12 @@ export default function ExperienceWindow() {
         <span style={{ color: ui.textMute }}>{experiences.length} entries</span>
       </CommandBar>
 
-      <div style={{ flex: 1, overflowY: 'auto', padding: '4px 18px 22px' }}>
+      <div style={{ flex: 1, overflowY: 'auto', padding: '12px 18px 22px' }}>
+        <BluePanel style={{ padding: '14px 18px' }}>
+          <BlueHeading>Where I have worked</BlueHeading>
+          <BlueSub>Startups, an incubator, and the degree underneath it all.</BlueSub>
+        </BluePanel>
+
         {experiences.map(exp => (
           <section key={exp.id}>
             <GroupHeading label={exp.company} />

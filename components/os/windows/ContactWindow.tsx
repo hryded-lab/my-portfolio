@@ -4,7 +4,7 @@ import { useState } from 'react'
 import { siteConfig } from '@/content/siteConfig'
 import { sendContactEmail } from '@/lib/emailjs'
 import {
-  AppFrame, CommandBar, GroupHeading, Panel, PropRow, ui, FONT,
+  AppFrame, CommandBar, GroupHeading, Panel, PropRow, BluePanel, BlueHeading, BlueSub, ui, FONT,
 } from '@/components/aeroApp'
 
 export default function ContactWindow() {
@@ -46,15 +46,13 @@ export default function ContactWindow() {
       </CommandBar>
 
       <div style={{ flex: 1, overflowY: 'auto', padding: '14px 18px 22px' }}>
-        <p
-          style={{
-            margin: 0, fontFamily: FONT, fontSize: 12.5,
-            color: ui.textDim, lineHeight: 1.7,
-          }}
-        >
-          Open to PM, finance and startup internships, remote, Mumbai or abroad.
-          The fastest reply lands by email or LinkedIn.
-        </p>
+        <BluePanel style={{ padding: '14px 18px' }}>
+          <BlueHeading>Get in touch</BlueHeading>
+          <BlueSub>
+            Open to PM, finance and startup internships, remote, Mumbai or abroad.
+            The fastest reply lands by email or LinkedIn.
+          </BlueSub>
+        </BluePanel>
 
         <GroupHeading label="Channels" />
         <Panel>

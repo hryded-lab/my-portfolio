@@ -133,19 +133,27 @@ body {
 
 
 /* ── Pointer ─────────────────────────────────────────────────────────────── */
-/* Wii-style gloved hand on its blue disc, drawn inline rather than shipped as
-   .cur files. Pressing curls the fingers and adds impact ticks. The hotspot
-   sits on the fingertip, not the disc centre. */
+/* Real Wii cursor set by Stefano Tinaglia. .cur files carry their own hotspot,
+   so no coordinates are passed here; overriding them would misplace the
+   fingertip. Desktop only, since a pointer is meaningless on touch. */
 html, body {
-  cursor: url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2244%22%20height%3D%2246%22%20viewBox%3D%220%200%2044%2046%22%3E%3Cdefs%3E%3CradialGradient%20id%3D%22d%22%20cx%3D%2238%25%22%20cy%3D%2234%25%22%3E%3Cstop%20offset%3D%220%25%22%20stop-color%3D%22%23bfe8ff%22%20stop-opacity%3D%22.95%22%2F%3E%3Cstop%20offset%3D%2260%25%22%20stop-color%3D%22%233d9ae0%22%20stop-opacity%3D%22.82%22%2F%3E%3Cstop%20offset%3D%22100%25%22%20stop-color%3D%22%231f6ea8%22%20stop-opacity%3D%22.70%22%2F%3E%3C%2FradialGradient%3E%3C%2Fdefs%3E%3Ccircle%20cx%3D%2222%22%20cy%3D%2224%22%20r%3D%2220%22%20fill%3D%22url%28%23d%29%22%2F%3E%3Ccircle%20cx%3D%2222%22%20cy%3D%2224%22%20r%3D%2220%22%20fill%3D%22none%22%20stroke%3D%22%23ffffff%22%20stroke-width%3D%221.6%22%20opacity%3D%22.85%22%2F%3E%3Cg%20transform%3D%22translate%284%2C3%29%22%3E%3Cpath%20d%3D%22M12.9%206.4c0-1.6%201.3-2.9%202.9-2.9s2.9%201.3%202.9%202.9v10.4h1.3v-3.9c0-1.5%201.2-2.7%202.7-2.7s2.7%201.2%202.7%202.7v4h1.3v-2.4c0-1.4%201.1-2.5%202.5-2.5s2.5%201.1%202.5%202.5v10.7c0%206-4.1%2010.6-10.1%2010.6h-3.5c-3.1%200-5.4-1.4-7-3.8l-5-7.4c-.8-1.2-.5-2.8.7-3.6%201.2-.8%202.8-.5%203.6.7l3%204.2z%22%20fill%3D%22%23ffffff%22%20stroke%3D%22%230e1318%22%20stroke-width%3D%222%22%20stroke-linejoin%3D%22round%22%2F%3E%3Cpath%20d%3D%22M15.6%2027.4v5.4M19.6%2027.2v5.4M23.6%2026.8v5.2%22%20stroke%3D%22%230e1318%22%20stroke-width%3D%221.7%22%20stroke-linecap%3D%22round%22%2F%3E%3C%2Fg%3E%3C%2Fsvg%3E") 20 6, auto;
+  cursor: url('/cursors/wii-point.cur'), auto;
+}
+a, button, [role='button'], .desktop-icon, .aero-pane-item, .aero-list-row {
+  cursor: url('/cursors/wii-open.cur'), pointer;
 }
 html:active, body:active,
-.desktop-icon:active, .xp-window:active {
-  cursor: url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2244%22%20height%3D%2246%22%20viewBox%3D%220%200%2044%2046%22%3E%3Cdefs%3E%3CradialGradient%20id%3D%22d%22%20cx%3D%2238%25%22%20cy%3D%2234%25%22%3E%3Cstop%20offset%3D%220%25%22%20stop-color%3D%22%23bfe8ff%22%20stop-opacity%3D%22.95%22%2F%3E%3Cstop%20offset%3D%2260%25%22%20stop-color%3D%22%233d9ae0%22%20stop-opacity%3D%22.82%22%2F%3E%3Cstop%20offset%3D%22100%25%22%20stop-color%3D%22%231f6ea8%22%20stop-opacity%3D%22.70%22%2F%3E%3C%2FradialGradient%3E%3C%2Fdefs%3E%3Ccircle%20cx%3D%2222%22%20cy%3D%2224%22%20r%3D%2220%22%20fill%3D%22url%28%23d%29%22%2F%3E%3Ccircle%20cx%3D%2222%22%20cy%3D%2224%22%20r%3D%2220%22%20fill%3D%22none%22%20stroke%3D%22%23ffffff%22%20stroke-width%3D%221.6%22%20opacity%3D%22.85%22%2F%3E%3Cg%20transform%3D%22translate%284%2C3%29%22%3E%3Cpath%20d%3D%22M12.9%2015.2c0-1.6%201.3-2.9%202.9-2.9s2.9%201.3%202.9%202.9v1.6h1.3v-1.1c0-1.5%201.2-2.7%202.7-2.7s2.7%201.2%202.7%202.7v1.6h1.3v-.7c0-1.4%201.1-2.5%202.5-2.5s2.5%201.1%202.5%202.5v6.4c0%206-4.1%2010.6-10.1%2010.6h-3.5c-3.1%200-5.4-1.4-7-3.8l-5-7.4c-.8-1.2-.5-2.8.7-3.6%201.2-.8%202.8-.5%203.6.7l3%204.2z%22%20fill%3D%22%23ffffff%22%20stroke%3D%22%230e1318%22%20stroke-width%3D%222%22%20stroke-linejoin%3D%22round%22%2F%3E%3Cpath%20d%3D%22M15.6%2027.4v5.4M19.6%2027.2v5.4M23.6%2026.8v5.2%22%20stroke%3D%22%230e1318%22%20stroke-width%3D%221.7%22%20stroke-linecap%3D%22round%22%2F%3E%3C%2Fg%3E%3Cpath%20d%3D%22M4.4%206.2l2.4%202.4M9%203l1%203M15.6%201.6l0%203%22%20stroke%3D%22%230e1318%22%20stroke-width%3D%221.9%22%20stroke-linecap%3D%22round%22%20opacity%3D%220.9%22%2F%3E%3C%2Fsvg%3E") 20 14, auto;
+a:active, button:active, [role='button']:active,
+.desktop-icon:active, .xp-window:active,
+.xp-window [role='button']:active {
+  cursor: url('/cursors/wii-grab.cur'), auto;
 }
 /* Text entry keeps a conventional caret. */
 input, textarea, [contenteditable='true'] { cursor: text; }
-a, button, [role='button'], .desktop-icon { cursor: url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2244%22%20height%3D%2246%22%20viewBox%3D%220%200%2044%2046%22%3E%3Cdefs%3E%3CradialGradient%20id%3D%22d%22%20cx%3D%2238%25%22%20cy%3D%2234%25%22%3E%3Cstop%20offset%3D%220%25%22%20stop-color%3D%22%23bfe8ff%22%20stop-opacity%3D%22.95%22%2F%3E%3Cstop%20offset%3D%2260%25%22%20stop-color%3D%22%233d9ae0%22%20stop-opacity%3D%22.82%22%2F%3E%3Cstop%20offset%3D%22100%25%22%20stop-color%3D%22%231f6ea8%22%20stop-opacity%3D%22.70%22%2F%3E%3C%2FradialGradient%3E%3C%2Fdefs%3E%3Ccircle%20cx%3D%2222%22%20cy%3D%2224%22%20r%3D%2220%22%20fill%3D%22url%28%23d%29%22%2F%3E%3Ccircle%20cx%3D%2222%22%20cy%3D%2224%22%20r%3D%2220%22%20fill%3D%22none%22%20stroke%3D%22%23ffffff%22%20stroke-width%3D%221.6%22%20opacity%3D%22.85%22%2F%3E%3Cg%20transform%3D%22translate%284%2C3%29%22%3E%3Cpath%20d%3D%22M12.9%206.4c0-1.6%201.3-2.9%202.9-2.9s2.9%201.3%202.9%202.9v10.4h1.3v-3.9c0-1.5%201.2-2.7%202.7-2.7s2.7%201.2%202.7%202.7v4h1.3v-2.4c0-1.4%201.1-2.5%202.5-2.5s2.5%201.1%202.5%202.5v10.7c0%206-4.1%2010.6-10.1%2010.6h-3.5c-3.1%200-5.4-1.4-7-3.8l-5-7.4c-.8-1.2-.5-2.8.7-3.6%201.2-.8%202.8-.5%203.6.7l3%204.2z%22%20fill%3D%22%23ffffff%22%20stroke%3D%22%230e1318%22%20stroke-width%3D%222%22%20stroke-linejoin%3D%22round%22%2F%3E%3Cpath%20d%3D%22M15.6%2027.4v5.4M19.6%2027.2v5.4M23.6%2026.8v5.2%22%20stroke%3D%22%230e1318%22%20stroke-width%3D%221.7%22%20stroke-linecap%3D%22round%22%2F%3E%3C%2Fg%3E%3C%2Fsvg%3E") 20 6, pointer; }
+
+@media (hover: none) and (pointer: coarse) {
+  html, body, a, button, [role='button'], .desktop-icon { cursor: auto; }
+}
 
 /* ── Ambient desktop life ────────────────────────────────────────────────── */
 /* Bubbles rise and wobble, then the skin gives way at ~1s: a quick stretch, a
@@ -195,7 +203,7 @@ a, button, [role='button'], .desktop-icon { cursor: url("data:image/svg+xml,%3Cs
   --aa-field:     #171b21;
   --aa-inset:     inset 0 1px 2px rgba(0, 0, 0, 0.55);
   --aa-ridge:     rgba(255, 255, 255, 0.07);
-  --aa-blue-panel: linear-gradient(160deg, #4a6b90 0%, #395875 55%, #2f4a64 100%);
+  --aa-blue-panel: linear-gradient(158deg, #4d7ba8 0%, #3a6491 48%, #2b4d75 100%);
   --aa-cell-on:   linear-gradient(180deg, #9fd4f5 0%, #5fa5d8 50%, #4a90c6 100%);
   --aa-cell-off:  rgba(255, 255, 255, 0.07);
   --aa-cell-bdr-on:  #5fa5d8;
@@ -221,7 +229,7 @@ a, button, [role='button'], .desktop-icon { cursor: url("data:image/svg+xml,%3Cs
   --aa-field:     #ffffff;
   --aa-inset:     inset 0 1px 2px rgba(120, 132, 145, 0.22);
   --aa-ridge:     #ffffff;
-  --aa-blue-panel: linear-gradient(160deg, #8fadcb 0%, #6f92b6 55%, #5c7fa4 100%);
+  --aa-blue-panel: linear-gradient(158deg, #7fa6c9 0%, #6188ae 48%, #4f7396 100%);
   --aa-cell-on:   linear-gradient(180deg, #bfe2fa 0%, #7cb8e4 50%, #61a3d4 100%);
   --aa-cell-off:  #eef1f4;
   --aa-cell-bdr-on:  #6ca8d8;

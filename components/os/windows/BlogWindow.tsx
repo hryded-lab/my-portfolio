@@ -1,7 +1,7 @@
 'use client'
 
 import { useState, useEffect } from 'react'
-import { AppFrame, CommandBar, GroupHeading, Panel, ListRow, ui, FONT } from '@/components/aeroApp'
+import { AppFrame, CommandBar, GroupHeading, Panel, ListRow, BluePanel, BlueHeading, BlueSub, ui, FONT } from '@/components/aeroApp'
 
 type PostMeta = { slug: string; title: string; date: string; readingTime: string; category: string; excerpt: string }
 type Post = PostMeta & { content: string }
@@ -36,18 +36,13 @@ export default function BlogWindow() {
           <span style={{ color: ui.textMute }}>{selected.category}</span>
         </CommandBar>
 
-        <article style={{ flex: 1, overflowY: 'auto', padding: '16px 22px 26px' }}>
-          <h1
-            style={{
-              margin: 0, fontFamily: FONT, fontSize: 21, fontWeight: 600,
-              color: ui.text, lineHeight: 1.25,
-            }}
-          >
-            {selected.title}
-          </h1>
-          <div style={{ fontFamily: FONT, fontSize: 12, color: ui.textMute, marginTop: 5 }}>
-            {formatDate(selected.date)} · {selected.readingTime}
-          </div>
+        <article style={{ flex: 1, overflowY: 'auto', padding: '12px 18px 26px' }}>
+          <BluePanel style={{ padding: '16px 18px' }}>
+            <BlueHeading>{selected.title}</BlueHeading>
+            <div style={{ fontFamily: FONT, fontSize: 12, marginTop: 6, color: 'rgba(255,255,255,0.80)' }}>
+              {formatDate(selected.date)} · {selected.readingTime}
+            </div>
+          </BluePanel>
 
           <div style={{ marginTop: 18 }}>
             {selected.content.trim().split('\n\n').map((block, i) => (
@@ -68,7 +63,12 @@ export default function BlogWindow() {
         </span>
       </CommandBar>
 
-      <div style={{ flex: 1, overflowY: 'auto', padding: '4px 18px 22px' }}>
+      <div style={{ flex: 1, overflowY: 'auto', padding: '12px 18px 22px' }}>
+        <BluePanel style={{ padding: '14px 18px' }}>
+          <BlueHeading>Writing</BlueHeading>
+          <BlueSub>Notes on what I am building, and on student life at BITS Pilani.</BlueSub>
+        </BluePanel>
+
         <GroupHeading label="All posts" count={posts.length || undefined} />
         <Panel style={{ padding: 6 }}>
           {posts.map((post, i) => (

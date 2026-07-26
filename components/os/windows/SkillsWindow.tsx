@@ -4,7 +4,7 @@ import { useMemo, useState } from 'react'
 import { skills, type Skill } from '@/content/skills'
 import {
   AppFrame, CommandBar, SearchBox, TaskPane, PaneHeading, PaneItem,
-  GroupHeading, ListRow, LevelBar, ui, FONT,
+  GroupHeading, ListRow, LevelBar, BluePanel, BlueHeading, BlueSub, ui, FONT,
 } from '@/components/aeroApp'
 
 const CATEGORIES = ['Engineering', 'Programming', 'Design', 'Finance', 'AI'] as const
@@ -45,6 +45,15 @@ export default function SkillsWindow() {
         <div style={{ flex: 1 }} />
         <SearchBox value={query} onChange={setQuery} placeholder="Search skills" />
       </CommandBar>
+
+      <div style={{ padding: '12px 14px 0' }}>
+        <BluePanel style={{ padding: '14px 18px' }}>
+          <BlueHeading>Skills and tooling</BlueHeading>
+          <BlueSub>
+            What I actually build with, across engineering, programming, design, finance and AI.
+          </BlueSub>
+        </BluePanel>
+      </div>
 
       <div style={{ flex: 1, display: 'flex', minHeight: 0 }}>
         <TaskPane>

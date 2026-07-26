@@ -2,7 +2,7 @@
 
 import { siteConfig } from '@/content/siteConfig'
 import {
-  AppFrame, CommandBar, GroupHeading, Panel, PropRow, ui, FONT,
+  AppFrame, CommandBar, GroupHeading, Panel, PropRow, BluePanel, BlueHeading, BlueSub, ui, FONT,
 } from '@/components/aeroApp'
 
 export default function AboutWindow() {
@@ -13,59 +13,51 @@ export default function AboutWindow() {
       </CommandBar>
 
       <div style={{ flex: 1, overflowY: 'auto', padding: '14px 18px 22px' }}>
-        {/* Identity header */}
-        <div style={{ display: 'flex', gap: 16, alignItems: 'center', marginBottom: 6 }}>
-          <div
-            style={{
-              width: 76, height: 76, flexShrink: 0,
-              borderRadius: ui.radius,
-              border: `1px solid ${ui.border}`,
-              boxShadow: `inset 0 1px 0 ${ui.ridge}, 0 1px 3px rgba(0,40,70,0.22)`,
-              overflow: 'hidden',
-              background: ui.pane,
-            }}
-          >
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img
-              src="/me.jpg" alt={siteConfig.name}
-              style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }}
-            />
-          </div>
-
-          <div style={{ minWidth: 0 }}>
+        {/* Identity slab */}
+        <BluePanel style={{ marginBottom: 4 }}>
+          <div style={{ display: 'flex', gap: 16, alignItems: 'center' }}>
             <div
               style={{
-                fontFamily: FONT, fontSize: 19, fontWeight: 600,
-                color: ui.text, lineHeight: 1.2,
+                width: 74, height: 74, flexShrink: 0,
+                borderRadius: 7,
+                border: '1px solid rgba(255,255,255,0.55)',
+                boxShadow: 'inset 0 1px 0 rgba(255,255,255,0.6), 0 2px 6px rgba(10,40,70,0.3)',
+                overflow: 'hidden',
               }}
             >
-              {siteConfig.name}
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img
+                src="/me.jpg" alt={siteConfig.name}
+                style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }}
+              />
             </div>
-            <div style={{ fontFamily: FONT, fontSize: 12.5, color: ui.heading, marginTop: 3 }}>
-              {siteConfig.title}
-            </div>
-            <div
-              style={{
-                display: 'flex', alignItems: 'center', gap: 6, flexWrap: 'wrap',
-                fontFamily: FONT, fontSize: 12, color: ui.textMute, marginTop: 6,
-              }}
-            >
-              <span>{siteConfig.location}</span>
-              <span aria-hidden>·</span>
-              <span style={{ display: 'inline-flex', alignItems: 'center', gap: 5 }}>
-                <span
-                  aria-hidden
-                  style={{
-                    width: 7, height: 7, borderRadius: '50%',
-                    background: 'radial-gradient(circle at 35% 30%, #b6f5c8, #3fae63)',
-                    boxShadow: '0 0 5px rgba(80,200,120,0.7)',
-                  }}
-                />
-                Open to internships
-              </span>
+            <div style={{ minWidth: 0 }}>
+              <BlueHeading>{siteConfig.name}</BlueHeading>
+              <BlueSub>{siteConfig.title}</BlueSub>
+              <div
+                style={{
+                  display: 'flex', alignItems: 'center', gap: 7, flexWrap: 'wrap',
+                  fontFamily: FONT, fontSize: 12, marginTop: 7,
+                  color: 'rgba(255,255,255,0.82)',
+                }}
+              >
+                <span>{siteConfig.location}</span>
+                <span aria-hidden>·</span>
+                <span style={{ display: 'inline-flex', alignItems: 'center', gap: 5 }}>
+                  <span
+                    aria-hidden
+                    style={{
+                      width: 7, height: 7, borderRadius: '50%',
+                      background: 'radial-gradient(circle at 35% 30%, #d8ffe6, #57cf85)',
+                      boxShadow: '0 0 6px rgba(140,240,180,0.9)',
+                    }}
+                  />
+                  Open to internships
+                </span>
+              </div>
             </div>
           </div>
-        </div>
+        </BluePanel>
 
         <GroupHeading label="Summary" />
         <p

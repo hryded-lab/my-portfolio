@@ -236,6 +236,83 @@ export function LevelBar({ value, max = 5 }: { value: number; max?: number }) {
   )
 }
 
+// The blue frosted slab from the Vista-2023 concept: a deep gradient wash with a
+// bright glass sheen across the top half and white text over it. This is where
+// the blue lives in the design, so every app leads with one.
+export function BluePanel({
+  children, style,
+}: { children: ReactNode; style?: CSSProperties }) {
+  return (
+    <div
+      style={{
+        position: 'relative',
+        overflow: 'hidden',
+        background: 'var(--aa-blue-panel)',
+        border: '1px solid rgba(255,255,255,0.42)',
+        borderRadius: 9,
+        padding: '18px 20px',
+        color: '#fff',
+        boxShadow:
+          'inset 0 1px 0 rgba(255,255,255,0.55),' +
+          ' inset 0 -18px 34px rgba(10,40,70,0.28),' +
+          ' 0 2px 8px rgba(24,58,88,0.26)',
+        ...style,
+      }}
+    >
+      {/* Glass sheen across the upper half, the Aero signature */}
+      <div
+        aria-hidden
+        style={{
+          position: 'absolute', left: 0, right: 0, top: 0, height: '58%',
+          background:
+            'linear-gradient(180deg, rgba(255,255,255,0.30) 0%,' +
+            ' rgba(255,255,255,0.13) 62%, rgba(255,255,255,0) 100%)',
+          pointerEvents: 'none',
+        }}
+      />
+      {/* Soft light bloom off the top-left corner */}
+      <div
+        aria-hidden
+        style={{
+          position: 'absolute', top: '-38%', left: '-12%',
+          width: '68%', height: '110%',
+          background: 'radial-gradient(ellipse at center, rgba(255,255,255,0.26), transparent 68%)',
+          pointerEvents: 'none',
+        }}
+      />
+      <div style={{ position: 'relative' }}>{children}</div>
+    </div>
+  )
+}
+
+export function BlueHeading({ children }: { children: ReactNode }) {
+  return (
+    <div
+      style={{
+        fontFamily: FONT, fontSize: 21, fontWeight: 600,
+        lineHeight: 1.25, color: '#fff',
+        textShadow: '0 1px 2px rgba(12,42,68,0.42)',
+      }}
+    >
+      {children}
+    </div>
+  )
+}
+
+export function BlueSub({ children }: { children: ReactNode }) {
+  return (
+    <div
+      style={{
+        fontFamily: FONT, fontSize: 12.5, lineHeight: 1.65,
+        color: 'rgba(255,255,255,0.90)',
+        textShadow: '0 1px 2px rgba(12,42,68,0.35)',
+      }}
+    >
+      {children}
+    </div>
+  )
+}
+
 // Bordered group box, the way Vista fenced related settings.
 export function Panel({ children, style }: { children: ReactNode; style?: CSSProperties }) {
   return (
