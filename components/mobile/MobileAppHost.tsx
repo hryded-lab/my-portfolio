@@ -19,7 +19,7 @@ const BrowserApp     = dynamic(() => import('./apps/BrowserApp'),     { ssr: fal
 const MediaApp       = dynamic(() => import('./apps/MediaApp'),       { ssr: false })
 const PaintApp       = dynamic(() => import('./apps/PaintApp'),       { ssr: false })
 const MinesweeperApp = dynamic(() => import('./apps/MinesweeperApp'), { ssr: false })
-const MinecraftApp   = dynamic(() => import('./apps/MinecraftApp'),   { ssr: false })
+const SolitaireApp   = dynamic(() => import('./apps/SolitaireApp'),   { ssr: false })
 
 function renderApp(id: AppId) {
   switch (id) {
@@ -37,7 +37,7 @@ function renderApp(id: AppId) {
     case 'media':       return <MediaApp />
     case 'paint':       return <PaintApp />
     case 'minesweeper': return <MinesweeperApp />
-    case 'minecraft':   return <MinecraftApp />
+    case 'solitaire':   return <SolitaireApp />
     case 'restart':     return null  // intercepted in MobileShell.openApp before reaching here
   }
 }

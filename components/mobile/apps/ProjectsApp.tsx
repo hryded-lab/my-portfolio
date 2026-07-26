@@ -3,7 +3,7 @@
 import MobileAppShell from '../MobileAppShell'
 import { projects } from '@/content/projects'
 import { mobileTheme as t } from '../mobileTheme'
-import { brutal as b } from '../../brutal'
+import { aero as b } from '../aeroKit'
 
 const COLOR = '#4ed670'
 

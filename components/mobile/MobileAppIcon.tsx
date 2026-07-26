@@ -168,7 +168,7 @@ function Glyph({ name, accent, base }: { name: GlyphName; accent: string; base: 
     case 'browser':     return <BrowserGlyph />
     case 'media':       return <MediaGlyph />
     case 'minesweeper': return <MinesweeperGlyph />
-    case 'minecraft':   return <MinecraftGlyph />
+    case 'solitaire':   return <SolitaireGlyph />
     case 'clock':       return <ClockGlyph />
   }
 }
@@ -723,44 +723,32 @@ function MinesweeperGlyph() {
 }
 
 // 15. MINECRAFT — 3D iso grass block, refined
-function MinecraftGlyph() {
+function SolitaireGlyph() {
+  // Three fanned cards: two glossy Aero backs behind a face-up ace of spades.
   return (
     <svg width="38" height="38" viewBox="0 0 40 40" fill="none">
       <defs>
-        <linearGradient id="mc-top" x1="0" y1="0" x2="0" y2="1">
-          <stop offset="0%" stopColor="#7eda58" />
-          <stop offset="100%" stopColor="#3e8624" />
+        <linearGradient id="sol-back" x1="0" y1="0" x2="1" y2="1">
+          <stop offset="0%" stopColor="#7cbcee" />
+          <stop offset="52%" stopColor="#3d7fc0" />
+          <stop offset="100%" stopColor="#2b5f96" />
         </linearGradient>
-        <linearGradient id="mc-side-l" x1="0" y1="0" x2="0" y2="1">
-          <stop offset="0%" stopColor="#9c6638" />
-          <stop offset="100%" stopColor="#553410" />
-        </linearGradient>
-        <linearGradient id="mc-side-r" x1="0" y1="0" x2="0" y2="1">
-          <stop offset="0%" stopColor="#7a4f28" />
-          <stop offset="100%" stopColor="#3a200a" />
+        <linearGradient id="sol-face" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stopColor="#ffffff" />
+          <stop offset="100%" stopColor="#e7eef5" />
         </linearGradient>
       </defs>
-      {/* Top face */}
-      <path d="M5 13l15-7 15 7-15 7z" fill="url(#mc-top)" />
-      <path d="M5 13l15-7 15 7" stroke="rgba(255,255,255,0.4)" strokeWidth="0.6" fill="none" />
-      {/* Left face */}
-      <path d="M5 13v13l15 7V20z" fill="url(#mc-side-l)" />
-      {/* Right face */}
-      <path d="M35 13v13l-15 7V20z" fill="url(#mc-side-r)" />
-      {/* Top grass speckles */}
-      <circle cx="14" cy="11" r="0.5" fill="#a8e87a" />
-      <circle cx="22" cy="13" r="0.5" fill="#a8e87a" />
-      <circle cx="27" cy="10" r="0.4" fill="#a8e87a" />
-      <circle cx="18" cy="14" r="0.4" fill="#a8e87a" />
-      {/* Dirt clumps left */}
-      <rect x="8" y="20" width="2.4" height="2.4" fill="#3a200a" opacity="0.7" />
-      <rect x="13" y="25" width="1.8" height="1.8" fill="#3a200a" opacity="0.7" />
-      <rect x="16" y="28" width="1.4" height="1.4" fill="#3a200a" opacity="0.7" />
-      {/* Dirt clumps right */}
-      <rect x="29" y="22" width="1.8" height="1.8" fill="#1c0e02" opacity="0.6" />
-      <rect x="24" y="26" width="1.4" height="1.4" fill="#1c0e02" opacity="0.6" />
-      {/* Edge highlight */}
-      <path d="M5 13l15 7 15-7" stroke="rgba(0,0,0,0.3)" strokeWidth="0.6" fill="none" />
+      <g transform="rotate(-18 20 22)">
+        <rect x="7" y="9" width="16" height="23" rx="2.6" fill="url(#sol-back)" stroke="#1d4670" strokeWidth="1.1" />
+      </g>
+      <g transform="rotate(-6 20 22)">
+        <rect x="10" y="8" width="16" height="23" rx="2.6" fill="url(#sol-back)" stroke="#1d4670" strokeWidth="1.1" />
+      </g>
+      <g transform="rotate(9 20 22)">
+        <rect x="14" y="8" width="16" height="23" rx="2.6" fill="url(#sol-face)" stroke="#4a6a88" strokeWidth="1.1" />
+        <text x="16.4" y="15.6" fontSize="6.4" fontWeight="700" fill="#1d2530" fontFamily="Inter, sans-serif">A</text>
+        <path d="M22 18.5c-1.9 2-3.1 3.1-3.1 4.4 0 1 .8 1.7 1.7 1.7.5 0 1-.2 1.4-.6.4.4.9.6 1.4.6.9 0 1.7-.7 1.7-1.7 0-1.3-1.2-2.4-3.1-4.4z" fill="#1d2530" />
+      </g>
     </svg>
   )
 }

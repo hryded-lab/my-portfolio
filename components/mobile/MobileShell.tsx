@@ -72,6 +72,7 @@ export default function MobileShell() {
 
   return (
     <div
+      className="mobile-shell"
       style={{
         position: 'fixed', inset: 0,
         background: t.bg,

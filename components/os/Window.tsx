@@ -299,7 +299,7 @@ export default function Window({ id, children }: Props) {
             alignItems: 'center',
             justifyContent: 'space-between',
             padding: '0 8px',
-            cursor: 'default',
+            cursor: 'var(--cursor-point)',
             userSelect: 'none',
           }}
         >

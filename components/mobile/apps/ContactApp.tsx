@@ -4,7 +4,7 @@ import { useState } from 'react'
 import MobileAppShell, { BrutalistTag, BrutalistSection } from '../MobileAppShell'
 import { siteConfig } from '@/content/siteConfig'
 import { mobileTheme as t } from '../mobileTheme'
-import { brutal as b } from '../../brutal'
+import { aero as b } from '../aeroKit'
 import { sendContactEmail } from '@/lib/emailjs'
 
 const COLOR = '#ff8080'

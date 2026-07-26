@@ -3,7 +3,7 @@
 import MobileAppShell, { BrutalistTag } from '../MobileAppShell'
 import { experiences } from '@/content/experience'
 import { mobileTheme as t } from '../mobileTheme'
-import { brutal as b } from '../../brutal'
+import { aero as b } from '../aeroKit'
 
 const COLOR = '#b783ff'
 

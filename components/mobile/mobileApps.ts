@@ -16,7 +16,7 @@ export type AppId =
   | 'browser'
   | 'media'
   | 'minesweeper'
-  | 'minecraft'
+  | 'solitaire'
   | 'clock'
 
 export type GlyphName = AppId
@@ -48,7 +48,7 @@ export const APPS: AppMeta[] = [
   { id: 'browser',     label: 'My Tools',       color: '#7cd0ff', page: 1 },
   { id: 'media',       label: 'Media Player',   color: '#4674c7', page: 1 },
   { id: 'minesweeper', label: 'Minesweeper',    color: '#ff5e4e', page: 1 },
-  { id: 'minecraft',   label: 'Minecraft',      color: '#8dc962', page: 1 },
+  { id: 'solitaire',   label: 'Solitaire',      color: '#2f7d4f', page: 1 },
   { id: 'clock',       label: 'Clock',          color: '#6cd1ff', page: 1 },
 ]
 

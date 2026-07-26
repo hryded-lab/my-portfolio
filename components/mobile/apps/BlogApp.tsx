@@ -3,7 +3,7 @@
 import { useEffect, useState } from 'react'
 import MobileAppShell, { BrutalistTag } from '../MobileAppShell'
 import { mobileTheme as t } from '../mobileTheme'
-import { brutal as b } from '../../brutal'
+import { aero as b } from '../aeroKit'
 
 const COLOR = '#4ee8e8'
 

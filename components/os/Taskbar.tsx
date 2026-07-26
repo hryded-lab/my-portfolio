@@ -546,7 +546,7 @@ function ClockDisplay() {
         fontSize: 11,
         fontFamily: "'Silkscreen', 'Courier New', monospace",
         textAlign: 'center',
-        cursor: 'default',
+        cursor: 'var(--cursor-point)',
         lineHeight: 1.25,
         minWidth: 46,
         textShadow: '0 1px 1px rgba(0,0,0,0.5)',

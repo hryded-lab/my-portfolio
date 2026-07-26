@@ -3,7 +3,7 @@
 import MobileAppShell, { BrutalistSection } from '../MobileAppShell'
 import { skills, type Skill } from '@/content/skills'
 import { mobileTheme as t } from '../mobileTheme'
-import { brutal as b } from '../../brutal'
+import { aero as b } from '../aeroKit'
 
 const COLOR = '#ffb83a'
 const CATEGORIES = ['Engineering', 'Programming', 'Design', 'Finance', 'AI'] as const
