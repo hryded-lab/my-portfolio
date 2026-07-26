@@ -130,6 +130,112 @@ body {
   font-variant-numeric: tabular-nums;
 }
 
+/* ── Ambient desktop life ────────────────────────────────────────────────── */
+/* Timings are deliberately uneven. Symmetrical, evenly-eased motion is the thing
+   that reads as generated, so the plane bobs on a different period to its
+   crossing and the dragonfly's hover never lines up with its drift. */
+
+@keyframes ambientPlaneCross {
+  0%   { transform: translate3d(-8vw, 0, 0) rotate(-4deg); opacity: 0; }
+  6%   { opacity: 0.9; }
+  35%  { transform: translate3d(35vw, -3vh, 0) rotate(-1deg); }
+  70%  { transform: translate3d(72vw, 2vh, 0) rotate(3deg); }
+  94%  { opacity: 0.9; }
+  100% { transform: translate3d(112vw, -1vh, 0) rotate(-2deg); opacity: 0; }
+}
+@keyframes ambientPlaneBob {
+  0%, 100% { transform: translateY(0) rotate(0deg); }
+  50%      { transform: translateY(-7px) rotate(2.5deg); }
+}
+
+@keyframes ambientDragonflyVisit {
+  0%   { transform: translate3d(26vw, 14vh, 0) scale(0.82); opacity: 0; }
+  9%   { opacity: 1; }
+  26%  { transform: translate3d(4vw, -2vh, 0) scale(1); }
+  44%  { transform: translate3d(-3vw, 3vh, 0) scale(1); }
+  58%  { transform: translate3d(2vw, -1vh, 0) scale(1); }
+  76%  { transform: translate3d(-6vw, -4vh, 0) scale(0.97); }
+  90%  { opacity: 1; }
+  100% { transform: translate3d(-30vw, -22vh, 0) scale(0.78); opacity: 0; }
+}
+@keyframes ambientHover {
+  0%, 100% { transform: translate3d(0, 0, 0) rotate(-1deg); }
+  30%      { transform: translate3d(2px, -4px, 0) rotate(1.5deg); }
+  65%      { transform: translate3d(-3px, 2px, 0) rotate(-2deg); }
+}
+@keyframes ambientWingUpper {
+  0%, 100% { transform: scaleY(1) rotate(0deg); }
+  50%      { transform: scaleY(0.18) rotate(-3deg); }
+}
+@keyframes ambientWingLower {
+  0%, 100% { transform: scaleY(0.28) rotate(2deg); }
+  50%      { transform: scaleY(1) rotate(0deg); }
+}
+
+@keyframes ambientDroplet {
+  0%   { transform: scale(0.35) translateY(0); opacity: 0; }
+  18%  { transform: scale(1.05) translateY(0); opacity: 0.95; }
+  45%  { transform: scale(1) translateY(2px); opacity: 0.8; }
+  100% { transform: scale(0.62) translateY(9px); opacity: 0; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  [class*='ambient'], [style*='ambient'] { animation: none !important; }
+}
+
+/* ── Aero application tokens ─────────────────────────────────────────────── */
+/* Dark is the default because ThemeProvider starts on darkTheme. The dark set is
+   Aero at night rather than a grey inversion: the same blue wash and bevels, on
+   deep slate glass. */
+:root,
+:root[data-theme='dark'] {
+  --aa-body:      linear-gradient(180deg, #12222f 0%, #0b1621 100%);
+  --aa-pane:      linear-gradient(180deg, #17293a 0%, #101e2b 100%);
+  --aa-bar:       linear-gradient(180deg, #1c3145 0%, #16283a 48%, #132435 52%, #1a2f43 100%);
+  --aa-row-alt:   rgba(255, 255, 255, 0.035);
+  --aa-border:    #2a4358;
+  --aa-border-soft: rgba(255, 255, 255, 0.09);
+  --aa-text:      #dceaf6;
+  --aa-text-dim:  rgba(220, 234, 246, 0.72);
+  --aa-text-mute: rgba(220, 234, 246, 0.45);
+  --aa-heading:   #7fc4f5;
+  --aa-sel-bg:    linear-gradient(180deg, #24506f 0%, #1d4462 48%, #193c58 52%, #23506e 100%);
+  --aa-sel-bdr:   #3f7ba8;
+  --aa-hover-bg:  linear-gradient(180deg, rgba(120,190,240,0.14) 0%, rgba(120,190,240,0.07) 100%);
+  --aa-hover-bdr: rgba(120, 190, 240, 0.26);
+  --aa-field:     rgba(0, 0, 0, 0.24);
+  --aa-inset:     inset 0 1px 2px rgba(0, 0, 0, 0.45);
+  --aa-ridge:     rgba(255, 255, 255, 0.07);
+  --aa-cell-on:   linear-gradient(180deg, #8fd0f7 0%, #4fa2da 48%, #3c8dc6 52%, #74c0ee 100%);
+  --aa-cell-off:  linear-gradient(180deg, rgba(255,255,255,0.08) 0%, rgba(255,255,255,0.03) 100%);
+  --aa-cell-bdr-on:  #5ca6dc;
+  --aa-cell-bdr-off: rgba(255, 255, 255, 0.16);
+}
+
+:root[data-theme='light'] {
+  --aa-body:      linear-gradient(180deg, #ffffff 0%, #eef4fb 100%);
+  --aa-pane:      linear-gradient(180deg, #f4f9ff 0%, #e2edf8 100%);
+  --aa-bar:       linear-gradient(180deg, #fbfdff 0%, #e8f1fa 48%, #dfeaf6 52%, #eef5fc 100%);
+  --aa-row-alt:   rgba(238, 245, 252, 0.72);
+  --aa-border:    #c2d6e8;
+  --aa-border-soft: #dceaf6;
+  --aa-text:      #17324a;
+  --aa-text-dim:  #48657f;
+  --aa-text-mute: #7592ab;
+  --aa-heading:   #1a4a8a;
+  --aa-sel-bg:    linear-gradient(180deg, #dcefff 0%, #bfe0fb 48%, #a9d5f8 52%, #cbe8ff 100%);
+  --aa-sel-bdr:   #7cb8e8;
+  --aa-hover-bg:  linear-gradient(180deg, #f4fbff 0%, #e6f4ff 100%);
+  --aa-hover-bdr: #bcdcf5;
+  --aa-field:     #ffffff;
+  --aa-inset:     inset 0 1px 2px rgba(90, 130, 165, 0.18);
+  --aa-ridge:     #ffffff;
+  --aa-cell-on:   linear-gradient(180deg, #b9e0ff 0%, #7cc0ee 48%, #5aa9e0 52%, #97d2f7 100%);
+  --aa-cell-off:  linear-gradient(180deg, #f6fafd 0%, #e9f1f8 100%);
+  --aa-cell-bdr-on:  #5c9fd6;
+  --aa-cell-bdr-off: #cbdcea;
+}
+
 /* ── Aero application chrome ─────────────────────────────────────────────── */
 /* .glass-window-content forces DM Sans on every descendant with !important, so
    Aero app frames need a higher-specificity rule to keep their own UI font. */
@@ -138,18 +244,15 @@ body {
   font-family: 'Segoe UI', 'Inter', system-ui, -apple-system, sans-serif !important;
 }
 
-.aero-app .aero-pane-item:hover:not([data-selected]) {
-  background: linear-gradient(180deg, #f2faff 0%, #e2f2ff 100%);
-  border-color: #bcdcf5;
+.aero-app .aero-pane-item:hover:not([data-selected]),
+.aero-app .aero-list-row:hover {
+  background: var(--aa-hover-bg);
+  border-color: var(--aa-hover-bdr);
 }
 .aero-app .aero-pane-item:focus-visible,
 .aero-app .aero-list-row:focus-visible {
-  outline: 1px dotted #17324a;
+  outline: 1px dotted var(--aa-text);
   outline-offset: -2px;
-}
-.aero-app .aero-list-row:hover {
-  background: linear-gradient(180deg, #f4fbff 0%, #e6f4ff 100%);
-  border-color: #bcdcf5;
 }
 
 /* ── Skip link ───────────────────────────────────────────────────────────── */

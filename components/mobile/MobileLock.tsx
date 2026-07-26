@@ -40,6 +40,9 @@ export default function MobileLock({ onUnlock }: Props) {
       style={{
         position: 'fixed', inset: 0, zIndex: 90,
         y, opacity,
+        // Black behind the panel so the inset frame reads as the screen itself
+        // coming up rather than a card floating on the desktop.
+        background: '#000',
         overflow: 'hidden',
         fontFamily: t.fontUi,
         touchAction: 'none',
@@ -52,17 +55,34 @@ export default function MobileLock({ onUnlock }: Props) {
         }
       }}
     >
-      {/* Wallpaper */}
-      {/* eslint-disable-next-line @next/next/no-img-element */}
-      <img
-        src="/wallpaper.jpg" alt=""
-        draggable={false}
+      {/* Power-on: the panel starts inset with rounded corners on black and expands
+          to full bleed while the wallpaper resolves in behind the content, which is
+          legible from the first frame. No flash, no splash, nothing to read. */}
+      <motion.div
+        initial={{ scale: 0.88, borderRadius: 36 }}
+        animate={{ scale: 1, borderRadius: 0 }}
+        transition={{ duration: 1.6, ease: 'easeOut' }}
         style={{
-          position: 'absolute', inset: 0, width: '100%', height: '100%',
-          objectFit: 'cover', objectPosition: '78% center',
-          pointerEvents: 'none', userSelect: 'none',
+          position: 'absolute', inset: 0,
+          overflow: 'hidden',
+          transformOrigin: 'center center',
+          pointerEvents: 'none',
         }}
-      />
+      >
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <motion.img
+          src="/wallpaper.jpg" alt=""
+          draggable={false}
+          initial={{ opacity: 0, scale: 1.06 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ duration: 1.9, ease: 'easeOut' }}
+          style={{
+            position: 'absolute', inset: 0, width: '100%', height: '100%',
+            objectFit: 'cover', objectPosition: '78% center',
+            pointerEvents: 'none', userSelect: 'none',
+          }}
+        />
+      </motion.div>
 
       {/* Atmospheric overlay */}
       <div

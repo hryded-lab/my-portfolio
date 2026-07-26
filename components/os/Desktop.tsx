@@ -5,6 +5,7 @@ import { useWindowManager, type WindowId } from '@/lib/windowManager'
 import { useAssistant } from '@/lib/assistantContext'
 import DesktopContextMenu from './DesktopContextMenu'
 import BlissWallpaper from './BlissWallpaper'
+import Ambient from './ambient/Ambient'
 import {
   IconUser, IconFolder, IconLaptopSkills as IconLaptop, IconGradCap,
   IconEnvelope, IconNotepad, IconBlog, IconResume,
@@ -69,6 +70,8 @@ export default function Desktop() {
     >
       {/* Original SVG landscape wallpaper */}
       <BlissWallpaper />
+
+      <Ambient />
 
       {/* Desktop icons — 2-column grid on the left */}
       <div

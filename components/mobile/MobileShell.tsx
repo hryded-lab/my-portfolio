@@ -2,7 +2,6 @@
 
 import { useCallback, useState } from 'react'
 import { AnimatePresence } from 'framer-motion'
-import MobileBoot from './MobileBoot'
 import MobileLock from './MobileLock'
 import MobileHome from './MobileHome'
 import MobileNavBar from './MobileNavBar'
@@ -12,16 +11,15 @@ import MobileAssistantSheet from './MobileAssistantSheet'
 import type { AppId } from './mobileApps'
 import { mobileTheme as t } from './mobileTheme'
 
-type Phase = 'boot' | 'lock' | 'home'
+type Phase = 'lock' | 'home'
 
 export default function MobileShell() {
-  const [phase, setPhase]                 = useState<Phase>('boot')
+  const [phase, setPhase]                 = useState<Phase>('lock')
   const [openApps, setOpenApps]           = useState<AppId[]>([])
   const [activeApp, setActiveApp]         = useState<AppId | null>(null)
   const [showRecents, setShowRecents]     = useState(false)
   const [showAssistant, setShowAssistant] = useState(false)
 
-  const handleBootDone  = useCallback(() => setPhase('lock'), [])
   const handleUnlock    = useCallback(() => setPhase('home'), [])
 
   const openApp = useCallback((id: AppId) => {
@@ -83,7 +81,6 @@ export default function MobileShell() {
       }}
     >
       <AnimatePresence mode="wait">
-        {phase === 'boot' && <MobileBoot key="boot" onDone={handleBootDone} />}
         {phase === 'lock' && <MobileLock key="lock" onUnlock={handleUnlock} />}
         {phase === 'home' && <MobileHome key="home" onOpenApp={openApp} onSearchTap={() => setShowAssistant(true)} />}
       </AnimatePresence>

@@ -17,30 +17,33 @@ import type { CSSProperties, ReactNode } from 'react'
 export const FONT = "'Segoe UI', 'Inter', system-ui, -apple-system, sans-serif"
 
 export const ui = {
-  // Surfaces
-  body:      'linear-gradient(180deg, #ffffff 0%, #eef4fb 100%)',
-  pane:      'linear-gradient(180deg, #f4f9ff 0%, #e2edf8 100%)',
-  bar:       'linear-gradient(180deg, #fbfdff 0%, #e8f1fa 48%, #dfeaf6 52%, #eef5fc 100%)',
-  rowAlt:    'rgba(238, 245, 252, 0.72)',
+  // Values live in globals.css under --aa-*, so the whole app chrome follows the
+  // theme toggle instead of being pinned to the light palette.
+  body:      'var(--aa-body)',
+  pane:      'var(--aa-pane)',
+  bar:       'var(--aa-bar)',
+  rowAlt:    'var(--aa-row-alt)',
 
-  // Lines
-  border:    '#c2d6e8',
-  borderSoft:'#dceaf6',
-  groove:    '#ffffff',
+  border:    'var(--aa-border)',
+  borderSoft:'var(--aa-border-soft)',
+  ridge:     'var(--aa-ridge)',
 
-  // Text
-  text:      '#17324a',
-  textDim:   '#48657f',
-  textMute:  '#7592ab',
-  heading:   '#1a4a8a',
+  text:      'var(--aa-text)',
+  textDim:   'var(--aa-text-dim)',
+  textMute:  'var(--aa-text-mute)',
+  heading:   'var(--aa-heading)',
 
-  // Selection, the Aero blue wash
-  selBg:     'linear-gradient(180deg, #dcefff 0%, #bfe0fb 48%, #a9d5f8 52%, #cbe8ff 100%)',
-  selBorder: '#7cb8e8',
-  hoverBg:   'linear-gradient(180deg, #f2faff 0%, #e2f2ff 100%)',
-  hoverBdr:  '#bcdcf5',
+  selBg:     'var(--aa-sel-bg)',
+  selBorder: 'var(--aa-sel-bdr)',
 
-  accent:    '#2b7cc4',
+  field:     'var(--aa-field)',
+  inset:     'var(--aa-inset)',
+
+  cellOn:    'var(--aa-cell-on)',
+  cellOff:   'var(--aa-cell-off)',
+  cellBdrOn: 'var(--aa-cell-bdr-on)',
+  cellBdrOff:'var(--aa-cell-bdr-off)',
+
   radius:    3,
 } as const
 
@@ -55,7 +58,7 @@ export function CommandBar({ children }: { children: ReactNode }) {
         flexShrink: 0,
         background: ui.bar,
         borderBottom: `1px solid ${ui.border}`,
-        boxShadow: `inset 0 1px 0 #ffffff`,
+        boxShadow: `inset 0 1px 0 ${ui.ridge}`,
         fontFamily: FONT,
         fontSize: 12.5,
         color: ui.text,
@@ -73,13 +76,13 @@ export function SearchBox({
     <div
       style={{
         display: 'flex', alignItems: 'center', gap: 6,
-        background: '#fff',
+        background: ui.field,
         border: `1px solid ${ui.border}`,
         borderRadius: ui.radius,
         padding: '0 8px',
         height: 22,
         minWidth: 150,
-        boxShadow: 'inset 0 1px 2px rgba(90,130,165,0.18)',
+        boxShadow: ui.inset,
       }}
     >
       <svg width="11" height="11" viewBox="0 0 24 24" fill="none" style={{ flexShrink: 0, opacity: 0.55 }}>
@@ -108,7 +111,7 @@ export function TaskPane({ children, width = 168 }: { children: ReactNode; width
         width, flexShrink: 0,
         background: ui.pane,
         borderRight: `1px solid ${ui.border}`,
-        boxShadow: 'inset -1px 0 0 rgba(255,255,255,0.7)',
+        boxShadow: `inset -1px 0 0 ${ui.ridge}`,
         overflowY: 'auto',
         padding: '10px 0',
         fontFamily: FONT,
@@ -222,11 +225,9 @@ export function LevelBar({ value, max = 5 }: { value: number; max?: number }) {
             style={{
               width: 13, height: 9,
               borderRadius: 1,
-              border: `1px solid ${on ? '#5c9fd6' : '#cbdcea'}`,
-              background: on
-                ? 'linear-gradient(180deg, #b9e0ff 0%, #7cc0ee 48%, #5aa9e0 52%, #97d2f7 100%)'
-                : 'linear-gradient(180deg, #f6fafd 0%, #e9f1f8 100%)',
-              boxShadow: on ? 'inset 0 1px 0 rgba(255,255,255,0.85)' : 'none',
+              border: `1px solid ${on ? ui.cellBdrOn : ui.cellBdrOff}`,
+              background: on ? ui.cellOn : ui.cellOff,
+              boxShadow: on ? 'inset 0 1px 0 rgba(255,255,255,0.5)' : 'none',
             }}
           />
         )
@@ -242,9 +243,9 @@ export function StatusBar({ children }: { children: ReactNode }) {
         height: 22, flexShrink: 0,
         display: 'flex', alignItems: 'center', gap: 10,
         padding: '0 10px',
-        background: 'linear-gradient(180deg, #f2f8fd 0%, #e6eff8 100%)',
+        background: ui.bar,
         borderTop: `1px solid ${ui.border}`,
-        boxShadow: 'inset 0 1px 0 #ffffff',
+        boxShadow: `inset 0 1px 0 ${ui.ridge}`,
         fontFamily: FONT,
         fontSize: 11.5,
         color: ui.textDim,
