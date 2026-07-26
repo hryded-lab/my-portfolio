@@ -1,18 +1,10 @@
 'use client'
 
 import { useState, useEffect } from 'react'
-import { BrutalTag, BrutalHeader, BrutalBody, brutalFonts as bf, brutal as b } from '@/components/brutal'
+import { AppFrame, CommandBar, GroupHeading, Panel, ListRow, ui, FONT } from '@/components/aeroApp'
 
 type PostMeta = { slug: string; title: string; date: string; readingTime: string; category: string; excerpt: string }
 type Post = PostMeta & { content: string }
-
-const CAT_COLORS: Record<string, string> = {
-  'Dev Log': '#4ab8ff',
-  'Life':    '#4ed670',
-  'Career':  '#ffb83a',
-}
-
-const COLOR = '#4ee8e8'
 
 export default function BlogWindow() {
   const [posts, setPosts] = useState<PostMeta[]>([])
@@ -37,142 +29,147 @@ export default function BlogWindow() {
   }
 
   if (selected) {
-    const c = CAT_COLORS[selected.category] ?? COLOR
     return (
-      <BrutalBody>
-        <button
-          onClick={() => setSelected(null)}
-          style={{
-            display: 'inline-flex', alignItems: 'center',
-            marginBottom: 22,
-            padding: '8px 14px',
-            background: b.surface,
-            color: b.text,
-            border: `1.5px solid ${b.borderStrong}`,
-            borderRadius: b.radiusSm,
-            boxShadow: b.shadow(c),
-            cursor: 'pointer',
-            fontFamily: bf.mono,
-            fontSize: 11, fontWeight: 700,
-            letterSpacing: 1.4, textTransform: 'uppercase',
-            backdropFilter: 'blur(6px)',
-            WebkitBackdropFilter: 'blur(6px)',
-          }}
-        >
-          ← Back to Posts
-        </button>
+      <AppFrame>
+        <CommandBar>
+          <BackButton onClick={() => setSelected(null)} />
+          <span style={{ color: ui.textMute }}>{selected.category}</span>
+        </CommandBar>
 
-        <div style={{ display: 'flex', gap: 10, alignItems: 'center', marginBottom: 16, flexWrap: 'wrap' }}>
-          <BrutalTag color={c} filled>{selected.category}</BrutalTag>
-          <span style={{ fontFamily: bf.mono, fontSize: 11, color: b.textDim, letterSpacing: 0.4 }}>
-            {selected.readingTime} · {new Date(selected.date).toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })}
-          </span>
-        </div>
+        <article style={{ flex: 1, overflowY: 'auto', padding: '16px 22px 26px' }}>
+          <h1
+            style={{
+              margin: 0, fontFamily: FONT, fontSize: 21, fontWeight: 600,
+              color: ui.text, lineHeight: 1.25,
+            }}
+          >
+            {selected.title}
+          </h1>
+          <div style={{ fontFamily: FONT, fontSize: 12, color: ui.textMute, marginTop: 5 }}>
+            {formatDate(selected.date)} · {selected.readingTime}
+          </div>
 
-        <h1
-          style={{
-            fontSize: 32, fontWeight: 800, color: b.text, lineHeight: 1.05,
-            letterSpacing: -1.2, fontFamily: bf.display,
-            margin: '0 0 24px',
-          }}
-        >
-          {selected.title}
-        </h1>
-
-        <div style={{ color: b.textDim, lineHeight: 1.8, fontSize: 14 }}>
-          {selected.content.split('\n\n').filter(Boolean).map((para, i) => {
-            const p = para.trim()
-            if (p.startsWith('# ') || p === '---') return null
-            if (p.startsWith('## '))
-              return (
-                <h2
-                  key={i}
-                  style={{
-                    fontSize: 12, fontWeight: 700, color: b.text,
-                    margin: '26px 0 12px',
-                    paddingBottom: 8,
-                    fontFamily: bf.mono, letterSpacing: 1.6,
-                    textTransform: 'uppercase',
-                    borderBottom: `1.5px solid ${c}`,
-                  }}
-                >
-                  ▸ {p.replace(/^## /, '')}
-                </h2>
-              )
-            return <p key={i} style={{ margin: '10px 0' }}>{p}</p>
-          })}
-        </div>
-      </BrutalBody>
+          <div style={{ marginTop: 18 }}>
+            {selected.content.trim().split('\n\n').map((block, i) => (
+              <Block key={i} raw={block.trim()} />
+            ))}
+          </div>
+        </article>
+      </AppFrame>
     )
   }
 
   return (
-    <BrutalBody>
-      <BrutalHeader title="Blog" subtitle={posts.length ? `${posts.length} posts` : 'Loading…'} color={COLOR} />
+    <AppFrame>
+      <CommandBar>
+        <span style={{ color: ui.textDim }}>Blog</span>
+        <span style={{ color: ui.textMute }}>
+          {posts.length ? `${posts.length} posts` : 'Loading'}
+        </span>
+      </CommandBar>
 
-      <div style={{ display: 'flex', flexDirection: 'column', gap: 18 }}>
-        {posts.map((post, i) => {
-          const c = CAT_COLORS[post.category] ?? COLOR
-          return (
-            <button
+      <div style={{ flex: 1, overflowY: 'auto', padding: '4px 18px 22px' }}>
+        <GroupHeading label="All posts" count={posts.length || undefined} />
+        <Panel style={{ padding: 6 }}>
+          {posts.map((post, i) => (
+            <div
               key={post.slug}
+              role="button"
+              tabIndex={0}
               onClick={() => selectPost(post.slug)}
-              disabled={loadingPost}
-              style={{
-                position: 'relative',
-                textAlign: 'left',
-                background: b.surface,
-                border: `1.5px solid ${b.border}`,
-                borderRadius: b.radius,
-                boxShadow: b.shadow(c),
-                padding: '16px 18px',
-                cursor: loadingPost ? 'default' : 'pointer',
-                opacity: loadingPost ? 0.6 : 1,
-                fontFamily: 'inherit',
-                color: 'inherit',
-                backdropFilter: 'blur(6px)',
-                WebkitBackdropFilter: 'blur(6px)',
+              onKeyDown={e => {
+                if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); selectPost(post.slug) }
               }}
+              style={{ cursor: 'pointer' }}
             >
-              <div
-                style={{
-                  position: 'absolute',
-                  top: -10, left: 14,
-                  background: b.bgDeep,
-                  color: c,
-                  fontFamily: bf.mono, fontWeight: 700,
-                  fontSize: 10, letterSpacing: 1.4,
-                  padding: '2px 8px',
-                  border: `1.5px solid ${c}`,
-                  borderRadius: 4,
-                }}
-              >
-                №{String(i + 1).padStart(2, '0')}
-              </div>
-
-              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginTop: 6, marginBottom: 10, gap: 8 }}>
-                <BrutalTag color={c} filled>{post.category}</BrutalTag>
-                <span style={{ fontFamily: bf.mono, fontSize: 10.5, color: b.textDim, letterSpacing: 0.4 }}>
-                  {post.readingTime} · {new Date(post.date).toLocaleDateString()}
-                </span>
-              </div>
-
-              <div
-                style={{
-                  fontSize: 20, fontWeight: 800, color: b.text, lineHeight: 1.15,
-                  fontFamily: bf.display, letterSpacing: -0.7,
-                  marginBottom: 10,
-                }}
-              >
-                {post.title}
-              </div>
-              <div style={{ fontSize: 13.5, color: b.textDim, lineHeight: 1.6 }}>
-                {post.excerpt}
-              </div>
-            </button>
-          )
-        })}
+              <ListRow alt={i % 2 === 1} style={{ alignItems: 'flex-start', padding: '9px 10px' }}>
+                <div style={{ flex: 1, minWidth: 0 }}>
+                  <div style={{ fontFamily: FONT, fontSize: 13, fontWeight: 600, color: ui.text }}>
+                    {post.title}
+                  </div>
+                  <div style={{ fontFamily: FONT, fontSize: 12, color: ui.textDim, marginTop: 3, lineHeight: 1.5 }}>
+                    {post.excerpt}
+                  </div>
+                  <div style={{ fontFamily: FONT, fontSize: 11.5, color: ui.textMute, marginTop: 5 }}>
+                    {formatDate(post.date)} · {post.readingTime} · {post.category}
+                  </div>
+                </div>
+              </ListRow>
+            </div>
+          ))}
+        </Panel>
       </div>
-    </BrutalBody>
+    </AppFrame>
+  )
+}
+
+function formatDate(d: string) {
+  if (!d) return ''
+  const parsed = new Date(d)
+  if (Number.isNaN(parsed.getTime())) return d
+  return parsed.toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' })
+}
+
+function BackButton({ onClick }: { onClick: () => void }) {
+  return (
+    <button
+      type="button"
+      onClick={onClick}
+      aria-label="Back to all posts"
+      style={{
+        display: 'inline-flex', alignItems: 'center', gap: 6,
+        padding: '3px 12px',
+        borderRadius: ui.radius,
+        border: `1px solid ${ui.border}`,
+        background: 'var(--aw-btn)',
+        color: ui.text,
+        fontFamily: FONT, fontSize: 12.5,
+        cursor: 'pointer',
+        boxShadow: 'inset 0 1px 0 rgba(255,255,255,0.55), 0 1px 1px rgba(40,60,80,0.14)',
+      }}
+    >
+      Back
+    </button>
+  )
+}
+
+// The API returns markdown-ish blocks; render the handful of shapes actually used.
+function Block({ raw }: { raw: string }) {
+  if (!raw || raw.startsWith('# ')) return null
+
+  if (raw.startsWith('## ')) {
+    return (
+      <h2
+        style={{
+          fontFamily: FONT, fontSize: 15, fontWeight: 600,
+          color: ui.text, margin: '22px 0 8px',
+        }}
+      >
+        {raw.replace(/^## /, '')}
+      </h2>
+    )
+  }
+
+  if (raw === '---') {
+    return <hr style={{ border: 'none', borderTop: `1px solid ${ui.borderSoft}`, margin: '20px 0' }} />
+  }
+
+  const lines = raw.split('\n')
+  if (lines.length > 1 && lines.every(l => /^[-*]\s/.test(l))) {
+    return (
+      <ul style={{ margin: '0 0 14px 1.1rem', padding: 0 }}>
+        {lines.map((l, i) => (
+          <li key={i} style={{ fontFamily: FONT, fontSize: 12.5, color: ui.textDim, lineHeight: 1.7 }}>
+            {l.replace(/^[-*]\s/, '')}
+          </li>
+        ))}
+      </ul>
+    )
+  }
+
+  return (
+    <p style={{ fontFamily: FONT, fontSize: 12.5, color: ui.textDim, lineHeight: 1.75, margin: '0 0 14px' }}>
+      {raw}
+    </p>
   )
 }

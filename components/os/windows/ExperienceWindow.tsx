@@ -1,106 +1,90 @@
 'use client'
 
 import { experiences } from '@/content/experience'
-import { BrutalTag, BrutalHeader, BrutalBody, brutalFonts as bf, brutal as b } from '@/components/brutal'
-
-const COLOR = '#b783ff'
+import { AppFrame, CommandBar, GroupHeading, Panel, ui, FONT } from '@/components/aeroApp'
 
 export default function ExperienceWindow() {
   return (
-    <BrutalBody>
-      <BrutalHeader title="Experience" subtitle={`${experiences.length} entries`} color={COLOR} />
+    <AppFrame>
+      <CommandBar>
+        <span style={{ color: ui.textDim }}>Experience</span>
+        <span style={{ color: ui.textMute }}>{experiences.length} entries</span>
+      </CommandBar>
 
-      <div style={{ display: 'flex', flexDirection: 'column', gap: 22 }}>
-        {experiences.map((exp, idx) => (
-          <article
-            key={exp.id}
-            style={{
-              position: 'relative',
-              background: b.surface,
-              border: `1.5px solid ${b.border}`,
-              borderRadius: b.radius,
-              boxShadow: b.shadow(exp.accentColor),
-              padding: 18,
-              backdropFilter: 'blur(6px)',
-              WebkitBackdropFilter: 'blur(6px)',
-            }}
-          >
-            <div
-              style={{
-                position: 'absolute',
-                top: -10, right: 14,
-                background: b.bgDeep,
-                border: `1.5px solid ${exp.accentColor}`,
-                borderRadius: 4,
-                color: exp.accentColor,
-                fontFamily: bf.mono, fontWeight: 700,
-                fontSize: 10, letterSpacing: 1.4,
-                padding: '2px 8px',
-                textTransform: 'uppercase',
-              }}
-            >
-              No. {String(idx + 1).padStart(2, '0')}
-            </div>
-
-            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', gap: 16, marginBottom: 12 }}>
-              <div style={{ flex: 1, minWidth: 0 }}>
-                <div
+      <div style={{ flex: 1, overflowY: 'auto', padding: '4px 18px 22px' }}>
+        {experiences.map(exp => (
+          <section key={exp.id}>
+            <GroupHeading label={exp.company} />
+            <Panel style={{ padding: '12px 14px 14px' }}>
+              <div style={{ display: 'flex', alignItems: 'baseline', gap: 10, flexWrap: 'wrap' }}>
+                <span
                   style={{
-                    fontSize: 26, fontWeight: 900, color: '#fff', lineHeight: 1.05,
-                    fontFamily: bf.display, letterSpacing: -0.7,
-                    textTransform: 'uppercase',
-                    paddingRight: 60,
-                    marginBottom: 8,
+                    fontFamily: FONT, fontSize: 14.5, fontWeight: 600,
+                    color: ui.text, lineHeight: 1.3,
                   }}
                 >
                   {exp.role}
-                </div>
-                <div style={{ display: 'flex', alignItems: 'center', gap: 10, flexWrap: 'wrap' }}>
-                  <span style={{ fontFamily: bf.mono, fontSize: 13, fontWeight: 700, color: exp.accentColor, letterSpacing: 0.4 }}>
-                    {exp.company}
-                  </span>
-                  <span style={{ width: 4, height: 4, background: b.borderStrong, borderRadius: 999 }} />
-                  <span style={{ fontFamily: bf.mono, fontSize: 12, color: b.textDim }}>
-                    {exp.startDate} → {exp.endDate}
-                  </span>
-                  <span style={{ width: 4, height: 4, background: b.borderStrong, borderRadius: 999 }} />
-                  <span style={{ fontFamily: bf.mono, fontSize: 12, color: b.textMute }}>
-                    {exp.location}
-                  </span>
-                </div>
-              </div>
-            </div>
-
-            <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap', marginBottom: 16 }}>
-              <BrutalTag color={exp.accentColor}>{exp.type}</BrutalTag>
-              {exp.current && <BrutalTag color="#4ed670" filled>NOW</BrutalTag>}
-            </div>
-
-            <ul style={{ margin: 0, padding: 0, listStyle: 'none', display: 'flex', flexDirection: 'column', gap: 8 }}>
-              {exp.description.map((d, j) => (
-                <li
-                  key={j}
-                  style={{
-                    display: 'flex', gap: 12, alignItems: 'flex-start',
-                    color: b.textDim, fontSize: 13.5, lineHeight: 1.65,
-                  }}
-                >
+                </span>
+                {exp.current && (
                   <span
                     style={{
-                      flexShrink: 0,
-                      width: 6, height: 6,
-                      background: exp.accentColor,
-                      borderRadius: 999,
-                      marginTop: 8,
+                      display: 'inline-flex', alignItems: 'center', gap: 5,
+                      fontFamily: FONT, fontSize: 11.5, color: '#3fae63',
                     }}
-                  />
-                  <span>{d}</span>
-                </li>
-              ))}
-            </ul>
-          </article>
+                  >
+                    <span
+                      aria-hidden
+                      style={{
+                        width: 6, height: 6, borderRadius: '50%',
+                        background: 'radial-gradient(circle at 35% 30%, #b6f5c8, #3fae63)',
+                        boxShadow: '0 0 5px rgba(80,200,120,0.7)',
+                      }}
+                    />
+                    Current
+                  </span>
+                )}
+              </div>
+
+              <div
+                style={{
+                  fontFamily: FONT, fontSize: 12, color: ui.textMute,
+                  marginTop: 4, marginBottom: 10,
+                }}
+              >
+                {exp.startDate} to {exp.endDate} · {exp.location} · {exp.type}
+              </div>
+
+              <ul
+                style={{
+                  margin: 0, padding: 0, listStyle: 'none',
+                  display: 'flex', flexDirection: 'column', gap: 7,
+                }}
+              >
+                {exp.description.map((d, j) => (
+                  <li
+                    key={j}
+                    style={{
+                      display: 'flex', gap: 9, alignItems: 'flex-start',
+                      fontFamily: FONT, fontSize: 12.5,
+                      color: ui.textDim, lineHeight: 1.6,
+                    }}
+                  >
+                    <span
+                      aria-hidden
+                      style={{
+                        flexShrink: 0, marginTop: 7,
+                        width: 4, height: 4, borderRadius: '50%',
+                        background: exp.accentColor,
+                      }}
+                    />
+                    <span>{d}</span>
+                  </li>
+                ))}
+              </ul>
+            </Panel>
+          </section>
         ))}
       </div>
-    </BrutalBody>
+    </AppFrame>
   )
 }

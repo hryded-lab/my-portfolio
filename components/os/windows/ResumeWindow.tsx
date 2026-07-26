@@ -1,82 +1,51 @@
 'use client'
 
 import { siteConfig } from '@/content/siteConfig'
-import { brutalFonts as bf, brutal as b } from '@/components/brutal'
-
-const COLOR = '#5d8aff'
+import { AppFrame, CommandBar, ui, FONT } from '@/components/aeroApp'
 
 export default function ResumeWindow() {
   return (
-    <div
-      style={{
-        height: '100%',
-        display: 'flex', flexDirection: 'column',
-        background: `linear-gradient(180deg, ${b.bg} 0%, ${b.bgDeep} 100%)`,
-        fontFamily: "'Inter', system-ui, sans-serif",
-      }}
-    >
-      {/* Toolbar */}
-      <div
-        style={{
-          padding: '12px 16px',
-          background: b.surface,
-          borderBottom: `1.5px solid ${b.border}`,
-          display: 'flex', alignItems: 'center', gap: 12,
-          flexShrink: 0,
-          backdropFilter: 'blur(6px)',
-          WebkitBackdropFilter: 'blur(6px)',
-        }}
-      >
+    <AppFrame>
+      <CommandBar>
         <a
           href={siteConfig.resume}
-          target="_blank" rel="noopener noreferrer"
+          target="_blank"
+          rel="noopener noreferrer"
           style={{
-            padding: '8px 16px',
-            background: COLOR,
-            color: b.bgDeep,
-            border: `1.5px solid ${COLOR}`,
-            borderRadius: b.radiusSm,
-            boxShadow: b.shadow(),
-            fontFamily: bf.mono,
-            fontSize: 11, fontWeight: 700,
-            letterSpacing: 1.4, textTransform: 'uppercase',
+            padding: '4px 14px',
+            borderRadius: ui.radius,
+            border: `1px solid ${ui.border}`,
+            background: 'var(--aw-btn)',
+            color: ui.text,
+            fontFamily: FONT,
+            fontSize: 12.5,
             textDecoration: 'none',
+            boxShadow: 'inset 0 1px 0 rgba(255,255,255,0.55), 0 1px 1px rgba(40,60,80,0.14)',
           }}
         >
-          ↓ Download PDF
+          Download PDF
         </a>
-        <span
-          style={{
-            color: b.textDim,
-            fontFamily: bf.mono,
-            fontSize: 10.5,
-            letterSpacing: 1.2,
-            textTransform: 'uppercase',
-          }}
-        >
-          ▸ Resume_Hryday_Lath.pdf
-        </span>
-      </div>
+        <span style={{ color: ui.textMute }}>Resume_Hryday_Lath.pdf</span>
+      </CommandBar>
 
-      {/* PDF iframe */}
-      <div style={{ flex: 1, padding: 18, minHeight: 0 }}>
+      <div style={{ flex: 1, minHeight: 0, padding: 12 }}>
         <div
           style={{
             width: '100%', height: '100%',
-            border: `1.5px solid ${b.borderStrong}`,
-            borderRadius: b.radius,
-            boxShadow: b.shadow(COLOR),
+            border: `1px solid ${ui.border}`,
+            borderRadius: ui.radius,
+            boxShadow: ui.inset,
             background: '#fff',
             overflow: 'hidden',
           }}
         >
           <iframe
             src={siteConfig.resume}
-            title="Hryday Nitin Lath — Resume"
+            title="Hryday Nitin Lath resume"
             style={{ width: '100%', height: '100%', border: 'none', display: 'block' }}
           />
         </div>
       </div>
-    </div>
+    </AppFrame>
   )
 }
