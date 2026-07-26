@@ -236,6 +236,43 @@ export function LevelBar({ value, max = 5 }: { value: number; max?: number }) {
   )
 }
 
+// Bordered group box, the way Vista fenced related settings.
+export function Panel({ children, style }: { children: ReactNode; style?: CSSProperties }) {
+  return (
+    <div
+      style={{
+        background: ui.pane,
+        border: `1px solid ${ui.border}`,
+        borderRadius: ui.radius,
+        boxShadow: `inset 0 1px 0 ${ui.ridge}`,
+        padding: '4px 12px',
+        ...style,
+      }}
+    >
+      {children}
+    </div>
+  )
+}
+
+// Label and value on one line, Explorer's details-pane pairing.
+export function PropRow({
+  label, children, last,
+}: { label: string; children: ReactNode; last?: boolean }) {
+  return (
+    <div
+      style={{
+        display: 'flex', gap: 14, alignItems: 'baseline',
+        padding: '8px 0',
+        borderBottom: last ? 'none' : `1px solid ${ui.borderSoft}`,
+        fontFamily: FONT, fontSize: 12.5,
+      }}
+    >
+      <span style={{ width: 108, flexShrink: 0, color: ui.textMute }}>{label}</span>
+      <span style={{ color: ui.text, lineHeight: 1.55, minWidth: 0 }}>{children}</span>
+    </div>
+  )
+}
+
 export function StatusBar({ children }: { children: ReactNode }) {
   return (
     <div

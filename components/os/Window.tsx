@@ -6,8 +6,9 @@ import { playWindowOpen, playWindowClose, playMinimize, playClick } from '@/lib/
 import { useTheme } from '@/lib/themeContext'
 
 // ── Module-level constants — never recreated on render ─────────────────────────
-const ACTIVE_TITLE_BG = 'linear-gradient(to bottom, rgba(125,249,255,0.09) 0%, rgba(125,249,255,0.03) 100%)'
-const INACTIVE_TITLE_BG = 'rgba(255,255,255,0.02)'
+// Frame colours resolve through --aw-* so the chrome follows the theme toggle.
+const ACTIVE_TITLE_BG = 'var(--aw-title-on)'
+const INACTIVE_TITLE_BG = 'var(--aw-title-off)'
 const GLASS_FONT = "'DM Sans', system-ui, sans-serif"
 
 type Props = {
@@ -268,15 +269,13 @@ export default function Window({ id, children }: Props) {
           height: '100%',
           display: 'flex',
           flexDirection: 'column',
-          border: isActive ? '1px solid rgba(125,249,255,0.45)' : '1px solid rgba(125,249,255,0.12)',
+          border: `1px solid ${isActive ? 'var(--aw-edge-on)' : 'var(--aw-edge-off)'}`,
           borderRadius: '10px 10px 0 0',
           overflow: 'hidden',
-          background: 'rgba(4,8,20,0.92)',
+          background: 'var(--aw-frame)',
           backdropFilter: 'blur(24px)',
           WebkitBackdropFilter: 'blur(24px)',
-          boxShadow: isActive
-            ? '0 0 40px rgba(125,249,255,0.06), 0 16px 48px rgba(0,0,0,0.7), inset 0 1px 0 rgba(125,249,255,0.1)'
-            : '0 8px 24px rgba(0,0,0,0.5)',
+          boxShadow: isActive ? 'var(--aw-shadow-on)' : 'var(--aw-shadow-off)',
           transformOrigin: 'center center',
           willChange: animState !== 'idle' ? 'transform, opacity, filter' : 'auto',
           animation:
@@ -295,7 +294,7 @@ export default function Window({ id, children }: Props) {
             height: 32,
             flexShrink: 0,
             background: isActive ? ACTIVE_TITLE_BG : INACTIVE_TITLE_BG,
-            borderBottom: isActive ? '1px solid rgba(125,249,255,0.18)' : '1px solid rgba(125,249,255,0.06)',
+            borderBottom: `1px solid ${isActive ? 'var(--aw-rule-on)' : 'var(--aw-rule-off)'}`,
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'space-between',
@@ -307,7 +306,7 @@ export default function Window({ id, children }: Props) {
           <div style={{ display: 'flex', alignItems: 'center', gap: 4, overflow: 'hidden', flex: 1 }}>
             <span style={{ fontSize: 14, flexShrink: 0 }}>{cfg.icon}</span>
             <span style={{
-              color: isActive ? '#E8F4FF' : '#6a8aaa',
+              color: isActive ? 'var(--aw-title-txt-on)' : 'var(--aw-title-txt-off)',
               fontSize: 12,
               fontFamily: GLASS_FONT,
               fontWeight: 500,
@@ -345,8 +344,8 @@ export default function Window({ id, children }: Props) {
         <div style={{
           height: 22,
           flexShrink: 0,
-          background: t.menuBar,
-          borderBottom: `1px solid ${t.border}`,
+          background: 'var(--aa-bar)',
+          borderBottom: `1px solid ${'var(--aa-border)'}`,
           display: 'flex',
           alignItems: 'center',
           padding: '0 4px',
@@ -380,10 +379,10 @@ export default function Window({ id, children }: Props) {
         {/* Status bar */}
         <div style={{
           height: 22, flexShrink: 0,
-          background: t.statusBar,
-          borderTop: `1px solid ${t.border}`,
+          background: 'var(--aa-bar)',
+          borderTop: `1px solid ${'var(--aa-border)'}`,
           display: 'flex', alignItems: 'center',
-          padding: '0 10px', fontSize: 11, color: t.statusBarText,
+          padding: '0 10px', fontSize: 11, color: 'var(--aa-text-mute)',
           fontFamily: GLASS_FONT,
           letterSpacing: '0.1px',
           gap: 8,
@@ -391,7 +390,7 @@ export default function Window({ id, children }: Props) {
         }}>
           <span>Ready</span>
           <div style={{ flex: 1 }} />
-          <div style={{ borderLeft: `1px solid ${t.border}`, paddingLeft: 8, fontSize: 10 }}>{cfg.title.split('—')[0].trim()}</div>
+          <div style={{ borderLeft: `1px solid var(--aa-border)`, paddingLeft: 8, fontSize: 10 }}>{cfg.title.split('—')[0].trim()}</div>
         </div>
       </div>
 
@@ -461,7 +460,7 @@ function MenuBarItem({ label, t }: { label: string; t: import('@/lib/themeContex
   return (
     <span
       className="xp-menu-bar-item"
-      style={{ color: t.menuBarText, fontFamily: GLASS_FONT }}
+      style={{ color: 'var(--aa-text-dim)', fontFamily: GLASS_FONT }}
     >
       {label}
     </span>

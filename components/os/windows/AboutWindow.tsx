@@ -2,182 +2,120 @@
 
 import { siteConfig } from '@/content/siteConfig'
 import {
-  BrutalCard, BrutalTag, BrutalSection, BrutalHeader, BrutalBody, brutalFonts as bf, brutal as b,
-} from '@/components/brutal'
-
-const COLOR = '#4ab8ff'
+  AppFrame, CommandBar, GroupHeading, Panel, PropRow, ui, FONT,
+} from '@/components/aeroApp'
 
 export default function AboutWindow() {
   return (
-    <BrutalBody>
-      <BrutalHeader title="About" subtitle="Profile · 01" color={COLOR} />
+    <AppFrame>
+      <CommandBar>
+        <span style={{ color: ui.textDim }}>Profile</span>
+      </CommandBar>
 
-      {/* Identity card */}
-      <BrutalCard accent={COLOR} padded={false} style={{ marginBottom: 22, overflow: 'hidden' }}>
-        <div style={{ display: 'flex', alignItems: 'stretch' }}>
+      <div style={{ flex: 1, overflowY: 'auto', padding: '14px 18px 22px' }}>
+        {/* Identity header */}
+        <div style={{ display: 'flex', gap: 16, alignItems: 'center', marginBottom: 6 }}>
           <div
             style={{
-              width: 110, height: 110,
-              borderRight: `1.5px solid ${b.border}`,
-              flexShrink: 0,
+              width: 76, height: 76, flexShrink: 0,
+              borderRadius: ui.radius,
+              border: `1px solid ${ui.border}`,
+              boxShadow: `inset 0 1px 0 ${ui.ridge}, 0 1px 3px rgba(0,40,70,0.22)`,
               overflow: 'hidden',
-              background: b.bgDeep,
+              background: ui.pane,
             }}
           >
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
               src="/me.jpg" alt={siteConfig.name}
-              style={{
-                width: '100%', height: '100%', objectFit: 'cover',
-                filter: 'grayscale(0.15) contrast(1.05)',
-                display: 'block',
-              }}
+              style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }}
             />
           </div>
-          <div style={{ padding: '14px 18px', flex: 1, minWidth: 0 }}>
-            <BrutalTag color={COLOR} style={{ marginBottom: 8 }}>
-              ID · 1395
-            </BrutalTag>
+
+          <div style={{ minWidth: 0 }}>
             <div
               style={{
-                fontSize: 22, fontWeight: 900, color: '#fff', lineHeight: 1.05,
-                fontFamily: bf.display, letterSpacing: -0.5,
-                textTransform: 'uppercase',
+                fontFamily: FONT, fontSize: 19, fontWeight: 600,
+                color: ui.text, lineHeight: 1.2,
               }}
             >
               {siteConfig.name}
             </div>
-            <div
-              style={{
-                fontSize: 12, color: COLOR, fontWeight: 700, lineHeight: 1.4,
-                fontFamily: bf.mono, marginTop: 6,
-                textTransform: 'uppercase', letterSpacing: 0.6,
-              }}
-            >
+            <div style={{ fontFamily: FONT, fontSize: 12.5, color: ui.heading, marginTop: 3 }}>
               {siteConfig.title}
             </div>
-            <div style={{ display: 'flex', gap: 10, marginTop: 12, flexWrap: 'wrap', alignItems: 'center' }}>
-              <BrutalTag color="#fff">▸ {siteConfig.location}</BrutalTag>
-              <BrutalTag color="#4ed670" filled>● Working for Growth</BrutalTag>
+            <div
+              style={{
+                display: 'flex', alignItems: 'center', gap: 6, flexWrap: 'wrap',
+                fontFamily: FONT, fontSize: 12, color: ui.textMute, marginTop: 6,
+              }}
+            >
+              <span>{siteConfig.location}</span>
+              <span aria-hidden>·</span>
+              <span style={{ display: 'inline-flex', alignItems: 'center', gap: 5 }}>
+                <span
+                  aria-hidden
+                  style={{
+                    width: 7, height: 7, borderRadius: '50%',
+                    background: 'radial-gradient(circle at 35% 30%, #b6f5c8, #3fae63)',
+                    boxShadow: '0 0 5px rgba(80,200,120,0.7)',
+                  }}
+                />
+                Open to internships
+              </span>
             </div>
           </div>
         </div>
-      </BrutalCard>
 
-      <p
-        style={{
-          fontSize: 14, color: b.textDim, lineHeight: 1.75,
-          margin: '0 0 26px',
-          padding: '0 14px',
-          fontFamily: "'Inter', system-ui, sans-serif",
-          borderLeft: `3px solid ${COLOR}`,
-        }}
-      >
-        {siteConfig.description}
-      </p>
+        <GroupHeading label="Summary" />
+        <p
+          style={{
+            margin: 0, fontFamily: FONT, fontSize: 12.5,
+            color: ui.textDim, lineHeight: 1.7,
+          }}
+        >
+          {siteConfig.description}
+        </p>
 
-      <BrutalSection title="Stats" color={COLOR} count={siteConfig.stats.length}>
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: 12 }}>
+        <GroupHeading label="At a glance" />
+        <Panel>
           {siteConfig.stats.map((s, i) => (
-            <BrutalCard key={s.label} accent={i % 2 === 0 ? COLOR : '#ffffff'}>
-              <div
-                style={{
-                  fontSize: 32, fontWeight: 900, color: '#fff', lineHeight: 0.95,
-                  fontFamily: bf.display, letterSpacing: -1,
-                }}
-              >
-                {s.value}
-              </div>
-              <div
-                style={{
-                  fontSize: 10, color: COLOR, marginTop: 8,
-                  fontFamily: bf.mono, fontWeight: 700, letterSpacing: 1.4,
-                  textTransform: 'uppercase',
-                }}
-              >
-                {s.label}
-              </div>
-            </BrutalCard>
+            <PropRow key={s.label} label={s.label} last={i === siteConfig.stats.length - 1}>
+              {s.value}
+            </PropRow>
           ))}
-        </div>
-      </BrutalSection>
+        </Panel>
 
-      <BrutalSection title="Currently" color="#fff">
-        <BrutalCard>
-          <div style={{ display: 'flex', flexDirection: 'column' }}>
-            {siteConfig.currently.map((item, i) => (
-              <div
-                key={item.label}
-                style={{
-                  display: 'flex', gap: 16, padding: '12px 0',
-                  borderBottom: i < siteConfig.currently.length - 1 ? `1px solid ${b.border}` : 'none',
-                }}
-              >
-                <div
-                  style={{
-                    width: 100, fontSize: 10,
-                    color: COLOR,
-                    fontFamily: bf.mono, fontWeight: 700, letterSpacing: 1.4,
-                    textTransform: 'uppercase',
-                    paddingTop: 3, flexShrink: 0,
-                  }}
-                >
-                  ▸ {item.label}
-                </div>
-                <div style={{ fontSize: 13, color: '#fff', lineHeight: 1.55 }}>
-                  {item.value}
-                </div>
-              </div>
-            ))}
-          </div>
-        </BrutalCard>
-      </BrutalSection>
+        <GroupHeading label="Currently" />
+        <Panel>
+          {siteConfig.currently.map((item, i) => (
+            <PropRow key={item.label} label={item.label} last={i === siteConfig.currently.length - 1}>
+              {item.value}
+            </PropRow>
+          ))}
+        </Panel>
 
-      <BrutalSection title="Links" color={COLOR}>
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: 12 }}>
-          <DeskLink label="LinkedIn" hint="hryday-lath" href={siteConfig.linkedin} />
-          <DeskLink label="Resume"   hint="PDF · Open" href={siteConfig.resume} />
-          <DeskLink label="GitHub"   hint="@Hryday-7765" href={siteConfig.github} />
-          <DeskLink label="Email"    hint={siteConfig.email} href={`mailto:${siteConfig.email}`} />
-        </div>
-      </BrutalSection>
-    </BrutalBody>
+        <GroupHeading label="Links" />
+        <Panel>
+          <PropRow label="LinkedIn"><Ext href={siteConfig.linkedin}>hryday-lath</Ext></PropRow>
+          <PropRow label="GitHub"><Ext href={siteConfig.github}>@Hryday-7765</Ext></PropRow>
+          <PropRow label="Email"><Ext href={`mailto:${siteConfig.email}`}>{siteConfig.email}</Ext></PropRow>
+          <PropRow label="Resume" last><Ext href={siteConfig.resume}>Open PDF</Ext></PropRow>
+        </Panel>
+      </div>
+    </AppFrame>
   )
 }
 
-function DeskLink({ label, href, hint }: { label: string; href: string; hint: string }) {
+function Ext({ href, children }: { href: string; children: React.ReactNode }) {
   return (
     <a
       href={href}
       target="_blank"
       rel="noopener noreferrer"
-      style={{
-        display: 'flex', alignItems: 'center', justifyContent: 'space-between',
-        padding: '13px 14px',
-        background: b.surface,
-        border: `1.5px solid ${b.border}`,
-        borderRadius: b.radiusSm,
-        boxShadow: b.shadow(COLOR),
-        color: b.text,
-        textDecoration: 'none',
-        backdropFilter: 'blur(6px)',
-        WebkitBackdropFilter: 'blur(6px)',
-      }}
+      style={{ color: ui.heading, textDecoration: 'none', fontFamily: FONT, fontSize: 12.5 }}
     >
-      <div>
-        <div
-          style={{
-            fontSize: 9.5, color: COLOR, fontFamily: bf.mono, fontWeight: 700,
-            letterSpacing: 1.4, textTransform: 'uppercase',
-          }}
-        >
-          {label}
-        </div>
-        <div style={{ fontSize: 13, fontWeight: 700, color: '#fff', marginTop: 3 }}>
-          {hint}
-        </div>
-      </div>
-      <span style={{ fontFamily: bf.mono, fontSize: 18, fontWeight: 700, color: COLOR }}>→</span>
+      {children}
     </a>
   )
 }

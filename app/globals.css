@@ -131,52 +131,13 @@ body {
 }
 
 /* ── Ambient desktop life ────────────────────────────────────────────────── */
-/* Timings are deliberately uneven. Symmetrical, evenly-eased motion is the thing
-   that reads as generated, so the plane bobs on a different period to its
-   crossing and the dragonfly's hover never lines up with its drift. */
-
-@keyframes ambientPlaneCross {
-  0%   { transform: translate3d(-8vw, 0, 0) rotate(-4deg); opacity: 0; }
-  6%   { opacity: 0.9; }
-  35%  { transform: translate3d(35vw, -3vh, 0) rotate(-1deg); }
-  70%  { transform: translate3d(72vw, 2vh, 0) rotate(3deg); }
-  94%  { opacity: 0.9; }
-  100% { transform: translate3d(112vw, -1vh, 0) rotate(-2deg); opacity: 0; }
-}
-@keyframes ambientPlaneBob {
-  0%, 100% { transform: translateY(0) rotate(0deg); }
-  50%      { transform: translateY(-7px) rotate(2.5deg); }
-}
-
-@keyframes ambientDragonflyVisit {
-  0%   { transform: translate3d(26vw, 14vh, 0) scale(0.82); opacity: 0; }
-  9%   { opacity: 1; }
-  26%  { transform: translate3d(4vw, -2vh, 0) scale(1); }
-  44%  { transform: translate3d(-3vw, 3vh, 0) scale(1); }
-  58%  { transform: translate3d(2vw, -1vh, 0) scale(1); }
-  76%  { transform: translate3d(-6vw, -4vh, 0) scale(0.97); }
-  90%  { opacity: 1; }
-  100% { transform: translate3d(-30vw, -22vh, 0) scale(0.78); opacity: 0; }
-}
-@keyframes ambientHover {
-  0%, 100% { transform: translate3d(0, 0, 0) rotate(-1deg); }
-  30%      { transform: translate3d(2px, -4px, 0) rotate(1.5deg); }
-  65%      { transform: translate3d(-3px, 2px, 0) rotate(-2deg); }
-}
-@keyframes ambientWingUpper {
-  0%, 100% { transform: scaleY(1) rotate(0deg); }
-  50%      { transform: scaleY(0.18) rotate(-3deg); }
-}
-@keyframes ambientWingLower {
-  0%, 100% { transform: scaleY(0.28) rotate(2deg); }
-  50%      { transform: scaleY(1) rotate(0deg); }
-}
-
+/* Beads swell as they separate, hang, then sag and thin out under gravity. */
 @keyframes ambientDroplet {
-  0%   { transform: scale(0.35) translateY(0); opacity: 0; }
-  18%  { transform: scale(1.05) translateY(0); opacity: 0.95; }
-  45%  { transform: scale(1) translateY(2px); opacity: 0.8; }
-  100% { transform: scale(0.62) translateY(9px); opacity: 0; }
+  0%   { transform: scale(0.3, 0.42) translateY(-1px); opacity: 0; }
+  14%  { transform: scale(1.08, 0.94) translateY(0); opacity: 1; }
+  30%  { transform: scale(0.97, 1.04) translateY(1px); opacity: 0.95; }
+  55%  { transform: scale(1, 1) translateY(4px); opacity: 0.7; }
+  100% { transform: scale(0.55, 0.7) translateY(13px); opacity: 0; }
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -234,6 +195,38 @@ body {
   --aa-cell-off:  linear-gradient(180deg, #f6fafd 0%, #e9f1f8 100%);
   --aa-cell-bdr-on:  #5c9fd6;
   --aa-cell-bdr-off: #cbdcea;
+}
+
+/* ── Window chrome ───────────────────────────────────────────────────────── */
+/* The frame was hardcoded dark, so switching to light left every window with a
+   near-black title bar around a light body. */
+:root,
+:root[data-theme='dark'] {
+  --aw-frame:        rgba(4, 8, 20, 0.92);
+  --aw-title-on:     linear-gradient(to bottom, rgba(125,249,255,0.09) 0%, rgba(125,249,255,0.03) 100%);
+  --aw-title-off:    rgba(255, 255, 255, 0.02);
+  --aw-edge-on:      rgba(125, 249, 255, 0.45);
+  --aw-edge-off:     rgba(125, 249, 255, 0.12);
+  --aw-rule-on:      rgba(125, 249, 255, 0.18);
+  --aw-rule-off:     rgba(125, 249, 255, 0.06);
+  --aw-title-txt-on: #e8f4ff;
+  --aw-title-txt-off:#6a8aaa;
+  --aw-shadow-on:    0 0 40px rgba(125,249,255,0.06), 0 16px 48px rgba(0,0,0,0.7), inset 0 1px 0 rgba(125,249,255,0.1);
+  --aw-shadow-off:   0 8px 24px rgba(0, 0, 0, 0.5);
+}
+
+:root[data-theme='light'] {
+  --aw-frame:        rgba(244, 250, 255, 0.90);
+  --aw-title-on:     linear-gradient(to bottom, rgba(255,255,255,0.95) 0%, rgba(219,236,250,0.85) 100%);
+  --aw-title-off:    linear-gradient(to bottom, rgba(250,253,255,0.90) 0%, rgba(233,242,250,0.80) 100%);
+  --aw-edge-on:      rgba(120, 170, 210, 0.75);
+  --aw-edge-off:     rgba(150, 185, 215, 0.40);
+  --aw-rule-on:      rgba(120, 170, 210, 0.42);
+  --aw-rule-off:     rgba(150, 185, 215, 0.22);
+  --aw-title-txt-on: #14344f;
+  --aw-title-txt-off:#7592ab;
+  --aw-shadow-on:    0 2px 6px rgba(30,90,140,0.16), 0 16px 44px rgba(20,70,110,0.24), inset 0 1px 0 rgba(255,255,255,0.9);
+  --aw-shadow-off:   0 6px 20px rgba(20, 70, 110, 0.18);
 }
 
 /* ── Aero application chrome ─────────────────────────────────────────────── */
