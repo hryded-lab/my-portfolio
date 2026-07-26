@@ -1,8 +1,12 @@
 'use client'
 
-import { useState, useEffect, useRef } from 'react'
+import { useState, useEffect, useRef, useCallback } from 'react'
 
 type Props = { onDone: () => void }
+
+// Timings are authored at full length below and scaled by SPEED so the whole
+// sequence can be tuned from one number.
+const SPEED = 0.6
 
 const LINES = [
   { text: 'Award Modular BIOS v6.00PG, An Energy Star Ally', t: 0 },
@@ -30,52 +34,75 @@ const LINES = [
   { text: 'Starting Windows...', t: 3340, isStarting: true },
 ]
 
+const TOTAL_MS = 3800 * SPEED
+const MEM_TOTAL_MS = 1180 * SPEED
+const MEM_TICKS = 40
+
 export default function BiosScreen({ onDone }: Props) {
   const [visibleLines, setVisibleLines] = useState<typeof LINES>([])
   const [memCount, setMemCount] = useState(0)
+  const [showSkipHint, setShowSkipHint] = useState(false)
   const doneRef = useRef(false)
 
-  useEffect(() => {
-    // Always replay boot on fresh load
-    sessionStorage.removeItem('xp-booted')
-
-    const timers: ReturnType<typeof setTimeout>[] = []
-
-    LINES.forEach((line) => {
-      timers.push(setTimeout(() => {
-        setVisibleLines(prev => [...prev, line])
-      }, line.t))
-    })
-
-    // Memory count animation (runs from t=520 to t=1700)
-    let count = 0
-    const target = 524288
-    const memTimer = setInterval(() => {
-      count = Math.min(count + Math.floor(target / 40), target)
-      setMemCount(count)
-      if (count >= target) clearInterval(memTimer)
-    }, 30)
-    timers.push(memTimer as unknown as ReturnType<typeof setTimeout>)
-
-    // Call onDone after full sequence
-    timers.push(setTimeout(() => {
-      if (!doneRef.current) { doneRef.current = true; onDone() }
-    }, 3800))
-
-    return () => timers.forEach(t => clearTimeout(t))
+  const finish = useCallback(() => {
+    if (doneRef.current) return
+    doneRef.current = true
+    onDone()
   }, [onDone])
 
+  useEffect(() => {
+    const timeouts: ReturnType<typeof setTimeout>[] = []
+
+    LINES.forEach((line) => {
+      timeouts.push(setTimeout(() => {
+        setVisibleLines(prev => [...prev, line])
+      }, line.t * SPEED))
+    })
+
+    const target = 524288
+    let count = 0
+    const memTimer = setInterval(() => {
+      count = Math.min(count + Math.floor(target / MEM_TICKS), target)
+      setMemCount(count)
+      if (count >= target) clearInterval(memTimer)
+    }, MEM_TOTAL_MS / MEM_TICKS)
+
+    timeouts.push(setTimeout(() => setShowSkipHint(true), 700))
+    timeouts.push(setTimeout(finish, TOTAL_MS))
+
+    return () => {
+      timeouts.forEach(clearTimeout)
+      clearInterval(memTimer)
+    }
+  }, [finish])
+
+  // Any key, click or tap bails out of the sequence.
+  useEffect(() => {
+    window.addEventListener('keydown', finish)
+    window.addEventListener('pointerdown', finish)
+    return () => {
+      window.removeEventListener('keydown', finish)
+      window.removeEventListener('pointerdown', finish)
+    }
+  }, [finish])
+
   return (
-    <div style={{
-      position: 'fixed', inset: 0, zIndex: 9999999,
-      background: '#000',
-      fontFamily: "'VT323', 'Courier New', monospace",
-      fontSize: 16,
-      padding: '18px 24px',
-      color: '#aaa',
-      lineHeight: 1.55,
-      overflow: 'hidden',
-    }}>
+    <div
+      role="button"
+      tabIndex={0}
+      aria-label="Boot sequence — press any key to skip"
+      style={{
+        position: 'fixed', inset: 0, zIndex: 9999999,
+        background: '#000',
+        fontFamily: "'VT323', 'Courier New', monospace",
+        fontSize: 16,
+        padding: '18px 24px',
+        color: '#aaa',
+        lineHeight: 1.55,
+        overflow: 'hidden',
+        cursor: 'pointer',
+      }}
+    >
       {visibleLines.map((line, i) => (
         <div key={i}>
           {line.isMemory ? (
@@ -93,10 +120,23 @@ export default function BiosScreen({ onDone }: Props) {
       {/* Blinking cursor */}
       <span style={{ animation: 'biosCursor 0.8s step-end infinite', color: '#aaa' }}>█</span>
 
+      {showSkipHint && (
+        <div style={{
+          position: 'absolute', bottom: 18, right: 24,
+          color: '#666', fontSize: 15, animation: 'biosHintIn 0.4s ease-out both',
+        }}>
+          Press any key to skip
+        </div>
+      )}
+
       <style>{`
         @keyframes biosCursor {
           0%, 100% { opacity: 1; }
           50% { opacity: 0; }
+        }
+        @keyframes biosHintIn {
+          from { opacity: 0; }
+          to { opacity: 1; }
         }
       `}</style>
     </div>

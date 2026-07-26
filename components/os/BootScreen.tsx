@@ -1,21 +1,31 @@
 'use client'
 
-import { useEffect } from 'react'
+import { useEffect, useRef, useCallback } from 'react'
 
 type Props = { onDone: () => void; fading?: boolean }
 
+const BOOT_MS = 1900
+
 export default function BootScreen({ onDone, fading }: Props) {
-  useEffect(() => {
-    if (sessionStorage.getItem('xp-booted')) {
-      onDone()
-      return
-    }
-    const t = setTimeout(() => {
-      sessionStorage.setItem('xp-booted', 'true')
-      onDone() // parent starts mounting lock screen; we stay alive for the crossfade
-    }, 3500)
-    return () => clearTimeout(t)
+  const doneRef = useRef(false)
+
+  const finish = useCallback(() => {
+    if (doneRef.current) return
+    doneRef.current = true
+    sessionStorage.setItem('xp-booted', 'true')
+    onDone() // parent starts mounting lock screen; we stay alive for the crossfade
   }, [onDone])
+
+  useEffect(() => {
+    const t = setTimeout(finish, BOOT_MS)
+    window.addEventListener('keydown', finish)
+    window.addEventListener('pointerdown', finish)
+    return () => {
+      clearTimeout(t)
+      window.removeEventListener('keydown', finish)
+      window.removeEventListener('pointerdown', finish)
+    }
+  }, [finish])
 
   return (
     <div
@@ -30,6 +40,7 @@ export default function BootScreen({ onDone, fading }: Props) {
         opacity: fading ? 0 : 1,
         transition: 'opacity 0.55s ease-in',
         pointerEvents: fading ? 'none' : 'auto',
+        cursor: 'pointer',
       }}
     >
       {/* Windows logo */}
