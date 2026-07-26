@@ -40,10 +40,32 @@ export const viewport: Viewport = {
   themeColor: '#0a0d14',
 }
 
+const GOOGLE_FONTS_HREF =
+  'https://fonts.googleapis.com/css2' +
+  '?family=Silkscreen:wght@400;700' +
+  '&family=VT323' +
+  '&family=Inter:ital,opsz,wght@0,14..32,300..900;1,14..32,300..900' +
+  '&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400' +
+  '&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600;9..40,700;9..40,800;9..40,900' +
+  '&family=Space+Mono:ital,wght@0,400;0,700;1,400;1,700' +
+  '&family=Archivo+Black' +
+  '&display=swap'
+
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en">
-      <body>{children}</body>
+      <head>
+        {/* Warm the font connections before the stylesheet resolves — saves a DNS +
+            TLS round trip on the critical path. */}
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="" />
+        <link rel="stylesheet" href={GOOGLE_FONTS_HREF} />
+        <link rel="alternate" type="text/plain" href="/llms.txt" title="Profile as plain text" />
+      </head>
+      <body>
+        <a className="skip-link" href="/profile">Skip to text version of this portfolio</a>
+        {children}
+      </body>
     </html>
   )
 }

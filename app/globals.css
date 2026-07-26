@@ -1,4 +1,6 @@
-@import url('https://fonts.googleapis.com/css2?family=Silkscreen:wght@400;700&family=VT323&family=Inter:ital,opsz,wght@0,14..32,300..900;1,14..32,300..900&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600;9..40,700;9..40,800;9..40,900&family=Space+Mono:ital,wght@0,400;0,700;1,400;1,700&family=Archivo+Black&display=swap');
+/* Font families are loaded via <link> in app/layout.tsx, not @import. An @import here
+   forces the browser to fetch and parse this file before it even discovers the fonts,
+   serialising two round trips onto the critical path. */
 
 /* Tailwind v4 — single-import replaces v3's @tailwind base/components/utilities.
    The old directives silently dropped subsequent custom CSS (incl. the
@@ -81,6 +83,83 @@ html, body {
 body {
   background: var(--xp-desktop-bg);
 }
+
+/* ── Skip link ───────────────────────────────────────────────────────────── */
+/* Off-screen until focused. Gives keyboard and screen-reader users a way past the
+   desktop metaphor straight to the readable profile. */
+.skip-link {
+  position: fixed;
+  top: 8px;
+  left: 8px;
+  z-index: 10000000;
+  transform: translateY(-200%);
+  padding: 10px 16px;
+  background: #0b1020;
+  color: #7df9ff;
+  border: 1px solid #7df9ff;
+  border-radius: 6px;
+  font-family: 'Inter', system-ui, sans-serif;
+  font-size: 14px;
+  text-decoration: none;
+}
+.skip-link:focus-visible {
+  transform: translateY(0);
+  outline: 2px solid #fff;
+  outline-offset: 2px;
+}
+
+/* ── Text profile (/profile + no-JS fallback) ────────────────────────────── */
+/* Readable document view of the same /content data the OS renders. */
+.profile-page {
+  overflow-y: auto;
+  height: 100%;
+  background: #0b1020;
+  user-select: text;
+  -webkit-user-select: text;
+}
+
+.profile-doc {
+  max-width: 68ch;
+  margin: 0 auto;
+  padding: 64px 24px 16px;
+  color: #dfe8f5;
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  font-size: 15px;
+  line-height: 1.65;
+  user-select: text;
+  -webkit-user-select: text;
+}
+
+.profile-doc h1 { font-size: 2rem; line-height: 1.2; margin-bottom: 6px; }
+.profile-doc h2 {
+  font-size: 1.15rem;
+  margin: 40px 0 12px;
+  padding-bottom: 6px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+  color: #7df9ff;
+}
+.profile-doc h3 { font-size: 1rem; margin: 20px 0 2px; }
+.profile-doc p { margin-bottom: 10px; }
+.profile-doc .lede { color: #9fb6d0; font-size: 1.05rem; }
+.profile-doc .meta { color: #7f95ad; font-size: 0.85rem; }
+.profile-doc a { color: #7df9ff; }
+.profile-doc ul, .profile-doc ol { margin: 0 0 10px 1.15rem; }
+.profile-doc li { margin-bottom: 4px; }
+.profile-doc ul.inline { list-style: none; margin-left: 0; display: flex; flex-wrap: wrap; gap: 14px; }
+.profile-doc dl > div { display: flex; gap: 10px; margin-bottom: 4px; flex-wrap: wrap; }
+.profile-doc dt { color: #7f95ad; min-width: 11ch; }
+.profile-doc dd { margin: 0; }
+.profile-doc .stats > div { min-width: 0; }
+.profile-doc article { margin-bottom: 22px; }
+
+.profile-doc-footer {
+  max-width: 68ch;
+  margin: 0 auto;
+  padding: 0 24px 64px;
+  font-family: 'Inter', system-ui, sans-serif;
+  font-size: 14px;
+}
+.profile-doc-footer a { color: #7df9ff; }
 
 /* Scrollbar styling — XP style (desktop/global) */
 ::-webkit-scrollbar { width: 16px; height: 16px; }
@@ -193,12 +272,19 @@ body {
 }
 .desktop-icon.selected { background: rgba(49, 106, 197, 0.5); }
 .desktop-icon .icon-img { image-rendering: pixelated; }
+/* Keyboard focus needs to be visible — these are the primary desktop controls. */
+.desktop-icon:focus-visible {
+  background: rgba(49, 106, 197, 0.45);
+  outline: 2px solid #fff;
+  outline-offset: -1px;
+}
 .desktop-icon span {
   color: #fff;
   font-size: 11px;
   text-align: center;
   text-shadow: 1px 1px 2px rgba(0,0,0,0.8), -1px -1px 0 rgba(0,0,0,0.5);
-  word-break: break-word;
+  /* overflow-wrap, not word-break: word-break splits inside words. */
+  overflow-wrap: break-word;
   line-height: 1.2;
 }
 .desktop-icon.selected span {
