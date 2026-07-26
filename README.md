@@ -90,3 +90,4 @@ unconfigured.
 | Desktop icons | [XP icon set](https://www.pinterest.com/pin/897342294504788059/) |
 | Paint | [jspaint.app](https://jspaint.app) |
 | Minesweeper | After the 1990 Microsoft original |
+| Cursor | [Wii cursor set by Stefano Tinaglia](https://www.rw-designer.com/cursor-set/wii-cursor-by-stefano-tinaglia) |
