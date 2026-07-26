@@ -1,6 +1,6 @@
 'use client'
 
-import { createContext, useContext, useState } from 'react'
+import { createContext, useContext, useState, useEffect } from 'react'
 
 export type AppTheme = {
   mode: 'dark' | 'light'
@@ -114,6 +114,13 @@ const ThemeContext = createContext<ThemeContextType>({
 export function ThemeProvider({ children }: { children: React.ReactNode }) {
   const [t, setT] = useState<AppTheme>(darkTheme)
   const toggle = () => setT(prev => prev.mode === 'dark' ? lightTheme : darkTheme)
+
+  // The theme object only drives inline styles. Everything themed through CSS
+  // variables — the brutal and aero token blocks — keys off data-theme on <html>,
+  // which nothing was setting, so those surfaces never followed the toggle.
+  useEffect(() => {
+    document.documentElement.setAttribute('data-theme', t.mode)
+  }, [t.mode])
   return (
     <ThemeContext.Provider value={{ t, toggle }}>
       {children}

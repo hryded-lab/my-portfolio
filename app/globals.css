@@ -21,6 +21,44 @@
   --brutal-border:         rgba(255, 255, 255, 0.10);
   --brutal-border-strong:  rgba(255, 255, 255, 0.18);
 }
+/* ── Frutiger Aero tokens ─────────────────────────────────────────────────
+   Glossy gel + frosted glass, sky and water. Light theme is classic Aero;
+   dark theme is the same language underwater rather than a grey inversion.
+   Needs the bare :root fallback — nothing sets data-theme on <html>, so an
+   attribute-only selector never matches and every token resolves empty. */
+:root,
+:root[data-theme='dark'] {
+  --aero-sky-1:      #072b3e;
+  --aero-sky-2:      #04161f;
+  --aero-glass:      rgba(180, 240, 255, 0.09);
+  --aero-glass-hi:   rgba(190, 245, 255, 0.15);
+  --aero-text:       #eaf9ff;
+  --aero-text-dim:   rgba(234, 249, 255, 0.76);
+  --aero-text-mute:  rgba(234, 249, 255, 0.50);
+  --aero-edge:       rgba(160, 235, 255, 0.22);
+  --aero-edge-hi:    rgba(210, 250, 255, 0.42);
+  --aero-bevel-top:  rgba(255, 255, 255, 0.34);
+  --aero-bevel-bot:  rgba(0, 20, 30, 0.34);
+  --aero-aqua:       #7ee8fa;
+  --aero-leaf:       #9fe870;
+}
+
+:root[data-theme='light'] {
+  --aero-sky-1:      #dff2fe;
+  --aero-sky-2:      #f4fbff;
+  --aero-glass:      rgba(255, 255, 255, 0.62);
+  --aero-glass-hi:   rgba(255, 255, 255, 0.82);
+  --aero-text:       #06283a;
+  --aero-text-dim:   rgba(6, 40, 58, 0.74);
+  --aero-text-mute:  rgba(6, 40, 58, 0.50);
+  --aero-edge:       rgba(80, 170, 210, 0.30);
+  --aero-edge-hi:    rgba(255, 255, 255, 0.95);
+  --aero-bevel-top:  rgba(255, 255, 255, 0.95);
+  --aero-bevel-bot:  rgba(60, 130, 165, 0.20);
+  --aero-aqua:       #12a7d4;
+  --aero-leaf:       #4faf96;
+}
+
 :root[data-theme='light'] {
   --brutal-bg:             #f4f6fa;
   --brutal-bg-deep:        #ffffff;
