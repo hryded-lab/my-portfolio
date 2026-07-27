@@ -69,7 +69,6 @@ export default function MobileLock({ onUnlock }: Props) {
           pointerEvents: 'none',
         }}
       >
-        {/* eslint-disable-next-line @next/next/no-img-element */}
         <motion.img
           src="/wallpaper.jpg" alt=""
           draggable={false}

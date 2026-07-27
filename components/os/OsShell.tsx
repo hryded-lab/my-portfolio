@@ -49,35 +49,47 @@ function getMobileServerSnapshot() {
   return false
 }
 
+// Whether this tab has already sat through the boot sequence. Read through
+// useSyncExternalStore rather than an effect: it gives React a server snapshot to
+// hydrate against, so there is no mismatch and no blank first frame.
+function subscribeBooted() {
+  return () => {}
+}
+
+function getBootedSnapshot() {
+  return sessionStorage.getItem('xp-booted') !== null
+}
+
+function getBootedServerSnapshot() {
+  return false
+}
+
 export default function OsShell() {
   // Boot replays once per tab session; a returning visitor lands straight on the lock screen.
-  const [phase, setPhase] = useState<Phase>('bios')
+  const alreadyBooted = useSyncExternalStore(subscribeBooted, getBootedSnapshot, getBootedServerSnapshot)
+  // Null until something moves the machine on; the resting phase is derived from
+  // whether this tab has booted before.
+  const [phaseOverride, setPhaseOverride] = useState<Phase | null>(null)
+  const phase: Phase = phaseOverride ?? (alreadyBooted ? 'lock' : 'bios')
+
   const [bootFading, setBootFading] = useState(false)
   const [showBoot, setShowBoot] = useState(false)
-  // sessionStorage isn't readable during SSR, so hold the first paint until we know
-  // whether this visitor has already sat through the boot sequence.
-  const [sessionChecked, setSessionChecked] = useState(false)
   const isMobile = useSyncExternalStore(subscribeMobile, getMobileSnapshot, getMobileServerSnapshot)
   const bootTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null)
 
-  useEffect(() => {
-    if (sessionStorage.getItem('xp-booted')) setPhase('lock')
-    setSessionChecked(true)
-  }, [])
-
   useEffect(() => () => { if (bootTimerRef.current) clearTimeout(bootTimerRef.current) }, [])
 
-  const handleBiosDone       = useCallback(() => { setShowBoot(true); setPhase('boot') }, [])
+  const handleBiosDone       = useCallback(() => { setShowBoot(true); setPhaseOverride('boot') }, [])
   const handleBootDone       = useCallback(() => {
     setBootFading(true)
-    setPhase('lock')
+    setPhaseOverride('lock')
     bootTimerRef.current = setTimeout(() => { setShowBoot(false); setBootFading(false) }, 600)
   }, [])
-  const handleUnlock         = useCallback(() => setPhase('unlocking'), [])
-  const handleUnlockComplete = useCallback(() => setPhase('desktop'), [])
+  const handleUnlock         = useCallback(() => setPhaseOverride('unlocking'), [])
+  const handleUnlockComplete = useCallback(() => setPhaseOverride('desktop'), [])
   const handleShutdown       = useCallback(() => {
     sessionStorage.removeItem('xp-booted')
-    setPhase('lock')
+    setPhaseOverride('lock')
   }, [])
 
   // Desktop mounts as soon as lock screen appears so it's warm when unlock fires
@@ -85,7 +97,6 @@ export default function OsShell() {
   const showLock     = phase === 'lock' || phase === 'unlocking'
 
   if (isMobile) return <MobileShell />
-  if (!sessionChecked) return null
 
   return (
     <>

@@ -1,21 +1,27 @@
 'use client'
 
-import { useEffect, useRef, useState, useCallback } from 'react'
+import { useEffect, useRef, useState, useCallback, useSyncExternalStore } from 'react'
 
 // Ambient life for the desktop. Pure CSS, no animation library, no image files,
 // nothing over the network, matching the way the sound system synthesises rather
 // than shipping audio. Honours prefers-reduced-motion.
 
+// matchMedia is an external store, so subscribe to it rather than mirroring it
+// into state from an effect.
+const REDUCED_QUERY = '(prefers-reduced-motion: reduce)'
+
+function subscribeReduced(cb: () => void) {
+  const mq = window.matchMedia(REDUCED_QUERY)
+  mq.addEventListener('change', cb)
+  return () => mq.removeEventListener('change', cb)
+}
+
 function usePrefersReducedMotion() {
-  const [reduced, setReduced] = useState(false)
-  useEffect(() => {
-    const mq = window.matchMedia('(prefers-reduced-motion: reduce)')
-    setReduced(mq.matches)
-    const on = () => setReduced(mq.matches)
-    mq.addEventListener('change', on)
-    return () => mq.removeEventListener('change', on)
-  }, [])
-  return reduced
+  return useSyncExternalStore(
+    subscribeReduced,
+    () => window.matchMedia(REDUCED_QUERY).matches,
+    () => false,
+  )
 }
 
 // ── Cursor water droplets ─────────────────────────────────────────────────────

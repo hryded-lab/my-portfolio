@@ -352,7 +352,7 @@ export default function Window({ id, children }: Props) {
         >
           {/* Decorative XP chrome — these menus have no behaviour, so they're hidden
               from assistive tech rather than announced as dead controls. */}
-          {['File', 'Edit', 'View', 'Help'].map(label => <MenuBarItem key={label} label={label} t={t} />)}
+          {['File', 'Edit', 'View', 'Help'].map(label => <MenuBarItem key={label} label={label} />)}
         </div>
 
         {/* Content */}
@@ -461,7 +461,7 @@ function TitleBarButton({ onClick, label, labelSize = 11, isActive = true, isClo
 }
 
 // CSS hover via .xp-menu-bar-item in globals.css — no useState needed
-function MenuBarItem({ label, t }: { label: string; t: import('@/lib/themeContext').AppTheme }) {
+function MenuBarItem({ label }: { label: string }) {
   return (
     <span
       className="xp-menu-bar-item"

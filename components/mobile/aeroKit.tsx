@@ -159,7 +159,7 @@ export function AeroTag({
 }
 
 export function AeroSection({
-  title, color, count, children,
+  title, count, children,
 }: { title: string; color?: string; count?: number | string; children: ReactNode }) {
   return (
     <div style={{ marginBottom: 22 }}>

@@ -1,4 +1,5 @@
 import type { Metadata } from 'next'
+import Link from 'next/link'
 import ProfileDocument from '@/components/seo/ProfileDocument'
 import { getProfile, SITE_URL } from '@/lib/profile'
 
@@ -23,7 +24,7 @@ export default function ProfilePage() {
     <div className="profile-page">
       <ProfileDocument />
       <footer className="profile-doc-footer">
-        <a href="/">← Back to the desktop</a>
+        <Link href="/">Back to the desktop</Link>
       </footer>
     </div>
   )

@@ -2,238 +2,179 @@
 
 import { useState } from 'react'
 import { projects, type Project } from '@/content/projects'
-import { AeroTag, AeroHeader, AeroBody, AeroCard, aero as a, aeroFonts as af } from '@/components/aero'
+import {
+  AppFrame, CommandBar, TaskPane, PaneHeading, PaneItem,
+  GroupHeading, Panel, BluePanel, BlueHeading, BlueSub, ui, FONT,
+} from '@/components/aeroApp'
 
-const COLOR = '#2fbf71'
-const categories = ['All', 'Web App', 'Mobile', 'Tool', 'Other']
+const CATEGORIES = ['Web App', 'Mobile', 'Tool', 'Other']
 
 export default function ProjectsWindow() {
-  const [filter, setFilter] = useState('All')
+  const [category, setCategory] = useState('All')
   const [selected, setSelected] = useState<Project | null>(null)
-  const filtered = filter === 'All' ? projects : projects.filter(p => p.category === filter)
+
+  const filtered = category === 'All'
+    ? projects
+    : projects.filter(p => p.category === category)
+
+  const countIn = (c: string) =>
+    c === 'All' ? projects.length : projects.filter(p => p.category === c).length
 
   return (
-    <div
-      className="projects-layout"
-      style={{
-        display: 'flex', height: '100%',
-        background: `linear-gradient(180deg, ${a.sky1} 0%, ${a.sky2} 100%)`,
-        color: a.text,
-        fontFamily: af.ui,
-      }}
-    >
-      {/* Sidebar */}
-      <div
-        className="projects-sidebar"
-        style={{
-          width: 230,
-          borderRight: `1px solid ${a.edge}`,
-          background: a.glass,
-          display: 'flex', flexDirection: 'column',
-          flexShrink: 0,
-          backdropFilter: 'blur(14px) saturate(1.4)',
-          WebkitBackdropFilter: 'blur(14px) saturate(1.4)',
-          boxShadow: `inset -1px 0 0 var(--aero-bevel-top)`,
-        }}
-      >
-        <div style={{ padding: '14px 12px 12px', borderBottom: `1px solid ${a.edge}` }}>
-          <div
+    <AppFrame>
+      <CommandBar>
+        <span style={{ color: ui.textDim }}>
+          {selected ? selected.title : category === 'All' ? 'All projects' : category}
+        </span>
+        {selected && (
+          <button
+            type="button"
+            onClick={() => setSelected(null)}
             style={{
-              fontSize: 12, fontWeight: 600,
-              color: a.textMute, marginBottom: 10,
+              marginLeft: 6,
+              padding: '3px 12px',
+              borderRadius: ui.radius,
+              border: `1px solid ${ui.border}`,
+              background: 'var(--aw-btn)',
+              color: ui.text,
+              fontFamily: FONT, fontSize: 12.5, cursor: 'pointer',
+              boxShadow: 'inset 0 1px 0 rgba(255,255,255,0.55), 0 1px 1px rgba(40,60,80,0.14)',
             }}
           >
-            Filter
-          </div>
-          <div style={{ display: 'flex', flexDirection: 'column', gap: 5 }}>
-            {categories.map(c => {
-              const on = filter === c
-              return (
-                <button
-                  key={c}
-                  type="button"
-                  onClick={() => setFilter(c)}
-                  style={{
-                    padding: '8px 11px',
-                    textAlign: 'left',
-                    borderRadius: a.radiusSm,
-                    cursor: 'pointer',
-                    fontFamily: af.ui,
-                    fontSize: 12.5,
-                    fontWeight: on ? 600 : 500,
-                    color: on ? '#fff' : a.textDim,
-                    border: `1px solid ${on ? 'transparent' : a.edge}`,
-                    background: on
-                      ? `linear-gradient(180deg,
-                          color-mix(in srgb, ${COLOR} 88%, #fff) 0%,
-                          ${COLOR} 48%,
-                          color-mix(in srgb, ${COLOR} 74%, #000) 50%,
-                          ${COLOR} 100%)`
-                      : a.glass,
-                    boxShadow: on
-                      ? `inset 0 1px 0 rgba(255,255,255,0.5), 0 1px 4px rgba(0,30,45,0.28)`
-                      : a.bevel(),
-                    textShadow: on ? '0 1px 1px rgba(0,30,45,0.35)' : 'none',
-                    transition: 'background 0.18s ease, color 0.18s ease',
-                  }}
-                >
-                  {c}
-                </button>
-              )
-            })}
-          </div>
-        </div>
+            Back to list
+          </button>
+        )}
+        <div style={{ flex: 1 }} />
+        <span style={{ color: ui.textMute }}>{filtered.length} of {projects.length}</span>
+      </CommandBar>
 
-        <div style={{ flex: 1, overflowY: 'auto', padding: '10px 8px' }}>
-          {filtered.map(p => {
-            const on = selected?.id === p.id
-            return (
-              <button
-                key={p.id}
-                type="button"
-                onClick={() => setSelected(p)}
+      <div style={{ flex: 1, display: 'flex', minHeight: 0 }}>
+        <TaskPane>
+          <PaneHeading>Categories</PaneHeading>
+          <PaneItem
+            label="All"
+            count={countIn('All')}
+            selected={category === 'All'}
+            onClick={() => { setCategory('All'); setSelected(null) }}
+          />
+          {CATEGORIES.map(c => (
+            <PaneItem
+              key={c}
+              label={c}
+              count={countIn(c)}
+              selected={category === c}
+              onClick={() => { setCategory(c); setSelected(null) }}
+            />
+          ))}
+        </TaskPane>
+
+        <div style={{ flex: 1, overflowY: 'auto', padding: '12px 16px 20px' }}>
+          {selected ? (
+            <>
+              <BluePanel style={{ padding: '16px 18px' }}>
+                <BlueHeading>{selected.title}</BlueHeading>
+                <BlueSub>{selected.category} · {selected.year}</BlueSub>
+              </BluePanel>
+
+              <GroupHeading label="Overview" />
+              <p
                 style={{
-                  display: 'block',
-                  width: '100%',
-                  textAlign: 'left',
-                  padding: '11px 12px',
-                  marginBottom: 7,
-                  borderRadius: a.radiusSm,
-                  cursor: 'pointer',
-                  fontFamily: 'inherit',
-                  color: on ? '#fff' : a.text,
-                  border: `1px solid ${on ? 'transparent' : a.edge}`,
-                  background: on
-                    ? `linear-gradient(180deg,
-                        color-mix(in srgb, ${COLOR} 88%, #fff) 0%,
-                        ${COLOR} 48%,
-                        color-mix(in srgb, ${COLOR} 74%, #000) 50%,
-                        ${COLOR} 100%)`
-                    : a.glass,
-                  boxShadow: on
-                    ? `inset 0 1px 0 rgba(255,255,255,0.5), 0 2px 8px rgba(0,30,45,0.3)`
-                    : a.bevel(),
-                  transition: 'background 0.18s ease',
+                  margin: 0, fontFamily: FONT, fontSize: 12.5,
+                  color: ui.textDim, lineHeight: 1.7,
                 }}
               >
-                <div style={{ fontSize: 11, color: on ? 'rgba(255,255,255,0.85)' : a.textMute }}>
-                  {p.year}
-                </div>
-                <div
-                  style={{
-                    fontFamily: af.display,
-                    fontSize: 14.5, fontWeight: 600,
-                    letterSpacing: -0.2,
-                    marginTop: 2,
-                    lineHeight: 1.2,
-                    textShadow: on ? '0 1px 1px rgba(0,30,45,0.35)' : 'none',
-                  }}
-                >
-                  {p.title}
-                </div>
-              </button>
-            )
-          })}
-        </div>
-      </div>
-
-      {/* Detail */}
-      <div style={{ flex: 1, overflowY: 'auto' }}>
-        {selected ? (
-          <div style={{ padding: '24px 26px 32px' }}>
-            <AeroHeader
-              title={selected.title}
-              subtitle={`${selected.category} · ${selected.year}`}
-              color={COLOR}
-            />
-
-            <AeroCard accent={COLOR} style={{ marginBottom: 20 }}>
-              <p style={{ margin: 0, fontSize: 14, color: a.textDim, lineHeight: 1.75 }}>
                 {selected.longDescription}
               </p>
-            </AeroCard>
 
-            <div style={{ display: 'flex', flexWrap: 'wrap', gap: 7, marginBottom: 22 }}>
-              {selected.tech.map(tech => (
-                <AeroTag key={tech} color={COLOR} style={{ fontSize: 11, padding: '3px 10px' }}>
-                  {tech}
-                </AeroTag>
-              ))}
-            </div>
+              <GroupHeading label="Built with" />
+              <Panel style={{ padding: '10px 12px' }}>
+                <div style={{ fontFamily: FONT, fontSize: 12.5, color: ui.text }}>
+                  {selected.tech.join(' · ')}
+                </div>
+              </Panel>
 
-            {(selected.github || (selected.live && selected.live !== '#')) && (
-              <div style={{ display: 'flex', gap: 10, flexWrap: 'wrap' }}>
-                {selected.github && <LinkButton href={selected.github} label="View source" />}
-                {selected.live && selected.live !== '#' && (
-                  <LinkButton href={selected.live} label="Open live site" filled />
-                )}
-              </div>
-            )}
-          </div>
-        ) : (
-          <AeroBody style={{ padding: 0 }}>
-            <div
-              style={{
-                height: '100%',
-                display: 'flex', flexDirection: 'column',
-                alignItems: 'center', justifyContent: 'center',
-                gap: 16,
-              }}
-            >
-              {/* Aero gel orb */}
-              <div
-                aria-hidden
-                style={{
-                  width: 68, height: 68, borderRadius: '50%',
-                  background: `radial-gradient(circle at 34% 28%,
-                    #ffffff 0%,
-                    color-mix(in srgb, ${COLOR} 55%, #fff) 22%,
-                    ${COLOR} 60%,
-                    color-mix(in srgb, ${COLOR} 55%, #000) 100%)`,
-                  boxShadow: `0 6px 20px -6px ${COLOR}, inset 0 -6px 12px -6px rgba(0,0,0,0.5)`,
-                }}
-              />
-              <span style={{ fontFamily: af.ui, fontSize: 13.5, color: a.textMute }}>
-                Pick a project from the list
-              </span>
-            </div>
-          </AeroBody>
-        )}
+              {(selected.github || (selected.live && selected.live !== '#')) && (
+                <>
+                  <GroupHeading label="Links" />
+                  <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap' }}>
+                    {selected.github && <LinkButton href={selected.github}>View source</LinkButton>}
+                    {selected.live && selected.live !== '#' && (
+                      <LinkButton href={selected.live}>Open live site</LinkButton>
+                    )}
+                  </div>
+                </>
+              )}
+            </>
+          ) : (
+            <>
+              <BluePanel style={{ padding: '14px 18px' }}>
+                <BlueHeading>Things I have built</BlueHeading>
+                <BlueSub>Startups, tools and experiments. Pick one for the detail.</BlueSub>
+              </BluePanel>
+
+              <GroupHeading label={category === 'All' ? 'All projects' : category} count={filtered.length} />
+              <Panel style={{ padding: 6 }}>
+                {filtered.map(p => (
+                  <div
+                    key={p.id}
+                    role="button"
+                    tabIndex={0}
+                    onClick={() => setSelected(p)}
+                    onKeyDown={e => {
+                      if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); setSelected(p) }
+                    }}
+                    className="aero-list-row"
+                    style={{
+                      display: 'block',
+                      padding: '10px 10px',
+                      borderRadius: ui.radius,
+                      border: '1px solid transparent',
+                      cursor: 'pointer',
+                    }}
+                  >
+                    <div style={{ fontFamily: FONT, fontSize: 13, fontWeight: 600, color: ui.text }}>
+                      {p.title}
+                    </div>
+                    <div
+                      style={{
+                        fontFamily: FONT, fontSize: 12, color: ui.textDim,
+                        marginTop: 3, lineHeight: 1.5,
+                      }}
+                    >
+                      {p.description}
+                    </div>
+                    <div style={{ fontFamily: FONT, fontSize: 11.5, color: ui.textMute, marginTop: 5 }}>
+                      {p.year} · {p.tech.join(', ')}
+                    </div>
+                  </div>
+                ))}
+              </Panel>
+            </>
+          )}
+        </div>
       </div>
-    </div>
+    </AppFrame>
   )
 }
 
-function LinkButton({ href, label, filled = false }: { href: string; label: string; filled?: boolean }) {
-  const tint = COLOR
+function LinkButton({ href, children }: { href: string; children: React.ReactNode }) {
   return (
     <a
       href={href}
       target="_blank"
       rel="noopener noreferrer"
       style={{
-        padding: '10px 18px',
-        borderRadius: 999,
-        fontFamily: af.ui,
-        fontSize: 13,
-        fontWeight: 600,
+        padding: '6px 16px',
+        borderRadius: ui.radius,
+        border: `1px solid ${ui.border}`,
+        background: 'var(--aw-btn)',
+        color: ui.text,
+        fontFamily: FONT, fontSize: 12.5,
         textDecoration: 'none',
-        color: filled ? '#fff' : a.text,
-        border: `1px solid ${filled ? 'transparent' : a.edge}`,
-        background: filled
-          ? `linear-gradient(180deg,
-              color-mix(in srgb, ${tint} 88%, #fff) 0%,
-              ${tint} 48%,
-              color-mix(in srgb, ${tint} 74%, #000) 50%,
-              ${tint} 100%)`
-          : a.glass,
-        boxShadow: filled
-          ? `inset 0 1px 0 rgba(255,255,255,0.5), 0 2px 8px rgba(0,30,45,0.3)`
-          : a.bevel(),
-        textShadow: filled ? '0 1px 1px rgba(0,30,45,0.35)' : 'none',
+        boxShadow: 'inset 0 1px 0 rgba(255,255,255,0.55), 0 1px 1px rgba(40,60,80,0.14)',
       }}
     >
-      {label}
+      {children}
     </a>
   )
 }
