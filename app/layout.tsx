@@ -4,9 +4,34 @@ import { siteConfig } from '@/content/siteConfig'
 
 export const metadata: Metadata = {
   metadataBase: new URL('https://hrydaylath.vercel.app'),
-  title: `${siteConfig.name} — XP Portfolio`,
+  // Child routes set only their own title; this frames every one of them.
+  title: {
+    default: `${siteConfig.name} — Entrepreneur & Builder, BITS Pilani`,
+    template: `%s — ${siteConfig.name}`,
+  },
   description: siteConfig.metaDescription,
-  authors: [{ name: siteConfig.name }],
+  applicationName: `${siteConfig.name} Portfolio`,
+  authors: [{ name: siteConfig.name, url: 'https://hrydaylath.vercel.app' }],
+  creator: siteConfig.name,
+  publisher: siteConfig.name,
+  alternates: { canonical: 'https://hrydaylath.vercel.app/' },
+  category: 'technology',
+  keywords: [
+    siteConfig.name, 'Hryday Lath', 'BITS Pilani', 'manufacturing engineering',
+    'startup', 'Kapital Grants', 'PIEDS', 'grant funding', 'student portfolio',
+    'Frutiger Aero portfolio', 'Windows XP portfolio',
+  ],
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      'max-image-preview': 'large',
+      'max-snippet': -1,
+      'max-video-preview': -1,
+    },
+  },
   manifest: '/manifest.webmanifest',
   // app/icon.png + app/favicon.ico provide the canonical icons via Next's
   // file conventions; only apple-touch-icon needs an explicit entry here.
@@ -17,16 +42,17 @@ export const metadata: Metadata = {
     statusBarStyle: 'black-translucent',
   },
   openGraph: {
-    title: `${siteConfig.name} — XP Portfolio`,
+    title: `${siteConfig.name} — Entrepreneur & Builder, BITS Pilani`,
     description: siteConfig.metaDescription,
     url: 'https://hrydaylath.vercel.app',
+    locale: 'en_IN',
     siteName: siteConfig.name,
     images: [{ url: siteConfig.ogImage, width: 1200, height: 630, alt: `${siteConfig.name} portfolio` }],
     type: 'website',
   },
   twitter: {
     card: 'summary_large_image',
-    title: `${siteConfig.name} — XP Portfolio`,
+    title: `${siteConfig.name} — Entrepreneur & Builder, BITS Pilani`,
     description: siteConfig.metaDescription,
     images: [siteConfig.ogImage],
   },
@@ -61,6 +87,10 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="" />
         <link rel="stylesheet" href={GOOGLE_FONTS_HREF} />
         <link rel="alternate" type="text/plain" href="/llms.txt" title="Profile as plain text" />
+        {/* rel=me ties these profiles to this domain for identity resolution */}
+        <link rel="me" href={siteConfig.github} />
+        <link rel="me" href={siteConfig.linkedin} />
+        <link rel="me" href={`mailto:${siteConfig.email}`} />
       </head>
       <body>
         <a className="skip-link" href="/profile">Skip to text version of this portfolio</a>

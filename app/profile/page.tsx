@@ -1,16 +1,16 @@
 import type { Metadata } from 'next'
 import Link from 'next/link'
 import ProfileDocument from '@/components/seo/ProfileDocument'
-import { getProfile, SITE_URL } from '@/lib/profile'
+import { getProfile, SITE_URL, buildPersonJsonLd, buildBreadcrumbJsonLd } from '@/lib/profile'
 
 const p = getProfile()
 
 export const metadata: Metadata = {
-  title: `${p.name} — Résumé & Profile`,
+  title: 'Résumé & Profile',
   description: p.metaDescription,
   alternates: { canonical: `${SITE_URL}/profile` },
   openGraph: {
-    title: `${p.name} — Résumé & Profile`,
+    title: 'Résumé & Profile',
     description: p.metaDescription,
     url: `${SITE_URL}/profile`,
     type: 'profile',
@@ -22,6 +22,18 @@ export const metadata: Metadata = {
 export default function ProfilePage() {
   return (
     <div className="profile-page">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify([
+            buildPersonJsonLd(),
+            buildBreadcrumbJsonLd([
+              { name: 'Home', path: '/' },
+              { name: 'Profile', path: '/profile' },
+            ]),
+          ]),
+        }}
+      />
       <ProfileDocument />
       <footer className="profile-doc-footer">
         <Link href="/">Back to the desktop</Link>

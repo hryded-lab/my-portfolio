@@ -1,17 +1,39 @@
 import Link from 'next/link'
 import { ArrowLeft, Clock, Calendar } from 'lucide-react'
 import { getAllPosts } from '@/lib/posts'
+import { buildBlogJsonLd, buildBreadcrumbJsonLd, SITE_URL } from '@/lib/profile'
 
 export const metadata = {
-  title: 'Blog — Hryday Lath',
-  description: 'Thoughts on development, design, and life at BITS Pilani.',
+  title: 'Writing',
+  description:
+    'Notes from Hryday Nitin Lath on building startups, working with AI, and student life at BITS Pilani.',
+  alternates: { canonical: `${SITE_URL}/blog` },
+  openGraph: {
+    type: 'website',
+    title: 'Writing — Hryday Nitin Lath',
+    description:
+      'Notes on building startups, working with AI, and student life at BITS Pilani.',
+    url: `${SITE_URL}/blog`,
+  },
 }
 
 export default function BlogPage() {
   const posts = getAllPosts()
 
+  const jsonLd = [
+    buildBlogJsonLd(),
+    buildBreadcrumbJsonLd([
+      { name: 'Home', path: '/' },
+      { name: 'Blog', path: '/blog' },
+    ]),
+  ]
+
   return (
     <div className="min-h-screen pt-24 pb-16 px-6">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
       <div className="max-w-3xl mx-auto">
         <Link href="/" className="flex items-center gap-2 text-white/50 hover:text-amber-400 transition-colors mb-12 text-sm">
           <ArrowLeft size={14} />

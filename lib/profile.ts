@@ -158,6 +158,71 @@ export function buildPersonJsonLd() {
   }
 }
 
+// Article structured data. Without this a post is just a page to a crawler; with
+// it, it is eligible for article treatment and carries an author and a date.
+export function buildArticleJsonLd(post: {
+  slug: string
+  title: string
+  date: string
+  excerpt: string
+  category: string
+  readingTime: string
+}) {
+  const p = getProfile()
+  const url = `${SITE_URL}/blog/${post.slug}`
+
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'BlogPosting',
+    '@id': `${url}#post`,
+    headline: post.title,
+    description: post.excerpt,
+    url,
+    mainEntityOfPage: { '@type': 'WebPage', '@id': url },
+    datePublished: post.date,
+    dateModified: post.date,
+    articleSection: post.category,
+    inLanguage: 'en',
+    author: { '@type': 'Person', name: p.name, url: SITE_URL },
+    publisher: { '@type': 'Person', name: p.name, url: SITE_URL },
+    image: `${SITE_URL}${siteConfig.ogImage}`,
+  }
+}
+
+export function buildBreadcrumbJsonLd(trail: { name: string; path: string }[]) {
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: trail.map((step, i) => ({
+      '@type': 'ListItem',
+      position: i + 1,
+      name: step.name,
+      item: `${SITE_URL}${step.path}`,
+    })),
+  }
+}
+
+export function buildBlogJsonLd() {
+  const p = getProfile()
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'Blog',
+    '@id': `${SITE_URL}/blog#blog`,
+    url: `${SITE_URL}/blog`,
+    name: `${p.name} — Writing`,
+    description: 'Notes on building, startups and student life at BITS Pilani.',
+    inLanguage: 'en',
+    author: { '@id': `${SITE_URL}/#person` },
+    blogPost: p.posts.map(post => ({
+      '@type': 'BlogPosting',
+      headline: post.title,
+      url: `${SITE_URL}/blog/${post.slug}`,
+      datePublished: post.date,
+      description: post.excerpt,
+    })),
+  }
+}
+
 export function buildWebsiteJsonLd() {
   const p = getProfile()
   return {

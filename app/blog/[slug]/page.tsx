@@ -2,6 +2,7 @@ import { notFound } from 'next/navigation'
 import Link from 'next/link'
 import { ArrowLeft, Clock, Calendar } from 'lucide-react'
 import { getPost, getAllPosts } from '@/lib/posts'
+import { buildArticleJsonLd, buildBreadcrumbJsonLd, SITE_URL } from '@/lib/profile'
 
 type Props = { params: Promise<{ slug: string }> }
 
@@ -13,9 +14,25 @@ export async function generateMetadata({ params }: Props) {
   const { slug } = await params
   const post = getPost(slug)
   if (!post) return {}
+  const url = `${SITE_URL}/blog/${slug}`
   return {
-    title: `${post.title} — Hryday Lath`,
+    title: post.title,
     description: post.excerpt,
+    alternates: { canonical: url },
+    openGraph: {
+      type: 'article',
+      title: post.title,
+      description: post.excerpt,
+      url,
+      publishedTime: post.date,
+      authors: ['Hryday Nitin Lath'],
+      section: post.category,
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title: post.title,
+      description: post.excerpt,
+    },
   }
 }
 
@@ -26,8 +43,21 @@ export default async function BlogPost({ params }: Props) {
 
   const blocks = post.content.trim().split('\n\n')
 
+  const jsonLd = [
+    buildArticleJsonLd(post),
+    buildBreadcrumbJsonLd([
+      { name: 'Home', path: '/' },
+      { name: 'Blog', path: '/blog' },
+      { name: post.title, path: `/blog/${slug}` },
+    ]),
+  ]
+
   return (
     <div className="min-h-screen pt-24 pb-16 px-6">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
       <div className="max-w-2xl mx-auto">
         <Link href="/blog" className="flex items-center gap-2 text-white/50 hover:text-amber-400 transition-colors mb-12 text-sm">
           <ArrowLeft size={14} />
