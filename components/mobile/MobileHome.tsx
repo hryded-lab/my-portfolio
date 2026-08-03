@@ -1,5 +1,7 @@
 'use client'
 
+import { HomeBubbles } from './MobileAmbient'
+
 import { useEffect, useRef, useState } from 'react'
 import { motion, useMotionValue, animate } from 'framer-motion'
 import MobileStatusBar from './MobileStatusBar'
@@ -68,6 +70,8 @@ export default function MobileHome({ onOpenApp, onSearchTap }: Props) {
           pointerEvents: 'none', userSelect: 'none',
         }}
       />
+
+      <HomeBubbles />
 
       {/* Atmosphere overlay for legibility */}
       <div

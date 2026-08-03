@@ -186,8 +186,30 @@ input, textarea, [contenteditable='true'] { cursor: text; }
   100% { transform: scale(2.1); opacity: 0; }
 }
 
+/* Mobile ambient: rise, drop fade, and the clock sheen sweep. */
+@keyframes mobileBubbleRise {
+  0%   { transform: translate3d(0, 0, 0) scale(0.9); opacity: 0; }
+  8%   { opacity: 0.55; }
+  50%  { transform: translate3d(var(--drift, 10px), -52vh, 0) scale(1); opacity: 0.5; }
+  92%  { opacity: 0.28; }
+  100% { transform: translate3d(0, -104vh, 0) scale(1.05); opacity: 0; }
+}
+
+@keyframes mobileDropFade {
+  0%   { transform: scale(0.4); opacity: 0; }
+  16%  { transform: scale(1); opacity: 0.9; }
+  100% { transform: scale(0.7) translateY(10px); opacity: 0; }
+}
+
+@keyframes mobileClockSheen {
+  0%, 74%  { transform: translateX(-120%); }
+  86%      { transform: translateX(120%); }
+  100%     { transform: translateX(120%); }
+}
+
 @media (prefers-reduced-motion: reduce) {
   [class*='ambient'], [style*='ambient'] { animation: none !important; }
+  [style*='mobileBubbleRise'], [style*='mobileDropFade'], [style*='mobileClockSheen'] { animation: none !important; }
 }
 
 /* ── Aero application tokens ─────────────────────────────────────────────── */

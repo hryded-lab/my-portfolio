@@ -3,6 +3,8 @@
 import { useEffect, useState } from 'react'
 import { motion, useMotionValue, useTransform, animate } from 'framer-motion'
 import MobileStatusBar from './MobileStatusBar'
+import { playUnlock } from '@/lib/sounds'
+import { ClockSheen, UnlockDroplets } from './MobileAmbient'
 import { mobileTheme as t } from './mobileTheme'
 
 const UNLOCK_THRESHOLD_PX = 120
@@ -11,6 +13,7 @@ const UNLOCK_VELOCITY     = 350
 type Props = { onUnlock: () => void }
 
 export default function MobileLock({ onUnlock }: Props) {
+  const [dragging, setDragging] = useState(false)
   const [time, setTime] = useState('')
   const [date, setDate] = useState('')
 
@@ -29,6 +32,7 @@ export default function MobileLock({ onUnlock }: Props) {
   }, [])
 
   const finishUnlock = () => {
+    playUnlock()
     animate(y, -window.innerHeight, { duration: 0.45, ease: 'easeIn', onComplete: onUnlock })
   }
 
@@ -47,7 +51,9 @@ export default function MobileLock({ onUnlock }: Props) {
         fontFamily: t.fontUi,
         touchAction: 'none',
       }}
+      onDragStart={() => setDragging(true)}
       onDragEnd={(_, info) => {
+        setDragging(false)
         if (info.offset.y < -UNLOCK_THRESHOLD_PX || info.velocity.y < -UNLOCK_VELOCITY) {
           finishUnlock()
         } else {
@@ -91,6 +97,8 @@ export default function MobileLock({ onUnlock }: Props) {
         }}
       />
 
+      <UnlockDroplets active={dragging} />
+
       <MobileStatusBar tone="light" />
 
       {/* Clock + date — Samsung One UI style: top-aligned, generous breathing room */}
@@ -114,7 +122,7 @@ export default function MobileLock({ onUnlock }: Props) {
             textShadow: '0 2px 24px rgba(0,40,120,0.5)',
           }}
         >
-          {time}
+          <ClockSheen>{time}</ClockSheen>
         </div>
         <div
           style={{

@@ -1,5 +1,7 @@
 'use client'
 
+import { playSend, playReceive } from '@/lib/sounds'
+
 import { useEffect, useRef, useState } from 'react'
 import { motion } from 'framer-motion'
 import { mobileTheme as t } from './mobileTheme'
@@ -32,6 +34,7 @@ export default function MobileAssistantSheet({ onClose }: Props) {
     if (!text || streaming) return
     setInput('')
 
+    playSend()
     const next: Msg[] = [...messages, { role: 'user', content: text }, { role: 'assistant', content: '' }]
     setMessages(next)
     setStreaming(true)
@@ -55,7 +58,7 @@ export default function MobileAssistantSheet({ onClose }: Props) {
       let buf = ''
       while (true) {
         const { value, done } = await reader.read()
-        if (done) break
+        if (done) { playReceive(); break }
         buf += dec.decode(value, { stream: true })
         setMessages(m => {
           const copy = [...m]

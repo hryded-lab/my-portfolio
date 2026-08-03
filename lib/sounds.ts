@@ -65,3 +65,32 @@ export function playNotification() {
   playTone(880, 0.12, 'sine', 0.1)
   playTone(1109, 0.15, 'sine', 0.1, 0.1)
 }
+
+// Deliberately only three additions. Hover ticks and a bubble-pop were both
+// considered and rejected: they fire continuously as the pointer moves, which is
+// where ambient sound stops being charming.
+
+// Unlocking is the most satisfying moment on the site and was silent. A rising
+// perfect fifth into the octave, soft enough to sit under the reveal animation.
+export function playUnlock() {
+  playTone(523, 0.18, 'sine', 0.09)
+  playTone(784, 0.22, 'sine', 0.09, 0.07)
+  playTone(1047, 0.42, 'sine', 0.07, 0.15)
+}
+
+// Mobile app launch, matching what the desktop already does for a window.
+export function playAppOpen() {
+  playTone(494, 0.07, 'sine', 0.08)
+  playTone(740, 0.13, 'sine', 0.07, 0.06)
+}
+
+// Assistant message pair: outgoing lifts, incoming settles.
+export function playSend() {
+  playTone(660, 0.05, 'sine', 0.06)
+  playTone(880, 0.07, 'sine', 0.05, 0.04)
+}
+
+export function playReceive() {
+  playTone(880, 0.05, 'sine', 0.06)
+  playTone(587, 0.09, 'sine', 0.05, 0.04)
+}

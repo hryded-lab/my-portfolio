@@ -10,6 +10,7 @@ import MobileRecents from './MobileRecents'
 import MobileAssistantSheet from './MobileAssistantSheet'
 import type { AppId } from './mobileApps'
 import { mobileTheme as t } from './mobileTheme'
+import { playAppOpen } from '@/lib/sounds'
 
 type Phase = 'lock' | 'home'
 
@@ -23,6 +24,7 @@ export default function MobileShell() {
   const handleUnlock    = useCallback(() => setPhase('home'), [])
 
   const openApp = useCallback((id: AppId) => {
+    if (id !== 'restart') playAppOpen()
     if (id === 'restart') {
       if (typeof window !== 'undefined') window.location.reload()
       return

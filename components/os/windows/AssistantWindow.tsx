@@ -1,5 +1,6 @@
 'use client'
 
+import { playSend, playReceive } from '@/lib/sounds'
 import { useState, useRef, useEffect, useCallback } from 'react'
 import { useAssistant } from '@/lib/assistantContext'
 import { useTheme } from '@/lib/themeContext'
@@ -55,6 +56,7 @@ export default function AssistantWindow() {
     const question = text.trim()
     if (!question || loadingRef.current) return
 
+    playSend()
     const userMsg: Message = { role: 'user', content: question }
     const history = [...messages, userMsg]
     setMessages(history)
@@ -83,7 +85,7 @@ export default function AssistantWindow() {
 
       while (true) {
         const { done, value } = await reader.read()
-        if (done) break
+        if (done) { playReceive(); break }
         accumulated += decoder.decode(value, { stream: true })
         const final = accumulated
         setMessages(prev => {

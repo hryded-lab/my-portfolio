@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useRef } from 'react'
 import { siteConfig } from '@/content/siteConfig'
-import { playStartup } from '@/lib/sounds'
+import { playStartup, playUnlock } from '@/lib/sounds'
 import { LockScreenCaustics } from '@/components/lock-screen-caustics'
 
 const TOP_SKILLS = ['Fusion 360', 'LTspice', 'Financial Statement Analysis', 'Figma', 'RAG / LLMs']
@@ -69,6 +69,7 @@ export default function LockScreen({ onUnlock, isUnlocking, onUnlockComplete, on
 
   useEffect(() => {
     if (isUnlocking) {
+      playUnlock()
       const t = setTimeout(() => onUnlockComplete?.(), 800)
       return () => clearTimeout(t)
     }
