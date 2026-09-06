@@ -47,7 +47,11 @@ export function getProfile() {
 // Used by /llms.txt and by the assistant system prompt. One representation means
 // the assistant can never describe Hryday differently than a crawler reads him.
 
-export function buildProfileText(): string {
+// `compact` drops per-project prose and post excerpts, roughly halving the token
+// count. It is a strict subset of the full text, never a different set of facts, so
+// the assistant still cannot contradict what a crawler reads. Used by the chat route,
+// which pays for the whole prompt on every single message against an 8k/min budget.
+export function buildProfileText({ compact = false } = {}): string {
   const p = getProfile()
 
   const skillsByCategory = p.skills.reduce<Record<string, string[]>>((acc, s) => {
@@ -58,7 +62,7 @@ export function buildProfileText(): string {
   const lines: string[] = [
     `# ${p.name}`,
     '',
-    `> ${p.title} — ${p.location}`,
+    `> ${p.title}, ${p.location}`,
     '',
     p.description,
     '',
@@ -76,22 +80,22 @@ export function buildProfileText(): string {
     '',
     '## Education',
     ...p.education.flatMap(e => [
-      `### ${e.role} — ${e.company} (${e.startDate} – ${e.endDate})`,
+      `### ${e.role}, ${e.company} (${e.startDate} to ${e.endDate})`,
       `${e.location}`,
       ...e.description.map(d => `- ${d}`),
       '',
     ]),
     '## Experience',
     ...p.work.flatMap(e => [
-      `### ${e.role} — ${e.company} (${e.startDate} – ${e.endDate}, ${e.type})`,
+      `### ${e.role}, ${e.company} (${e.startDate} to ${e.endDate}, ${e.type})`,
       `${e.location}${e.current ? ' · Current' : ''}`,
       ...e.description.map(d => `- ${d}`),
       '',
     ]),
     '## Projects',
     ...p.projects.flatMap(pr => [
-      `### ${pr.title} (${pr.year}) — ${pr.category}`,
-      pr.longDescription,
+      `### ${pr.title} (${pr.year}), ${pr.category}`,
+      compact ? pr.description : pr.longDescription,
       `Tech: ${pr.tech.join(', ')}`,
       ...(pr.github ? [`Source: ${pr.github}`] : []),
       ...(pr.live ? [`Live: ${pr.live}`] : []),
@@ -104,7 +108,11 @@ export function buildProfileText(): string {
   if (p.posts.length) {
     lines.push('', '## Writing')
     for (const post of p.posts) {
-      lines.push(`- [${post.title}](${SITE_URL}/blog/${post.slug}) — ${post.date}. ${post.excerpt}`)
+      lines.push(
+        compact
+          ? `- ${post.title} (${post.date}), /blog/${post.slug}`
+          : `- [${post.title}](${SITE_URL}/blog/${post.slug}), ${post.date}. ${post.excerpt}`
+      )
     }
   }
 
@@ -209,7 +217,7 @@ export function buildBlogJsonLd() {
     '@type': 'Blog',
     '@id': `${SITE_URL}/blog#blog`,
     url: `${SITE_URL}/blog`,
-    name: `${p.name} — Writing`,
+    name: `${p.name}: Writing`,
     description: 'Notes on building, startups and student life at BITS Pilani.',
     inLanguage: 'en',
     author: { '@id': `${SITE_URL}/#person` },
@@ -230,7 +238,7 @@ export function buildWebsiteJsonLd() {
     '@type': 'WebSite',
     '@id': `${SITE_URL}/#website`,
     url: SITE_URL,
-    name: `${p.name} — Portfolio`,
+    name: `${p.name}: Portfolio`,
     description: p.metaDescription,
     inLanguage: 'en',
     author: { '@id': `${SITE_URL}/#person` },

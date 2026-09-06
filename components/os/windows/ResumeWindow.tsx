@@ -9,8 +9,7 @@ export default function ResumeWindow() {
       <CommandBar>
         <a
           href={siteConfig.resume}
-          target="_blank"
-          rel="noopener noreferrer"
+          download={siteConfig.resumeFileName}
           style={{
             padding: '4px 14px',
             borderRadius: ui.radius,
@@ -39,11 +38,22 @@ export default function ResumeWindow() {
             overflow: 'hidden',
           }}
         >
-          <iframe
-            src={siteConfig.resume}
-            title="Hryday Nitin Lath resume"
+          {/* object, not iframe: a browser with no inline PDF viewer renders the
+              children instead of a blank white panel. */}
+          <object
+            data={siteConfig.resume}
+            type="application/pdf"
+            aria-label="Hryday Nitin Lath resume"
             style={{ width: '100%', height: '100%', border: 'none', display: 'block' }}
-          />
+          >
+            <div style={{ padding: 24, fontFamily: FONT, fontSize: 12.5, color: ui.text }}>
+              This browser cannot show PDFs inline.{' '}
+              <a href={siteConfig.resume} download={siteConfig.resumeFileName} style={{ color: '#0a4fbf' }}>
+                Download the resume
+              </a>{' '}
+              instead.
+            </div>
+          </object>
         </div>
       </div>
     </AppFrame>

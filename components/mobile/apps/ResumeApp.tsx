@@ -29,17 +29,22 @@ export default function ResumeApp() {
             overflow: 'hidden',
           }}
         >
-          <iframe
-            src={siteConfig.resume}
-            title="Hryday's Resume"
+          {/* object, not iframe: iOS Safari will not render an inline PDF, and the
+              children keep that from being a blank white card. */}
+          <object
+            data={siteConfig.resume}
+            type="application/pdf"
+            aria-label="Hryday's Resume"
             style={{ width: '100%', height: '100%', border: 'none', display: 'block' }}
-            allow="autoplay"
-          />
+          >
+            <div style={{ padding: 20, fontFamily: t.fontMono, fontSize: 12, color: b.text, lineHeight: 1.6 }}>
+              This browser cannot show PDFs inline. Use the download button below.
+            </div>
+          </object>
         </div>
         <a
           href={siteConfig.resume}
-          target="_blank"
-          rel="noopener noreferrer"
+          download={siteConfig.resumeFileName}
           style={{
             position: 'absolute',
             bottom: 22, right: 22,
@@ -59,7 +64,7 @@ export default function ResumeApp() {
             WebkitBackdropFilter: 'blur(6px)',
           }}
         >
-          Open ↗
+          Download
         </a>
       </div>
     </MobileAppShell>
