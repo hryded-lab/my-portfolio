@@ -22,6 +22,30 @@ const COVERS = [
     a: '#10b981', b: '#0f5042',
   },
   {
+    file: 'darkroom.jpg',
+    title: 'Darkroom',
+    caption: 'Tool · Computer Vision · 2026',
+    a: '#f59e0b', b: '#7c3f00',
+  },
+  {
+    file: 'compass.jpg',
+    title: 'Compass',
+    caption: 'Web App · Agentic AI · 2026',
+    a: '#0ea5e9', b: '#0c4a6e',
+  },
+  {
+    file: 'dayforge.jpg',
+    title: 'Dayforge',
+    caption: 'Tool · Automation · 2026',
+    a: '#64748b', b: '#1e293b',
+  },
+  {
+    file: 'lawsaathi.jpg',
+    title: 'LawSaathi',
+    caption: 'Tool · Legal · 2026',
+    a: '#65a30d', b: '#1a2e05',
+  },
+  {
     file: 'smallsteps.jpg',
     title: 'SmallSteps',
     caption: 'AI · Healthcare · 2026',

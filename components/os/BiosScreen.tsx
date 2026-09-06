@@ -90,7 +90,7 @@ export default function BiosScreen({ onDone }: Props) {
     <div
       role="button"
       tabIndex={0}
-      aria-label="Boot sequence — press any key to skip"
+      aria-label="Boot sequence, press any key to skip"
       style={{
         position: 'fixed', inset: 0, zIndex: 9999999,
         background: '#000',

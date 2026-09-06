@@ -57,7 +57,7 @@ export async function POST(req: NextRequest) {
     // Without a webhook the message goes nowhere. Reporting success would leave the
     // sender believing they'd reached Hryday, so say so instead.
     if (!webhookUrl) {
-      console.error('[contact] DISCORD_WEBHOOK_URL is not set — message not delivered')
+      console.error('[contact] DISCORD_WEBHOOK_URL is not set, message not delivered')
       return NextResponse.json(
         { error: 'Contact form is not configured right now. Please email me directly.' },
         { status: 503 },

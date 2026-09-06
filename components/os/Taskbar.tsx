@@ -142,7 +142,7 @@ export default function Taskbar({ onShutdown }: { onShutdown?: () => void }) {
             <TaskbarButton
               key={w.id}
               icon={WINDOWS[w.id].icon}
-              label={WINDOWS[w.id].title.split('—')[0].trim()}
+              label={WINDOWS[w.id].title.split('·')[0].trim()}
               active={activeWindowId === w.id && !w.isMinimized}
               onClick={() => handleTaskbarClick(w.id)}
             />
@@ -213,7 +213,7 @@ export default function Taskbar({ onShutdown }: { onShutdown?: () => void }) {
           {/* Volume icon */}
           <div style={{ position: 'relative' }}>
             <SysTrayIcon
-              title={soundsOn ? 'Volume — click to mute' : 'Volume muted — click to unmute'}
+              title={soundsOn ? 'Volume, click to mute' : 'Volume muted, click to unmute'}
               onClick={toggleSounds}
               onMouseEnter={() => setShowVolTooltip(true)}
               onMouseLeave={() => setShowVolTooltip(false)}

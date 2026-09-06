@@ -15,7 +15,7 @@ export type WindowConfig = {
 export const WINDOWS: Record<WindowId, WindowConfig> = {
   about: {
     id: 'about',
-    title: 'About Me — Hryday Lath',
+    title: 'About Me · Hryday Lath',
     icon: '👤',
     defaultSize: { width: 580, height: 440 },
     defaultPosition: { x: 80, y: 60 },
@@ -50,14 +50,14 @@ export const WINDOWS: Record<WindowId, WindowConfig> = {
   },
   blog: {
     id: 'blog',
-    title: 'Blog — Thoughts',
+    title: 'Blog · Thoughts',
     icon: '📝',
     defaultSize: { width: 620, height: 460 },
     defaultPosition: { x: 180, y: 80 },
   },
   resume: {
     id: 'resume',
-    title: 'Resume — Hryday Lath.pdf',
+    title: 'Resume · Hryday Lath.pdf',
     icon: '📄',
     defaultSize: { width: 700, height: 540 },
     defaultPosition: { x: 140, y: 50 },

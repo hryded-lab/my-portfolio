@@ -262,7 +262,7 @@ function WorldTab({ cities, setCities }: { cities: WorldCity[]; setCities: (c: W
 
       <div style={{ marginTop: 18, display: 'flex', flexDirection: 'column', gap: 12 }}>
         {cities.length === 0 ? (
-          <EmptyHint text="No cities yet — search above." />
+          <EmptyHint text="No cities yet. Search above." />
         ) : (
           cities.map((c, i) => (
             <WorldCityRow

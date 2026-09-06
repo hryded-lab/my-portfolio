@@ -6,8 +6,8 @@ export const metadata: Metadata = {
   metadataBase: new URL('https://hrydaylath.vercel.app'),
   // Child routes set only their own title; this frames every one of them.
   title: {
-    default: `${siteConfig.name} — Entrepreneur & Builder, BITS Pilani`,
-    template: `%s — ${siteConfig.name}`,
+    default: `${siteConfig.name}, Entrepreneur & Builder at BITS Pilani`,
+    template: `%s · ${siteConfig.name}`,
   },
   description: siteConfig.metaDescription,
   applicationName: `${siteConfig.name} Portfolio`,
@@ -42,7 +42,7 @@ export const metadata: Metadata = {
     statusBarStyle: 'black-translucent',
   },
   openGraph: {
-    title: `${siteConfig.name} — Entrepreneur & Builder, BITS Pilani`,
+    title: `${siteConfig.name}, Entrepreneur & Builder at BITS Pilani`,
     description: siteConfig.metaDescription,
     url: 'https://hrydaylath.vercel.app',
     locale: 'en_IN',
@@ -52,7 +52,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: 'summary_large_image',
-    title: `${siteConfig.name} — Entrepreneur & Builder, BITS Pilani`,
+    title: `${siteConfig.name}, Entrepreneur & Builder at BITS Pilani`,
     description: siteConfig.metaDescription,
     images: [siteConfig.ogImage],
   },

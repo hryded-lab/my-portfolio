@@ -33,7 +33,7 @@ function seedNotes(): Note[] {
     {
       id: 'welcome',
       title: 'Welcome',
-      body: 'Tap a note to open it. Use + to start a new one.\n\nNotes save automatically — they live in this browser only.',
+      body: 'Tap a note to open it. Use + to start a new one.\n\nNotes save automatically. They live in this browser only.',
       updatedAt: now - 1000 * 60 * 60 * 6,
     },
     {
@@ -161,7 +161,7 @@ export default function NotesApp() {
             letterSpacing: 1.2, textTransform: 'uppercase',
           }}
         >
-          No notes yet — tap + to start
+          No notes yet, tap + to start
         </div>
       ) : (
         <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>

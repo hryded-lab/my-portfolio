@@ -90,7 +90,7 @@ export default function AboutWindow() {
         <GroupHeading label="Links" />
         <Panel>
           <PropRow label="LinkedIn"><Ext href={siteConfig.linkedin}>hryday-lath</Ext></PropRow>
-          <PropRow label="GitHub"><Ext href={siteConfig.github}>@Hryday-7765</Ext></PropRow>
+          <PropRow label="GitHub"><Ext href={siteConfig.github}>@hryded-lab</Ext></PropRow>
           <PropRow label="Email"><Ext href={`mailto:${siteConfig.email}`}>{siteConfig.email}</Ext></PropRow>
           <PropRow label="Resume" last><Ext href={siteConfig.resume}>Open PDF</Ext></PropRow>
         </Panel>

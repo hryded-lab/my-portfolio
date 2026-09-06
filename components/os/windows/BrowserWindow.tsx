@@ -15,7 +15,7 @@ const TOOLS: Tool[] = [
   { name: 'KiCad',        url: 'https://kicad.org',                                                                    category: 'Engineering', desc: 'Open-source PCB design suite.' },
   { name: 'MATLAB',       url: 'https://mathworks.com/products/matlab.html',                                           category: 'Engineering', desc: 'Numerical computing and simulation.' },
   { name: 'GitHub',       url: 'https://github.com',                                                                   category: 'Dev',         desc: 'Code hosting, version control, and collaboration.' },
-  { name: 'Groq Console', url: 'https://console.groq.com',                                                             category: 'Dev',         desc: 'Groq API console — powers this portfolio\'s AI chat.' },
+  { name: 'Groq Console', url: 'https://console.groq.com',                                                             category: 'Dev',         desc: 'Groq API console, powers this portfolio\'s AI chat.' },
   { name: 'Clay',         url: 'https://clay.com',                                                                     category: 'Business',    desc: 'Outreach automation and data enrichment.' },
   { name: 'Notion',       url: 'https://notion.so',                                                                    category: 'Business',    desc: 'Notes, docs, and project planning.' },
 ]

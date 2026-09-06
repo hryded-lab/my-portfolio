@@ -15,7 +15,7 @@ const QUICK_COMMANDS = ['help', 'whoami', 'skills', 'projects', 'experience', 'c
 
 const BANNER = [
   '┌─────────────────────────────────────┐',
-  '│  hryday@phone — portfolio terminal  │',
+  '│  hryday@phone · portfolio terminal  │',
   '│  type "help" for available commands │',
   '└─────────────────────────────────────┘',
   '',
@@ -121,7 +121,7 @@ export default function TerminalApp() {
         '  ✓ Ships things fast',
         '  ✓ Available and interested',
         '',
-        "ACCESS GRANTED. opening linkedin — good luck.",
+        "ACCESS GRANTED. opening linkedin, good luck.",
         '',
       )
       window.open(siteConfig.linkedin, '_blank')

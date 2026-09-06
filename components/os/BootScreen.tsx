@@ -65,7 +65,7 @@ export default function BootScreen({ onDone, fading }: Props) {
           </div>
         </div>
         <div style={{ color: '#444', fontSize: 11, fontFamily: "'Silkscreen', 'Courier New', monospace", marginTop: 6 }}>
-          Hryday Nitin Lath — BITS Pilani
+          Hryday Nitin Lath · BITS Pilani
         </div>
       </div>
 

@@ -53,7 +53,7 @@ export default function ProfileDocument() {
         <h2 id="h-exp">Experience</h2>
         {p.work.map(e => (
           <article key={e.id}>
-            <h3>{e.role} — {e.company}</h3>
+            <h3>{e.role}, {e.company}</h3>
             <p className="meta">
               {e.startDate} – {e.endDate} · {e.location} · {e.type}
             </p>
@@ -66,7 +66,7 @@ export default function ProfileDocument() {
         <h2 id="h-edu">Education</h2>
         {p.education.map(e => (
           <article key={e.id}>
-            <h3>{e.role} — {e.company}</h3>
+            <h3>{e.role}, {e.company}</h3>
             <p className="meta">{e.startDate} – {e.endDate} · {e.location}</p>
             <ul>{e.description.map((d, i) => <li key={i}>{d}</li>)}</ul>
           </article>
@@ -99,7 +99,7 @@ export default function ProfileDocument() {
             <h3>{category}</h3>
             <ul>
               {list.map(s => (
-                <li key={s.name}>{s.name} — {proficiencyLabel(s.proficiency)}</li>
+                <li key={s.name}>{s.name}: {proficiencyLabel(s.proficiency)}</li>
               ))}
             </ul>
           </div>
@@ -113,7 +113,7 @@ export default function ProfileDocument() {
             {p.posts.map(post => (
               <li key={post.slug}>
                 <a href={`/blog/${post.slug}`}>{post.title}</a>
-                <span className="meta"> — {post.date} · {post.readingTime}</span>
+                <span className="meta"> · {post.date} · {post.readingTime}</span>
                 <p>{post.excerpt}</p>
               </li>
             ))}

@@ -232,7 +232,7 @@ function AlbumArt({ track, playing }: { track: typeof PLAYLIST[0]; playing: bool
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img
           src={`https://img.youtube.com/vi/${track.videoId}/hqdefault.jpg`}
-          alt={`${track.title} — ${track.artist}`}
+          alt={`${track.title} by ${track.artist}`}
           style={{ width: 148, height: 111, objectFit: 'cover', display: 'block', borderRadius: 2 }}
         />
         <div style={{

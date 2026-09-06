@@ -387,7 +387,7 @@ export default function Window({ id, children }: Props) {
         }}>
           <span>Ready</span>
           <div style={{ flex: 1 }} />
-          <div style={{ borderLeft: `1px solid var(--aa-border)`, paddingLeft: 8, fontSize: 10 }}>{cfg.title.split('—')[0].trim()}</div>
+          <div style={{ borderLeft: `1px solid var(--aa-border)`, paddingLeft: 8, fontSize: 10 }}>{cfg.title.split('·')[0].trim()}</div>
         </div>
       </div>
 

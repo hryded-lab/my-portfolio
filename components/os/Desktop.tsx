@@ -257,7 +257,7 @@ function DesktopIconItem({ label, Icon, onDoubleClick }: {
     <div
       className={`desktop-icon${selected ? ' selected' : ''}`}
       role="gridcell"
-      aria-label={`${label} — press Enter to open`}
+      aria-label={`${label}, press Enter to open`}
       onClick={(e) => { e.stopPropagation(); setSelected(true) }}
       onDoubleClick={(e) => { e.stopPropagation(); setSelected(false); onDoubleClick() }}
       onKeyDown={handleKeyDown}

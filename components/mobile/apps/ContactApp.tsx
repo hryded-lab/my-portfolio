@@ -62,7 +62,7 @@ export default function ContactApp() {
         <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
           <ContactRow label="Email"    value={siteConfig.email} href={`mailto:${siteConfig.email}`} color={COLOR}    primary />
           <ContactRow label="LinkedIn" value="hryday-lath"      href={siteConfig.linkedin}          color="#4ab8ff" />
-          <ContactRow label="GitHub"   value="@Hryday-7765"     href={siteConfig.github}            color={b.text} />
+          <ContactRow label="GitHub"   value="@hryded-lab"     href={siteConfig.github}            color={b.text} />
         </div>
       </BrutalistSection>
 
@@ -105,11 +105,11 @@ export default function ContactApp() {
           </Field>
 
           {status === 'success' && (
-            <StatusBox color="#4ed670">✓ Message sent — I&apos;ll get back to you soon.</StatusBox>
+            <StatusBox color="#4ed670">✓ Message sent. I&apos;ll get back to you soon.</StatusBox>
           )}
           {status === 'error' && (
             <StatusBox color="#ff5e4e">
-              ✕ Send failed{errorMsg ? ` — ${errorMsg}` : ''}. Email {siteConfig.email}.
+              ✕ Send failed{errorMsg ? `: ${errorMsg}` : ''}. Email {siteConfig.email}.
             </StatusBox>
           )}
 

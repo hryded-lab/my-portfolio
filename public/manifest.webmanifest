@@ -1,7 +1,7 @@
 {
-  "name": "Hryday Lath — Portfolio",
+  "name": "Hryday Lath Portfolio",
   "short_name": "Hryday",
-  "description": "Hryday Lath's portfolio — a Windows XP-style desktop on web, with a phone OS for mobile.",
+  "description": "Hryday Lath's portfolio, a Windows XP-style desktop on web with a phone OS for mobile.",
   "start_url": "/",
   "display": "standalone",
   "orientation": "portrait",

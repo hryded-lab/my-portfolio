@@ -16,27 +16,31 @@ function getStudyYear(): string {
 export const siteConfig = {
   name: 'Hryday Nitin Lath',
   shortName: 'Hryday',
-  title: 'Entrepreneur · Builder · BITS Pilani',
+  title: 'Builder · Manufacturing Engineering · BITS Pilani',
   description:
-    "I am an undergraduate at BITS Pilani (2025–2029) and an Associate at PIEDS, the university's official incubator. Currently, I am building Kapital Grants, a platform designed to streamline grant applications and match founders with active incubators. I'm a \"learning by doing\" builder who experiments with AI across various domains to solve real-world problems. With a deep interest in Entrepreneurship, Finance, and Robotics, I am actively seeking internship opportunities where I can contribute to these sectors while learning more about them!",
+    "I study manufacturing engineering at BITS Pilani and I'm an Associate at PIEDS, the campus incubator. I'm building Kapital Grants, which helps founders find non-dilutive grants and get matched with incubators. The rest of my time goes into small tools I actually ship: an ASCII camera that runs entirely in the browser, a personal command centre with an AI agent wired into Telegram, a voice-to-schedule pipeline, and a legal rights assistant for India. I'm interested in entrepreneurship, finance and robotics, and I'm looking for internships in those areas.",
   location: 'India',
   email: 'hryday7765@gmail.com',
-  github: 'https://github.com/Hryday-7765',
+  github: 'https://github.com/hryded-lab',
   linkedin: 'https://www.linkedin.com/in/hryday-lath-b30b42302/',
-  resume: process.env.NEXT_PUBLIC_RESUME_URL || '/resume.pdf',
+  // Served straight out of /public so updating the resume is just replacing the
+  // file and pushing. No env var, no third-party host.
+  resume: '/resume.pdf',
+  resumeFileName: 'Hryday-Nitin-Lath-Resume.pdf',
   currently: [
-    { label: 'Building', value: 'Kapital Grants — MVP & grant database' },
-    { label: 'Learning', value: 'RAG pipelines & agentic AI systems' },
-    { label: 'Reading', value: 'The Intelligent Investor — Benjamin Graham' },
-    { label: 'Open to', value: 'PM, finance & startup internships — remote, Mumbai, or abroad' },
+    { label: 'Building', value: 'Kapital Grants, the MVP and the grant database' },
+    { label: 'Shipping', value: 'Compass, Darkroom and Dayforge' },
+    { label: 'Learning', value: 'Computer vision and agentic AI systems' },
+    { label: 'Reading', value: 'The Intelligent Investor by Benjamin Graham' },
+    { label: 'Open to', value: 'PM, finance and startup internships. Remote, Mumbai or abroad.' },
   ],
   stats: [
     { label: 'CGPA', value: '7.90' },
     { label: 'Year of Study', value: getStudyYear() },
-    { label: 'Projects Built', value: '5+' },
+    { label: 'Projects Built', value: '8' },
     { label: 'Startups Founded', value: '1' },
   ],
   metaDescription:
-    'Portfolio of Hryday Nitin Lath — entrepreneur and builder at BITS Pilani, interested in finance, capital markets, and business analysis.',
+    'Portfolio of Hryday Nitin Lath, a manufacturing engineering student at BITS Pilani building Kapital Grants and shipping small AI tools.',
   ogImage: '/og-image.jpeg',
 }

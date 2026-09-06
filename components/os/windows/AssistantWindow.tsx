@@ -165,7 +165,7 @@ export default function AssistantWindow() {
         </div>
         <div>
           <div style={{ fontWeight: 'bold', fontSize: 12, color: t.accent }}>Portfolio Assistant</div>
-          <div style={{ fontSize: 10, color: t.textSecondary }}>Ask about Hryday — skills, projects, experience</div>
+          <div style={{ fontSize: 10, color: t.textSecondary }}>Ask about Hryday: skills, projects, experience</div>
         </div>
         {/* Online indicator */}
         <div style={{ marginLeft: 'auto', display: 'flex', alignItems: 'center', gap: 4, fontSize: 10, color: t.success }}>

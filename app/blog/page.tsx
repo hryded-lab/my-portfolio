@@ -10,7 +10,7 @@ export const metadata = {
   alternates: { canonical: `${SITE_URL}/blog` },
   openGraph: {
     type: 'website',
-    title: 'Writing — Hryday Nitin Lath',
+    title: 'Writing · Hryday Nitin Lath',
     description:
       'Notes on building startups, working with AI, and student life at BITS Pilani.',
     url: `${SITE_URL}/blog`,

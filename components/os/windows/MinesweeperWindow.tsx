@@ -482,13 +482,13 @@ export default function MinesweeperWindow() {
       )}
       {status === 'lost' && (
         <div style={{ marginTop: 6, fontSize: 12, fontWeight: 'bold', color: '#cc0000' }}>
-          Game over — click the smiley to try again.
+          Game over. Click the smiley to try again.
         </div>
       )}
 
       {/* Copyright */}
       <div style={{ fontSize: 9, color: '#666', marginTop: 8, textAlign: 'center', lineHeight: 1.6 }}>
-        Minesweeper — inspired by the original © 1990 Microsoft Corporation<br />
+        Minesweeper, inspired by the original © 1990 Microsoft Corporation<br />
         Recreated for this portfolio. All original rights reserved by Microsoft.
       </div>
     </div>

@@ -135,7 +135,7 @@ export default function AboutApp() {
       <BrutalistSection title="Links" color={COLOR}>
         <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
           <LinkRow label="LinkedIn" hint="hryday-lath" href={siteConfig.linkedin} />
-          <LinkRow label="GitHub"   hint="@Hryday-7765" href={siteConfig.github} />
+          <LinkRow label="GitHub"   hint="@hryded-lab" href={siteConfig.github} />
           <LinkRow label="Email"    hint={siteConfig.email} href={`mailto:${siteConfig.email}`} />
         </div>
       </BrutalistSection>
