@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react'
 import { AppFrame, CommandBar, GroupHeading, Panel, ListRow, BluePanel, BlueHeading, BlueSub, ui, FONT } from '@/components/aeroApp'
+import { siteConfig } from '@/content/siteConfig'
 
 type PostMeta = { slug: string; title: string; date: string; readingTime: string; category: string; excerpt: string }
 type Post = PostMeta & { content: string }
@@ -66,7 +67,7 @@ export default function BlogWindow() {
       <div style={{ flex: 1, overflowY: 'auto', padding: '12px 18px 22px' }}>
         <BluePanel style={{ padding: '14px 18px' }}>
           <BlueHeading>Writing</BlueHeading>
-          <BlueSub>Notes on what I am building, and on student life at BITS Pilani.</BlueSub>
+          <BlueSub>{siteConfig.blogTagline}</BlueSub>
         </BluePanel>
 
         <GroupHeading label="All posts" count={posts.length || undefined} />

@@ -16,11 +16,7 @@ export const metadata: Metadata = {
   publisher: siteConfig.name,
   alternates: { canonical: 'https://hrydaylath.vercel.app/' },
   category: 'technology',
-  keywords: [
-    siteConfig.name, 'Hryday Lath', 'BITS Pilani', 'manufacturing engineering',
-    'startup', 'Kapital Grants', 'PIEDS', 'grant funding', 'student portfolio',
-    'Frutiger Aero portfolio', 'Windows XP portfolio',
-  ],
+  keywords: siteConfig.keywords,
   robots: {
     index: true,
     follow: true,

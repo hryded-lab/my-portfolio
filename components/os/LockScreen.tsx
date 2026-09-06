@@ -2,10 +2,19 @@
 
 import { useState, useEffect, useRef } from 'react'
 import { siteConfig } from '@/content/siteConfig'
+import { institution, graduationYear } from '@/content/experience'
+import { skills } from '@/content/skills'
 import { playStartup, playUnlock } from '@/lib/sounds'
 import { LockScreenCaustics } from '@/components/lock-screen-caustics'
 
-const TOP_SKILLS = ['Fusion 360', 'LTspice', 'Financial Statement Analysis', 'Figma', 'RAG / LLMs']
+// Strongest skill in each category, so editing content/skills.ts updates this
+// rather than leaving a stale hand-written list behind.
+const TOP_SKILLS = Object.values(
+  skills.reduce<Record<string, (typeof skills)[number]>>((acc, s) => {
+    if (!acc[s.category] || s.proficiency > acc[s.category].proficiency) acc[s.category] = s
+    return acc
+  }, {})
+).map(s => s.name)
 
 function statValue(label: string, fallback: string): string {
   return siteConfig.stats.find(s => s.label === label)?.value ?? fallback
@@ -205,10 +214,10 @@ export default function LockScreen({ onUnlock, isUnlocking, onUnlockComplete, on
 
           {/* Role */}
           <div style={{ fontSize: 12, color: 'rgba(180,210,255,0.85)', fontWeight: 400, marginBottom: 3, letterSpacing: 0.25 }}>
-            Entrepreneur &amp; Builder
+            {siteConfig.tagline}
           </div>
           <div style={{ fontSize: 11, color: 'rgba(160,195,255,0.60)', fontWeight: 400, marginBottom: 22, letterSpacing: 0.2 }}>
-            BITS Pilani · 2029
+            {institution} · {graduationYear}
           </div>
 
           {/* Working for Growth */}
@@ -283,14 +292,13 @@ export default function LockScreen({ onUnlock, isUnlocking, onUnlockComplete, on
           <div style={{ fontSize: 9.5, color: 'rgba(175,208,255,0.52)', letterSpacing: 1.8, textTransform: 'uppercase', marginBottom: 10, fontWeight: 600 }}>
             Academic
           </div>
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 8, marginBottom: 22 }}>
-            {/* CGPA and year come from siteConfig.stats — the year advances itself each
-                June, so hardcoding it here would silently go stale. */}
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 8, marginBottom: 22 }}>
+            {/* All three come from /content. The year advances itself each June, so
+                hardcoding any of this here would silently go stale. */}
             {[
               { label: 'CGPA',       value: `${statValue('CGPA', '7.90')}/10`  },
-              { label: 'PIEDS',      value: 'Associate'                        },
               { label: 'Year',       value: statValue('Year of Study', '1st')  },
-              { label: 'University', value: 'BITS Pilani'                      },
+              { label: 'University', value: institution                        },
             ].map(s => (
               <div key={s.label} style={{
                 background: 'rgba(255,255,255,0.065)',

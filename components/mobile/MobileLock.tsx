@@ -6,6 +6,7 @@ import MobileStatusBar from './MobileStatusBar'
 import { playUnlock } from '@/lib/sounds'
 import { ClockSheen, UnlockDroplets } from './MobileAmbient'
 import { mobileTheme as t } from './mobileTheme'
+import { institution, graduationYear } from '@/content/experience'
 
 const UNLOCK_THRESHOLD_PX = 120
 const UNLOCK_VELOCITY     = 350
@@ -169,7 +170,7 @@ export default function MobileLock({ onUnlock }: Props) {
             fontFamily: t.fontMono,
           }}
         >
-          BITS Pilani · 2029
+          {institution} · {graduationYear}
         </div>
       </div>
 

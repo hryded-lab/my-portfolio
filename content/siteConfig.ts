@@ -17,6 +17,14 @@ export const siteConfig = {
   name: 'Hryday Nitin Lath',
   shortName: 'Hryday',
   title: 'Builder · Manufacturing Engineering · BITS Pilani',
+  // Short form for the lock screens, where the full title would not fit.
+  tagline: 'Entrepreneur & Builder',
+  blogTagline: 'Notes on what I am building, and on student life at BITS Pilani.',
+  keywords: [
+    'Hryday Nitin Lath', 'Hryday Lath', 'BITS Pilani', 'manufacturing engineering',
+    'startup', 'Kapital Grants', 'PIEDS', 'grant funding', 'student portfolio',
+    'Frutiger Aero portfolio', 'Windows XP portfolio',
+  ],
   description:
     "I study manufacturing engineering at BITS Pilani and I'm an Associate at PIEDS, the campus incubator. I'm building Kapital Grants, which helps founders find non-dilutive grants and get matched with incubators. The rest of my time goes into small tools I actually ship: an ASCII camera that runs entirely in the browser, a personal command centre with an AI agent wired into Telegram, a voice-to-schedule pipeline, and a legal rights assistant for India. I'm interested in entrepreneurship, finance and robotics, and I'm looking for internships in those areas.",
   location: 'India',

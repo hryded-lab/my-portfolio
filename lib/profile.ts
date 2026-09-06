@@ -218,7 +218,7 @@ export function buildBlogJsonLd() {
     '@id': `${SITE_URL}/blog#blog`,
     url: `${SITE_URL}/blog`,
     name: `${p.name}: Writing`,
-    description: 'Notes on building, startups and student life at BITS Pilani.',
+    description: siteConfig.blogTagline,
     inLanguage: 'en',
     author: { '@id': `${SITE_URL}/#person` },
     blogPost: p.posts.map(post => ({

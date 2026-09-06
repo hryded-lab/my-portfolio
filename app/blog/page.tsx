@@ -1,18 +1,17 @@
 import Link from 'next/link'
 import { ArrowLeft, Clock, Calendar } from 'lucide-react'
 import { getAllPosts } from '@/lib/posts'
+import { siteConfig } from '@/content/siteConfig'
 import { buildBlogJsonLd, buildBreadcrumbJsonLd, SITE_URL } from '@/lib/profile'
 
 export const metadata = {
   title: 'Writing',
-  description:
-    'Notes from Hryday Nitin Lath on building startups, working with AI, and student life at BITS Pilani.',
+  description: `Notes from ${siteConfig.name}. ${siteConfig.blogTagline}`,
   alternates: { canonical: `${SITE_URL}/blog` },
   openGraph: {
     type: 'website',
-    title: 'Writing · Hryday Nitin Lath',
-    description:
-      'Notes on building startups, working with AI, and student life at BITS Pilani.',
+    title: `Writing · ${siteConfig.name}`,
+    description: siteConfig.blogTagline,
     url: `${SITE_URL}/blog`,
   },
 }

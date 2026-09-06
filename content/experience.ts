@@ -11,6 +11,12 @@ export type Experience = {
   accentColor: string
 }
 
+// Derived once here so the lock screens and the boot screen never restate the
+// institution or the graduation year as literals.
+export function getEducation(): Experience | undefined {
+  return experiences.find(e => e.type === 'Education')
+}
+
 export const experiences: Experience[] = [
   {
     id: 'kapital-grants',
@@ -76,3 +82,8 @@ export const experiences: Experience[] = [
     accentColor: '#F59E0B',
   },
 ]
+
+const edu = getEducation()
+
+export const institution = edu?.company ?? ''
+export const graduationYear = edu?.endDate.split(' ').pop() ?? ''

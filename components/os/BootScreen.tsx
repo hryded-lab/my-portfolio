@@ -1,6 +1,8 @@
 'use client'
 
 import { useEffect, useRef, useCallback } from 'react'
+import { siteConfig } from '@/content/siteConfig'
+import { institution } from '@/content/experience'
 
 type Props = { onDone: () => void; fading?: boolean }
 
@@ -65,7 +67,7 @@ export default function BootScreen({ onDone, fading }: Props) {
           </div>
         </div>
         <div style={{ color: '#444', fontSize: 11, fontFamily: "'Silkscreen', 'Courier New', monospace", marginTop: 6 }}>
-          Hryday Nitin Lath · BITS Pilani
+          {siteConfig.name} · {institution}
         </div>
       </div>
 
