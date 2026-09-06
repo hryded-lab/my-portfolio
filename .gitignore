@@ -40,9 +40,9 @@ Thumbs.db
 .agents/
 .windsurf/
 
-# Resume — hosted externally, not in repo
+# public/resume.pdf is intentionally tracked: the site serves it directly, so
+# updating the resume is replacing that file and pushing. Working drafts stay out.
 /Resume_Hryday_1395.pdf
-/public/resume.pdf
 
 # Local scratch / source assets — not served at runtime
 /daniele63/
