@@ -117,7 +117,7 @@ export default function AssistantWindow() {
   useEffect(() => {
     if (pendingQuestion) {
       setPendingQuestion('')
-      send(pendingQuestion)
+      queueMicrotask(() => send(pendingQuestion))
     }
   }, [pendingQuestion, setPendingQuestion, send])
 

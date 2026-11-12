@@ -55,14 +55,14 @@ export default function MobileAssistantSheet({ onClose }: Props) {
       }
       const reader = res.body.getReader()
       const dec = new TextDecoder()
-      let buf = ''
       while (true) {
         const { value, done } = await reader.read()
         if (done) { playReceive(); break }
-        buf += dec.decode(value, { stream: true })
+        const chunk = dec.decode(value, { stream: true })
         setMessages(m => {
           const copy = [...m]
-          copy[copy.length - 1] = { role: 'assistant', content: buf }
+          const last = copy[copy.length - 1]
+          copy[copy.length - 1] = { role: 'assistant', content: last.content + chunk }
           return copy
         })
       }

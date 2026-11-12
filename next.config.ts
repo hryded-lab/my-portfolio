@@ -1,6 +1,9 @@
 import type { NextConfig } from 'next'
 
 const nextConfig: NextConfig = {
+  // This project keeps its own AI-agent rules file (CLAUDE.md) out of git;
+  // skip Next's auto-generated AGENTS.md to match.
+  agentRules: false,
   turbopack: {
     root: __dirname,
   },

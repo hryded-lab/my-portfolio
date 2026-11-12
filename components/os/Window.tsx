@@ -60,7 +60,6 @@ export default function Window({ id, children }: Props) {
     const nowOpen = win.isOpen && !win.isMinimized
     if (nowOpen && !prevOpenRef.current) {
       playWindowOpen()
-      // eslint-disable-next-line react-hooks/set-state-in-effect
       setAnimState('opening')
       const t = setTimeout(() => setAnimState('idle'), 360)
       return () => clearTimeout(t)
@@ -71,7 +70,6 @@ export default function Window({ id, children }: Props) {
   // Maximize/restore animation
   useEffect(() => {
     if (win.isMaximized !== prevMaxRef.current) {
-      // eslint-disable-next-line react-hooks/set-state-in-effect
       setAnimState('maximizing')
       const t = setTimeout(() => setAnimState('idle'), 180)
       prevMaxRef.current = win.isMaximized
